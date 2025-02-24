@@ -4,6 +4,10 @@
     transition-timing-function: cubic-bezier(.19, 1, .22, 1)
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* 大屏幕下的字间距设置 */
 @media screen and (min-width: 1200px) {
     body {
