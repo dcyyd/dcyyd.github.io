@@ -1,0 +1,158 @@
+/* 定义字体 */
+@font-face {
+    font-family: nekotora;
+    src: url(../fonts/nekotora.54f9b137.eot);
+    src: url(../fonts/nekotora.54f9b137.eot#iefix) format("embedded-opentype"),
+        url(../fonts/nekotora.4ea5ebe6.woff2) format("woff2"),
+        url(../fonts/nekotora.9106c612.woff) format("woff"),
+        url(../fonts/nekotora.28169ea4.ttf) format("truetype"),
+        url(../images/nekotora.33032896.svg#nekotora) format("svg");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nevano';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/NevanoDemo-WpaaA.ttf') format('truetype');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'ResourceHanRoundedCN-Medium';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/ResourceHanRoundedCN-Medium.ttf') format('truetype');
+    font-display: swap;
+}
+
+/* 设置不同元素的字体 */
+nav,
+body,
+html {
+    font-family: 'ResourceHanRoundedCN-Medium', 'Microsoft YaHei', 'Nevano', 'PingFang SC', 'Hiragino Sans GB', 'WenQuanYi Micro Hei', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+.chtitle,
+.website-title {
+    font-family: 'Nevano', 'ResourceHanRoundedCN-Medium', sans-serif;
+}
+
+/* 定义通用图标样式 */
+[class*=" icon-"]:before,
+[class^=icon-]:before {
+    font-family: nekotora;
+    font-style: normal;
+    font-weight: 400;
+    speak: none;
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin: 0 .2em;
+    text-align: center;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 对于需要使用品牌字体的图标，单独指定字体族 */
+[class*="icon-"]:is(.icon-weibo, .icon-Red, .icon-qq):before {
+    font-family: "Font Awesome 6 Brands";
+}
+
+/* 定义特定图标内容 */
+.icon-search:before {
+    content: "\e800";
+}
+
+.icon-info:before {
+    content: "\e801";
+}
+
+.icon-comment:before {
+    content: "\e802";
+}
+
+.icon-v2ex:before {
+    content: "\e803";
+}
+
+.icon-zhihu:before {
+    content: "\e804";
+}
+
+.icon-bilibili:before {
+    content: "\e805";
+}
+
+.icon-netease_music:before {
+    content: "\e806";
+}
+
+.icon-tencent_qzone:before {
+    content: "\e807";
+}
+
+.icon-500px:before {
+    content: "\1F3DC";
+}
+
+.icon-link:before {
+    content: "\e80a";
+}
+
+.icon-kuaishou:before {
+    content: "\1F17A";
+}
+
+.icon-gplus:before {
+    content: "\f0d5";
+}
+
+.icon-games:before {
+    content: "♣";
+}
+
+.icon-unlink:before {
+    content: "\f127";
+}
+
+.icon-kuan:before {
+    content: "\1F667";
+}
+
+.icon-weibo:before {
+    content: "\f18a";
+}
+
+.icon-Red:before {
+    content: "\1F181";
+}
+
+.icon-csdn:before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f109";
+}
+
+.icon-qq:before {
+    content: "\f1d6";
+}
+
+.icon-mail:before {
+    content: "\e808";
+}
+
+/* 定义提示框位置 */
+.toast-bottom-center {
+    position: absolute;
+    left: 30px;
+    right: 10px;
+    top: 20px;
+}

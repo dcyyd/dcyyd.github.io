@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description"
+            content="窦长友的个人主页 SkillHub·DouCY，提供一站式快捷入口，展示技术技能与项目，涵盖前端开发、全栈工程、摄影分享等领域。联系方式：dcyyd_kcug@yeah.net">
+        <meta name="keywords" content="窦长友, SkillHub, 个人主页, 前端开发, 全栈工程师, JavaScript, PHP, 技术博客, 摄影作品, 开源项目, 资源分享, 编程技巧">
+        <meta name="language" content="zh-CN">
+        <meta name="author" content="窦长友">
+        <meta name="robots" content="index, follow">
+        <meta property="og:title" content="SkillHub·DouCY | 一站式快捷入口与展示">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="images/about-touxiang-img/touxiang.jpg">
+        <link rel="icon" href="images/favicon.png" type="image/png">
+        <title>SkillHub·DouCY | 一站式快捷入口与展示</title>
+        <!-- 样式 -->
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <link rel="stylesheet" type="text/css" href="css/fonts.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <!-- 脚本 -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137340638-1"></script>
+        <script src="js/customize.js" defer></script>
+    </head>
+
+    <body>
+        <!-- 导航栏 -->
+        <nav>
+            <a href="#" class="active" title="返回首页">Home</a>
+            <a class="clip"></a>
+            <a href="#about-me" title="查看个人介绍">关于我</a>
+            <a href="#find-me" title="联系与合作">联系我</a>
+            <a href="#gateway" title="旗下站点导航">旗下站点</a>
+            <a href="#partner-links" title="合作伙伴与友链">友链</a>
+            <a class="clip"></a>
+            <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=f50la8f2-6683-4c84-aca8-a115e74a29ae"
+                target="_blank" title="加入飞书交流群">加入我们</a>
+        </nav>
+
+        <!-- 背景和主体内容 -->
+        <div class="background">
+            <canvas id="startrack"></canvas>
+            <div class="cover"></div>
+        </div>
+        <div class="main">
+            <!-- 介绍部分 -->
+            <section class="ch intro">
+                <div class="container">
+                    <div class="hello">
+                        <h1 id="slogan">思考中...</h1>
+                        <h2>
+                            <div class="circle">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span class="website-title">SkillHub·DouCY</span> | 一站式快捷入口与展示平台
+                        </h2>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 关于我部分 -->
+            <section class="ch about" id="about-me">
+                <div class="container">
+                    <h2 class="chtitle">Who is <span>Dou ChangYou</span>？</h2>
+                    <div class="clear">
+                        <div class="introduct">
+                            <img class="avatar" src="images/about-touxiang-img/touxiang.jpg" alt="窦长友个人头像"
+                                onclick="refreshPage()">
+                            <p>在数字编织的浩瀚宇宙中，编程犹如一位巧手织女，以代码为经纬，精心编织着智慧的锦缎。</p>
+                            <p style="padding-bottom:1em;">How lucky to meet you!</p>
+                            <p>Hello，我是 <sup>DouCY</sup>
+                                ，19岁，是学生，对有趣的世界和可能有趣的你感到好奇，热爱 Tech 和 Photograph，正在尝试从事互联网相关工作。</p>
+                            <p>希望能与你在比特之海的繁星之下相见！</p>
+                            <div class="chatbox">
+                                <div class="line loading">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <ul class="skill clear">
+                            <li>
+                                <p>HTML5/CSS3</p>
+                                <div class="progress">
+                                    <div style="width:80%;"></div>
+                                    <span>制作网站程度的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>JavaScript/Typescript</p>
+                                <div class="progress">
+                                    <div style="width:75%;"></div>
+                                    <span>使用现代轮子程度的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>PHP</p>
+                                <div class="progress">
+                                    <div style="width:50%;"></div>
+                                    <span>赞美最好的语言程度的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>数字设计</p>
+                                <div class="progress">
+                                    <div style="width:45%;"></div>
+                                    <span>让自己舒服程度的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>世界</p>
+                                <div class="progress">
+                                    <div style="width:20%;"></div>
+                                    <span>观测世界程度的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>搞事情</p>
+                                <div class="progress">
+                                    <div style="width:82%;"></div>
+                                    <span>让事情发生的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>魔法</p>
+                                <div class="progress">
+                                    <div style="width:10%;"></div>
+                                    <span>和普通人相同程度的能力</span>
+                                </div>
+                            </li>
+                            <li>
+                                <p>MoePower</p>
+                                <div class="progress">
+                                    <div style="width:99%;"></div>
+                                    <span>成为萌二程度的能力</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 联系我部分 -->
+            <section class="find ch" id="find-me">
+                <div class="container links">
+                    <h2 class="chtitle"><span>Contact</span> me</h2>
+                    <div class="clear col-3">
+                        <a href="https://github.com/dcyyd/" target="_blank" title="访问我的 GitHub 开源项目">
+                            <div class="item">
+                                <div class="bg" style="background-color:#19227a"></div>
+                                <div class="inner">
+                                    <span style="font-size: 20px;"><b>Github</b></span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://gitee.com/fy_group/" target="_blank" title="访问我的 Gitee 开源项目">
+                            <div class="item">
+                                <div class="bg" style="background-color:#432483"></div>
+                                <div class="inner">
+                                    <span style="font-size: 20px;"><b>Gitee</b></span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://kfufys.github.io " target="_blank" title="Smart Space">
+                            <div class="item">
+                                <div class="bg" style="background-color:#192d4f"></div>
+                                <div class="inner">
+                                    <span style="font-size: 20px;"><b>Blog</b></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="clear">
+                        <a href="mailto:dcyyd_kcug@yeah.net" target="_blank" title="My Mail">
+                            <div class="item">
+                                <div class="bg" style="background-color:#f7523e"></div>
+                                <div class="inner">
+                                    <i class="icon-mail"></i>
+                                    <span>Mail</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://qm.qq.com/q/bpCh4hTiJq" target="_blank" title="My QQ">
+                            <div class="item">
+                                <div class="bg" style="background-color:#0fafeb"></div>
+                                <div class="inner">
+                                    <i class="icon-qq"></i>
+                                    <span>QQ</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://blog.csdn.net/m0_68032853" target="_blank" title="我的 CSDN 主页">
+                            <div class="item">
+                                <div class="bg" style="background-color:#fb5e3b"></div>
+                                <div class="inner">
+                                    <i class="icon-csdn"></i>
+                                    <span>CSDN</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://www.xiaohongshu.com/user/profile/654c23d0000000000201001b?xhsshare=CopyLink&appuid=654c23d0000000000201001b&apptime=1729927757&share_id=5c758d46e8604abaa9dbb320676433c1"
+                            target="_blank" title="我的小红书主页">
+                            <div class="item">
+                                <div class="bg" style="background-color:#ff2442"></div>
+                                <div class="inner">
+                                    <i class="icon-Red"></i>
+                                    <span>小红书</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://500px.com.cn/community/user-details/28da6bce84510aa7a6e3f5cc243532586?rs=28da6bce84510aa7a6e3f5cc243532586"
+                            target="_blank" title="我的 500px 主页">
+                            <div class="item">
+                                <div class="bg" style="background-color:#34bf49"></div>
+                                <div class="inner">
+                                    <i class="icon-500px"></i>
+                                    <span>500px</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 旗下站点展示部分 -->
+            <section class="gate ch" id="gateway">
+                <div class="container links">
+                    <h2 class="chtitle">Affiliated <span>websites</span></h2>
+                    <div class="clear">
+                        <a href="https://kfufys.github.io" target="_blank" title="技术博客">
+                            <div class="item">
+                                <div class="avatar">
+                                    <img src="images/affiliated-websites-logo-img/Smart-Space.svg"
+                                        alt="Smart Space 技术博客徽标">
+                                </div>
+                                <div class="inner">
+                                    <h5>Smart Space</h5>
+                                    <p>Blog 记录日常工作/学习笔记</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="http://uk.frp.one:12121" target="_blank" title="Peak Cloud Drive">
+                            <div class="item akarin">
+                                <div class="avatar">
+                                    <img src="images/affiliated-websites-logo-img/cloudreve-logo.jpg" alt="cloudreve">
+                                </div>
+                                <div class="inner">
+                                    <h5>Peak Cloud Drive</h5>
+                                    <p>安全稳定的文件存储服务平台</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://kfufys.notion.site/PeakCloud-Resource-Library-1496ed2c337b80658b62ff7738cf3e20"
+                            target="_blank" title="峰云资源库 2.0">
+                            <div class="item">
+                                <div class="avatar">
+                                    <img src="images/affiliated-websites-logo-img/fyshare2.0.png" alt="fyshare2.0">
+                                </div>
+                                <div class="inner">
+                                    <h5>峰云资源库 2.0</h5>
+                                    <p>海量资源一键获取</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://link3.cc/fys_share" target="_blank" title="峰云资源库 1.0">
+                            <div class="item akarin">
+                                <div class="avatar">
+                                    <img src="images/affiliated-websites-logo-img/fyshare1.0.ico" alt="fyshare1.0">
+                                </div>
+                                <div class="inner">
+                                    <h5>峰云资源库 1.0</h5>
+                                    <p>版本老旧，依然值得探索</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://fys.mysxl.cn" target="_blank" title="我的摄影作品">
+                            <div class="item">
+                                <div class="avatar">
+                                    <img src="images/affiliated-websites-logo-img/my-photo-website-logo.png"
+                                        alt="我的摄影作品网站logo">
+                                </div>
+                                <div class="inner">
+                                    <h5>我的摄影作品</h5>
+                                    <p>走进我的摄影世界，感受摄影之美</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 友链部分 -->
+            <section class="gate ch" id="partner-links">
+                <div class="container links">
+                    <h2 class="chtitle">My <span>friend links</span></h2>
+                    <div class="clear">
+                        <a href="https://blog.jetbrains.com/" target="_blank" title="JetBrains 官方技术博客">
+                            <div class="item">
+                                <div class="avatar">
+                                    <img src="images/friend-links-logo-img/IntelliJ-IDEA-Blog-logo.svg"
+                                        alt="IntelliJ IDEA 官方博客徽标">
+                                </div>
+                                <div class="inner">
+                                    <h5>IntelliJ IDEA Blog</h5>
+                                    <p>The latest updates on...</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="https://www.nnjskz.cn" target="_blank" title="JetBrains 官方技术博客">
+                            <div class="item">
+                                <div class="avatar">
+                                    <img src="images/friend-links-logo-img/niuniu-logo.PNG" alt="牛牛技术客栈logo">
+                                </div>
+                                <div class="inner">
+                                    <h5>牛牛技术客栈</h5>
+                                    <p>学习改变命运，分享创造价值</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 页脚部分 -->
+            <footer>
+                <div class="footer ch">
+                    <div class="container">
+                        <h3>SkillHub · DouCY</h3>
+                        <p class="c">本站由<a href="https://xingchencloud.com/" target="_blank" class="footer"
+                                title="星辰云服务器提供商">星辰云</a>提供技术支持, 遵循<a href="https://mit-license.org/" target="_blank"
+                                class="footer" title="MIT 许可证详情">MIT</a>许可协议
+                        </p>
+                        <p class="c">
+                            &copy; 2024 - 2025 <a href="mailto:dcyyd_kcug@yeah.net" target="_blank" class="footer"
+                                title="发送邮件">dcyyd_kcug@yeah.net</a>, 窦长友 版权所有
+                        </p>
+                    </div>
+                </div>
+            </footer>
+            <script type="text/javascript" src="js/main.js" charset="UTF-8" defer></script>
+    </body>
+</html>
