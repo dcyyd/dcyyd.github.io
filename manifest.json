@@ -1,0 +1,43 @@
+{
+  "name": "窦长友的主页",
+  "short_name": "DouCY",
+  "description": "一个使用 Vue 3 + TypeScript + Vite 构建的现代化个人主页。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["personal", "portfolio"],
+  "lang": "zh-CN",
+
+  "icons": [
+    {
+      "src": "/icons/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+
+  "screenshots": [
+    {
+      "src": "screenshots/screenshot1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "label": "主页截图"
+    }
+  ]
+}

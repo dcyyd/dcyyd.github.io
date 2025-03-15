@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="请求的页面不存在，请检查URL或返回首页">
+    <title>404 Not Found</title>
+    <!-- 预加载资源 -->
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" as="style">
+    <link rel="prefetch" href="https://dcyyd.github.io">
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <!-- 引入外部 CSS 文件 -->
+    <link rel="stylesheet" href="./css/404.css">
+</head>
+
+<body>
+    <div class="not-found-container">
+        <i class="fa-solid fa-exclamation-triangle fa-5x animated-icon" aria-hidden="true"></i>
+        <h1 class="animated-text">404 Not found</h1>
+        <p class="animated-text">The page you visited does not exist.</p>
+        <a href="https://dcyyd.github.io" class="back-home-button">Back to home page</a>
+    </div>
+    <!-- 禁用右键菜单 -->
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+    </script>
+</body>
+
+</html>
