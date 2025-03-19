@@ -16,7 +16,115 @@
     <link rel="prefetch" href="https://dcyyd.github.io">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         onerror="this.onerror=null; this.disabled=true; replaceWithEmoji()">
-    <link rel="stylesheet" href="css/404.css">
+    <style>
+        :root {
+            /* 主色调定义 */
+            --background-color: #111827;
+            --text-color: #ffffff;
+            --primary-color: #007bff;
+            --hover-color: #0056b3;
+            --accent-color: #ffc107;
+            --shadow-intensity: 0.3;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .not-found-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .animated-icon {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            animation: spin 2s linear infinite;
+            will-change: transform;
+        }
+
+        /* 旋转动画：2秒线性无限循环 */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            will-change: transform;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            will-change: transform;
+        }
+
+        .animated-text {
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+            will-change: opacity, transform;
+        }
+
+        /* 淡入动画：
+ * 1. 初始透明度0和Y轴位移20px
+ * 2. 1秒缓动淡入
+ * 3. 保持最终状态 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 按钮样式 */
+        .back-home-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--text-color);
+            text-decoration: none;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards;
+            will-change: opacity, transform;
+        }
+
+        .back-home-button:hover {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .not-found-container>h1 {
+                font-size: 2rem;
+            }
+
+            .back-home-button {
+                padding: 10px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
