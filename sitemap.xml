@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <!-- 首页 -->
+    <url>
+        <loc>https://dcyyd.github.io/#/</loc>
+        <!-- 自动更新日期可通过脚本实现 -->
+        <lastmod>2025-03-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <!-- 项目页面 -->
+    <url>
+        <loc>https://dcyyd.github.io/#/projects</loc>
+        <lastmod>2025-03-08</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 技能栈页面 -->
+    <url>
+        <loc>https://dcyyd.github.io/#/skills</loc>
+        <lastmod>2025-03-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+
+    <!-- 联系我页面 -->
+    <url>
+        <loc>https://dcyyd.github.io/#/contact</loc>
+        <lastmod>2025-03-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <!-- 友链页面 -->
+    <url>
+        <loc>https://dcyyd.github.io/#/friend-account</loc>
+        <lastmod>2025-03-08</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+</urlset>

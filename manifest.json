@@ -1,0 +1,65 @@
+{
+  "name": "窦长友的主页",
+  "short_name": "DouCY",
+  "description": "一个使用 Vue 3 + TypeScript + Vite 构建的现代化个人主页。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "categories": ["personal", "portfolio"],
+  "lang": "zh-CN",
+  "icons": [
+      {
+          "src": "/icons/icon-72x72.png",
+          "sizes": "72x72",
+          "type": "image/png",
+          "purpose": "any maskable"
+      },
+      {
+          "src": "/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png",
+          "purpose": "any maskable"
+      },
+      {
+          "src": "/icons/icon-128x128.png",
+          "sizes": "128x128",
+          "type": "image/png",
+          "purpose": "any maskable"
+      },
+      {
+          "src": "/icons/icon-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any maskable"
+      },
+      {
+          "src": "/icons/icon-512x512.png",
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any maskable"
+      }
+  ],
+  "screenshots": [
+      {
+          "src": "screenshots/screenshot1-720p.png",
+          "sizes": "1280x720",
+          "type": "image/png",
+          "label": "主页 720p 截图"
+      },
+      {
+          "src": "screenshots/screenshot2-1080p.png",
+          "sizes": "1920x1080",
+          "type": "image/png",
+          "label": "主页 1080p 截图"
+      },
+      {
+          "src": "screenshots/screenshot3-mobile.png",
+          "sizes": "360x640",
+          "type": "image/png",
+          "label": "主页手机端截图"
+      }
+  ]
+}
