@@ -1,0 +1,297 @@
+<section class="module" id="module-4" style="background: var(--muted);">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">Module 04 · CLI 文章管理</span>
+      <h1 class="module-title">post-cli：用一条命令管全部内容</h1>
+      <p class="module-subtitle">
+        post-cli 是一个零外部依赖的 Node.js 脚本集合（<code>scripts/post-cli/</code>），覆盖创建、更新、发布、列出、查看、部署全流程。学会它，就再也不用手动建文件了。
+      </p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: 命令速查 -->
+      <section class="screen animate-in">
+        <span class="eyebrow">Quick reference</span>
+        <h2 class="screen-heading">11 个子命令，一张表速查</h2>
+        <p>所有命令都以 <code>pnpm post &lt;cmd&gt;</code> 触发，且全部有别名（<code>pn</code>、<code>pu</code>、<code>pd</code> …）以减少敲键：</p>
+
+        <div class="badge-list animate-in">
+          <div class="badge-item">
+            <code class="badge-code">pnpm post n &lt;slug&gt;</code>
+            <span class="badge-desc">创建新文章（new）。必传 slug，<code>-T</code> 标题、<code>-d</code> 摘要、<code>-t</code> 标签、<code>-c</code> 分类、<code>-C</code> 封面图、<code>--draft</code> 草稿。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post u &lt;slug&gt;</code>
+            <span class="badge-desc">更新 frontmatter。<code>--append-tags</code> 追加标签，<code>--set-category</code> 改分类，<code>-y</code> 跳过确认。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post p &lt;slug&gt;</code>
+            <span class="badge-desc">把草稿发布上线（<code>draft: true</code> → <code>false</code>）。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post d [-y]</code>
+            <span class="badge-desc">一键部署：预检 → 构建 → 推送 <code>gh-pages</code> → 清理临时文件。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post l</code>
+            <span class="badge-desc">列出所有文章（标题、日期、分类、字数、阅读时长）。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post r &lt;slug&gt;</code>
+            <span class="badge-desc">查看某篇的 frontmatter 与正文摘要。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post s [--open]</code>
+            <span class="badge-desc">启动 <code>vitepress dev</code>，<code>--open</code> 自动打开浏览器。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post c</code>
+            <span class="badge-desc">清理 <code>.vitepress/cache</code>、<code>.vitepress/dist</code>、<code>node_modules/.vitepress</code>。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">pnpm post help [cmd]</code>
+            <span class="badge-desc">查看所有命令或某个命令的详细帮助。</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: 创建一个真实的文章 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">实战：创建你的第一篇技术文章</h2>
+        <p>假设你要写一篇关于 Vue 3 响应式原理的深度文章：</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">BASH</span>
+            <pre><code>
+<span class="code-line">pnpm post n vue3-reactivity-guide \</span>
+<span class="code-line">  -T <span class="code-string">"Vue 3 响应式原理"</span> \</span>
+<span class="code-line">  -d <span class="code-string">"从 Proxy 拦截到 effect 调度"</span> \</span>
+<span class="code-line">  -t <span class="code-string">"Vue3,响应式,源码分析"</span> \</span>
+<span class="code-line">  -c <span class="code-string">"前端框架"</span></span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">调用 new 子命令，slug 叫 <code>vue3-reactivity-guide</code>（决定 URL 与文件名）。</p>
+              <p class="tl"><code>-T</code> 设置标题，会写入 frontmatter 的 <code>title</code> 字段。</p>
+              <p class="tl"><code>-d</code> 设置摘要（description），用于列表页和 RSS。</p>
+              <p class="tl"><code>-t</code> 标签列表，逗号分隔，会自动去重。</p>
+              <p class="tl"><code>-c</code> 分类，决定它出现在哪个分类聚合页。</p>
+            </div>
+          </div>
+        </div>
+
+        <p>运行后会在 <code>content/posts/vue3-reactivity-guide.md</code> 写入以下骨架：</p>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">vue3-reactivity-guide.md</span>
+            <pre><code>
+<span class="code-line">---</span>
+<span class="code-line"><span class="code-property">title</span>: Vue 3 响应式原理</span>
+<span class="code-line"><span class="code-property">description</span>: 从 Proxy 拦截到 effect 调度</span>
+<span class="code-line"><span class="code-property">date</span>: 2026-06-24</span>
+<span class="code-line"><span class="code-property">updated</span>: 2026-06-24</span>
+<span class="code-line"><span class="code-property">author</span>: 窦长友</span>
+<span class="code-line"><span class="code-property">category</span>: 前端框架</span>
+<span class="code-line"><span class="code-property">tags</span>:</span>
+<span class="code-line">  - Vue3</span>
+<span class="code-line">  - 响应式</span>
+<span class="code-line">  - 源码分析</span>
+<span class="code-line"><span class="code-property">cover</span>:</span>
+<span class="code-line"><span class="code-property">draft</span>: <span class="code-keyword">false</span></span>
+<span class="code-line">---</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="code-comment"># 在这里写下你的开篇……</span></span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">YAML frontmatter：所有元数据。</p>
+              <p class="tl">字段顺序固定，与 <code>scripts/post-cli/frontmatter.mjs</code> 中定义一致。</p>
+              <p class="tl"><code>date</code> 默认填今天（YYYY-MM-DD），后续可手改。</p>
+              <p class="tl"><code>draft: false</code> 表示直接发布，不进草稿区。</p>
+              <p class="tl">下方 <code>---</code> 之后就是 Markdown 正文。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: 数据流——文件改动如何被捕获 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">保存后，浏览器为什么能"自动刷新"？</h2>
+        <p>
+          你在编辑器里改了 <code>.md</code> 文件，浏览器在 0.5 秒内就更新了页面——这背后是 Vite 的 <span class="term" data-definition="HMR（Hot Module Replacement）：模块热替换。修改文件后不需要刷新整个页面，浏览器只替换改动的那一块。">HMR</span> 在工作：
+        </p>
+
+        <div class="flow-animation animate-in" data-steps='[
+          {"highlight":"flow-actor-1","label":"你在 VSCode 里按下 Ctrl+S 保存 vue3-reactivity-guide.md"},
+          {"highlight":"flow-actor-2","label":"Vite 的 chokidar 监听到文件变更事件，触发 Markdown 模块的重新解析"},
+          {"highlight":"flow-actor-3","label":"remark / rehype 管线重新执行，把新 frontmatter 与正文转成安全 AST"},
+          {"highlight":"flow-actor-4","label":"VitePress 把变更通过 WebSocket 推送到浏览器"},
+          {"highlight":"flow-actor-5","label":"Vue 3 的 HMR API 替换 PostPage 组件，整页局部刷新（无白屏）"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">ED</div>
+              <span>编辑器保存</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">FS</div>
+              <span>文件监听</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">RX</div>
+              <span>管线重跑</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">WS</div>
+              <span>WS 推送</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">UI</div>
+              <span>无白屏刷新</span>
+            </div>
+          </div>
+
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">点"下一步"追踪 HMR 链路</div>
+
+          <div class="flow-controls">
+            <button class="btn btn-primary flow-next-btn">下一步</button>
+            <button class="btn flow-reset-btn">重置</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+
+        <div class="callout callout-accent animate-in">
+          <div class="callout-icon">✦</div>
+          <div class="callout-content">
+            <span class="callout-title">Practical takeaway</span>
+            <p>这就是为什么 FilePress Blog 推荐用 post-cli 而不是手动 <code>touch</code> 文件：CLI 写入的字段顺序固定、字段值合法、文件名字符符合 slug 规则——任何不合规都会在前置校验阶段被拦下。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: 内容约定 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">内容约定：哪些字段是必填的？</h2>
+        <p>FilePress Blog 推崇"约定优于配置"——大部分字段都可以省略，系统会自动回退到合理默认值：</p>
+
+        <div class="pattern-cards animate-in">
+          <div class="pattern-card">
+            <div class="pattern-icon">T</div>
+            <div class="pattern-title">title · 必填</div>
+            <p class="pattern-desc">缺失时自动取正文中第一个 <code># 一级标题</code>。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">D</div>
+            <div class="pattern-title">date · 可空</div>
+            <p class="pattern-desc">默认 today，缺失时回退到文件 <span class="term" data-definition="mtime：文件的最后修改时间（modification time）。文件系统记录，os 可以读取。">mtime</span>。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">S</div>
+            <div class="pattern-title">description · 可空</div>
+            <p class="pattern-desc">缺失时自动取正文前 200 字符（去除 Markdown 标记）。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">C</div>
+            <div class="pattern-title">category · 可空</div>
+            <p class="pattern-desc">缺失时归入"未分类"。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">#</div>
+            <div class="pattern-title">tags · 可空</div>
+            <p class="pattern-desc">数组，可省略；v2.0 修复了中文 tag 的 URL slug 二次编码问题。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">⏱</div>
+            <div class="pattern-title">readingTime</div>
+            <p class="pattern-desc">200 字/分钟，CJK 按字符，英文按词数加权，在 <code>utils/readingTime.ts</code> 计算。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">CLI 自测</h2>
+
+        <div class="quiz-container" id="quiz-module4">
+          <div class="quiz-question-block"
+               data-correct="option-b"
+               data-explanation-right="对。slug 一旦定下来就是 URL 的一部分与文件名，不建议在文章上线后随意修改。"
+               data-explanation-wrong="FilePress Blog 的 slug 既决定文件名，又决定 /posts/xxx 的 URL。">
+            <h3 class="quiz-question">Q1 · 写错 slug 但已经写了一堆内容，怎么改？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>直接用 <code>pnpm post u &lt;old-slug&gt; --set-slug &lt;new-slug&gt;</code>，CLI 会自动重命名文件</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>手动 git mv 重命名文件 + 在 frontmatter 里加 redirect 字段（v2 不支持时降级方案）</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>slug 一旦定下就不能改</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-c"
+               data-explanation-right="对。中文 tag 直接作为 slug 片段使用，不再二次 encodeURIComponent，避免 /tags/ai-%E4%B8%8E... 这种丑陋 URL。"
+               data-explanation-wrong="FilePress Blog v2.0 已修复：tag → slug 转换走 tagToSlug(name) 工具函数，中文直接透传。">
+            <h3 class="quiz-question">Q2 · 写一个中文 tag "前端工程"，会生成什么 URL？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span><code>/tags/qianduan-gongcheng</code>（拼音首字母）</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span><code>/tags/ai-%E4%B8%8E%E5%89%8D%E7%AB%AF</code>（双重 URL 编码）</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span><code>/tags/前端工程</code>（中文原样作为路径段，浏览器原生支持）</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block"
+               data-correct="option-a"
+               data-explanation-right="对。gray-matter 解析 YAML 头，没有 frontmatter 时降级到 excerpt.ts 按 H1 + mtime + 首段拼接。"
+               data-explanation-wrong="FilePress Blog 有完整的降级策略：title 取首个 # 标题，date 取文件 mtime，description 取正文前 200 字符。">
+            <h3 class="quiz-question">Q3 · 一篇没有 frontmatter 的 .md 文件，FilePress Blog 会怎样处理？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>优雅降级：title 取首个 <code>#</code> 标题，date 取文件 mtime，description 取正文前 200 字符</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>直接报错：frontmatter 缺失，构建失败</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>跳过这篇文章，不出现在任何列表里</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module4')">检查答案</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module4')">重新作答</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

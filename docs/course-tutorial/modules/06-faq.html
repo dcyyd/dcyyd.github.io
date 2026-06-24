@@ -1,0 +1,256 @@
+<section class="module" id="module-6" style="background: var(--muted);">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">Module 06 · 常见问题</span>
+      <h1 class="module-title">FAQ · 8 个高频问题 + 排查思路</h1>
+      <p class="module-subtitle">
+        这一章汇集了从环境配置、内容写作到部署上线最容易翻车的 8 个真实场景。每个问题都给出"现象 → 根因 → 解决方案"三段式排查。
+      </p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: 拖拽匹配 -->
+      <section class="screen animate-in">
+        <span class="eyebrow">Drag &amp; Match</span>
+        <h2 class="screen-heading">拖一拖：把症状和根因配对</h2>
+        <p>下面 5 个症状很常见，背后的根因是什么？拖动 chip 到对应的 zone 试试：</p>
+
+        <div class="dnd-container animate-in" id="dnd-module6">
+          <div class="dnd-chips">
+            <div class="dnd-chip" draggable="true" data-answer="node-version">Node.js 版本过低</div>
+            <div class="dnd-chip" draggable="true" data-answer="frontmatter">frontmatter 字段顺序错乱</div>
+            <div class="dnd-chip" draggable="true" data-answer="port">5173 端口被占用</div>
+            <div class="dnd-chip" draggable="true" data-answer="cache">.vitepress/cache 残留</div>
+            <div class="dnd-chip" draggable="true" data-answer="giscus">.env 没有 Giscus 环境变量</div>
+          </div>
+
+          <div class="dnd-zones">
+            <div class="dnd-zone" data-correct="node-version">
+              <p class="dnd-zone-label"><strong>症状 A：</strong>启动报 <code>SyntaxError: Unexpected token ?</code></p>
+              <div class="dnd-zone-target">拖到这里</div>
+            </div>
+            <div class="dnd-zone" data-correct="port">
+              <p class="dnd-zone-label"><strong>症状 B：</strong><code>pnpm dev</code> 直接退出，提示 "Port 5173 is already in use"</p>
+              <div class="dnd-zone-target">拖到这里</div>
+            </div>
+            <div class="dnd-zone" data-correct="cache">
+              <p class="dnd-zone-label"><strong>症状 C：</strong>改了 .md 文件后浏览器没刷新</p>
+              <div class="dnd-zone-target">拖到这里</div>
+            </div>
+            <div class="dnd-zone" data-correct="frontmatter">
+              <p class="dnd-zone-label"><strong>症状 D：</strong><code>pnpm post u</code> 报 "frontmatter 字段顺序不一致"</p>
+              <div class="dnd-zone-target">拖到这里</div>
+            </div>
+            <div class="dnd-zone" data-correct="giscus">
+              <p class="dnd-zone-label"><strong>症状 E：</strong>评论区空白，控制台报 "giscus is not defined"</p>
+              <div class="dnd-zone-target">拖到这里</div>
+            </div>
+          </div>
+
+          <div style="margin-top: var(--space-5);">
+            <button class="btn btn-primary" onclick="checkDnD('dnd-module6')">检查配对</button>
+            <button class="btn" onclick="location.reload()">重置</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: 找 Bug -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">找 Bug：哪一行会导致 <code>tags/前端</code> 出现双重 URL 编码？</h2>
+        <p>这是 v2.0 修复前的 <code>tagToSlug</code> 早期实现，故意留了一个 bug。点你认为有问题的那一行：</p>
+
+        <div class="bug-challenge animate-in">
+          <h3>Bug 定位 · tag → slug 转换</h3>
+          <div class="bug-code">
+            <div class="bug-line" data-line="1" onclick="checkBugLine(this, false)">
+              <span class="line-num">1</span>
+              <code><span class="code-keyword">export function</span> <span class="code-function">tagToSlug</span>(name) {</code>
+            </div>
+            <div class="bug-line" data-line="2" onclick="checkBugLine(this, false)">
+              <span class="line-num">2</span>
+              <code>  <span class="code-keyword">const</span> trimmed = name.<span class="code-function">trim</span>()</code>
+            </div>
+            <div class="bug-line" data-line="3" onclick="checkBugLine(this, false)">
+              <span class="line-num">3</span>
+              <code>  <span class="code-keyword">const</span> lowered = trimmed.<span class="code-function">toLowerCase</span>()</code>
+            </div>
+            <div class="bug-line bug-target" data-line="4" onclick="checkBugLine(this, true)">
+              <span class="line-num">4</span>
+              <code>  <span class="code-keyword">return</span> <span class="code-function">encodeURIComponent</span>(lowered)  <span class="code-comment">// ← 关键行</span></code>
+            </div>
+            <div class="bug-line" data-line="5" onclick="checkBugLine(this, false)">
+              <span class="line-num">5</span>
+              <code>}</code>
+            </div>
+          </div>
+          <div class="bug-feedback" id="bug-feedback"></div>
+        </div>
+
+        <div class="callout callout-accent animate-in">
+          <div class="callout-icon">✦</div>
+          <div class="callout-content">
+            <span class="callout-title">v2.0 修复</span>
+            <p>第 4 行的 <code>encodeURIComponent</code> 是问题根源。VitePress 在生成 URL 路径段时还会再编码一次，导致中文 tag 变成 <code>ai-%E4%B8%8E...</code>。v2.0 改为：<code>return lowered.replace(/\s+/g, '-')</code> —— 空格转连字符，中文直接透传。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 3: FAQ 表 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">8 个高频问题速查表</h2>
+        <p>遇到问题先翻这张表：</p>
+
+        <div class="badge-list animate-in">
+          <div class="badge-item">
+            <code class="badge-code">Q1</code>
+            <span class="badge-desc"><strong>pnpm install 慢 / 失败？</strong> 切到国内镜像：<code>pnpm config set registry https://registry.npmmirror.com</code>。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q2</code>
+            <span class="badge-desc"><strong>如何自定义主题色？</strong> 改 <code>tailwind.config.js</code> 里的 <code>colors.moss</code>，同时改 <code>.vitepress/theme/styles/index.css</code> 里的 <code>--accent</code>。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q3</code>
+            <span class="badge-desc"><strong>如何启用 Giscus 评论？</strong> 5 步：开启 Discussions → 装 giscus App → 建分类 → 拿 ID → 写 <code>.env</code>。详见 <code>docs/COMMENTS.md</code>。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q4</code>
+            <span class="badge-desc"><strong>图片如何优化？</strong> 放原始图到 <code>assets/images/raw/</code>，跑 <code>pnpm images</code>，自动生成 WebP + LQIP 模糊占位。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q5</code>
+            <span class="badge-desc"><strong>如何迁移到别的电脑？</strong> 整个项目就是一份 <code>git</code> 仓库，<code>git clone + pnpm install</code> 三分钟内恢复全部内容。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q6</code>
+            <span class="badge-desc"><strong>RSS 怎么不更新？</strong> <code>pnpm rss</code> 单独跑一次，或 <code>pnpm dev</code> 启动时会自动跑。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q7</code>
+            <span class="badge-desc"><strong>暗色模式怎么定制？</strong> 改 <code>.vitepress/theme/styles/index.css</code> 里的 <code>.dark { ... }</code> 块。</span>
+          </div>
+          <div class="badge-item">
+            <code class="badge-code">Q8</code>
+            <span class="badge-desc"><strong>构建产物在哪里？</strong> <code>.vitepress/dist/</code>。可以整目录 rsync 到任意 Nginx / CDN / 对象存储。</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: 调试心法 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">调试心法：3 个"先看这里"</h2>
+        <p>出问题别慌，按顺序查这三处：</p>
+
+        <div class="step-cards animate-in">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <strong>终端报错信息</strong>
+              <p>VitePress / Vite / TypeScript 的报错通常很具体，复制第一行错误码去搜，比看整页 stack trace 高效得多。</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <strong>浏览器 DevTools Console</strong>
+              <p>前端 JS 错误、404 资源、CORS 问题都会在这里冒出红字。F12 → Console 是 80% 问题的"第二现场"。</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <strong>.vitepress/dist/ 输出</strong>
+              <p>如果 dev 没问题但 build 失败，对比 dist 目录里的 HTML / 资源清单——是否被手动 chunk 拆错了、是否缺了某个依赖。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-accent animate-in">
+          <div class="callout-icon">✦</div>
+          <div class="callout-content">
+            <span class="callout-title">万能兜底</span>
+            <p>如果实在搞不定，<code>pnpm post c</code> 清理一次缓存（约等于"重启 VitePress"），大多数怪异问题都会消失。实在不行就 <code>rm -rf node_modules .vitepress/cache &amp;&amp; pnpm install</code>。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: 收尾 quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">毕业自测：你真的会用 FilePress Blog 了吗？</h2>
+
+        <div class="quiz-container" id="quiz-module6">
+          <div class="quiz-question-block"
+          data-correct="option-c"
+          data-explanation-right="对。这是 v2.0 的关键修复点。中文 tag 直接透传为 URL 段，不再二次 encodeURIComponent。"
+          data-explanation-wrong="v2.0 之前会出现 /tags/ai-%E4%B8%8E%E5%89%8D%E7%AB%AF 这种丑陋 URL。修复方案是 tagToSlug 不再调用 encodeURIComponent。">
+          <h3 class="quiz-question">Q1 · 写一个中文 tag "前端工程"，预期 URL 是？</h3>
+          <div class="quiz-options">
+            <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span><code>/tags/qianduan-gongcheng</code>（拼音首字母）</span>
+            </button>
+            <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span><code>/tags/ai-%E4%B8%8E%E5%89%8D%E7%AB%AF</code>（双重 URL 编码）</span>
+            </button>
+            <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+              <div class="quiz-option-radio"></div>
+              <span><code>/tags/前端工程</code>（中文原样作为路径段）</span>
+            </button>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-question-block"
+        data-correct="option-b"
+        data-explanation-right="对。FilePress Blog 的"内容"就是 content/posts/ 里的 .md 文件。整库迁移 ≈ git clone + pnpm install。"
+        data-explanation-wrong="FilePress Blog 的所有内容物理上存在于 content/posts/*.md，git 一份就是完整备份。">
+        <h3 class="quiz-question">Q2 · 怎样把整站内容"备份"？</h3>
+        <div class="quiz-options">
+          <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>登录 GUI 后台 → 点击"导出数据库"</span>
+          </button>
+          <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span><code>git clone</code> 整个仓库——<code>content/posts/</code> 里就是全部内容</span>
+          </button>
+          <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+            <div class="quiz-option-radio"></div>
+            <span>手动复制 <code>.vitepress/dist/</code> 到另一台电脑</span>
+          </button>
+        </div>
+        <div class="quiz-feedback"></div>
+      </div>
+
+      <div class="quiz-question-block"
+      data-correct="option-a"
+      data-explanation-right="对。这是构建期解析的核心，缺它就拿不到标题、日期、标签等元数据。"
+      data-explanation-wrong="FilePress Blog 用 gray-matter 解析 YAML frontmatter，是构建期的标准做法。">
+      <h3 class="quiz-question">Q3 · 文章的标题、日期、标签等信息从哪里来？</h3>
+      <div class="quiz-options">
+        <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+          <div class="quiz-option-radio"></div>
+          <span>每个 .md 文件顶部的 YAML frontmatter，由 <code>gray-matter</code> 在构建期解析</span>
+        </button>
+        <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+          <div class="quiz-option-radio"></div>
+          <span>运行时调用 fetch API 从外部 CMS 拉取</span>
+        </button>
+        <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+          <div class="quiz-option-radio"></div>
+          <span>浏览器解析 HTML 里的 <code>&lt;meta&gt;</code> 标签</span>
+        </button>
+      </div>
+      <div class="quiz-feedback"></div>
+    </div>
+
+    <button class="quiz-check-btn" onclick="checkQuiz('quiz-module6')">检查答案</button>
+    <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module6')">重新作答</button>
+    </div>
+  </section>
+
+  </div>
+  </div>
+</section>

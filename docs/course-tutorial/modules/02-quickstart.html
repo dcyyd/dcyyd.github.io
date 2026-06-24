@@ -1,0 +1,254 @@
+<section class="module" id="module-2" style="background: var(--muted);">
+  <div class="module-content">
+    <!-- 模块头部 -->
+    <header class="module-header animate-in">
+      <span class="module-number">Module 02 · 快速开始</span>
+      <h1 class="module-title">从 0 到 1：环境、安装、第一次跑起来</h1>
+      <p class="module-subtitle">
+        本模块把安装到本地预览的全过程拆解成 5 步。每一步都给出确切命令、可预期的输出，以及最常见的踩坑提醒。
+      </p>
+    </header>
+
+    <div class="module-body">
+      <!-- 环境检查 -->
+      <section class="screen animate-in">
+        <span class="eyebrow">Step 0 · 准备</span>
+        <h2 class="screen-heading">先确认你的机器"够格"</h2>
+        <p>FilePress Blog 对环境只有两条硬性要求：Node.js ≥ 20，pnpm ≥ 9。除此之外没有任何外部依赖（不装 MySQL、不装 Redis、不配 Nginx）。</p>
+
+        <div class="step-cards animate-in">
+          <div class="step-card">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <strong>Node.js ≥ 20</strong>
+              <p>建议用 <code>nvm</code> 管理多版本；macOS / Linux 用户 <code>nvm install 20 &amp;&amp; nvm use 20</code>，Windows
+                使用 nvm-windows。</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <strong>pnpm ≥ 9</strong>
+              <p><code>npm i -g pnpm</code>。FilePress Blog 锁定了 esbuild / sharp / vue-demi 的 build
+                脚本，<code>pnpm-workspace.yaml</code> 已在仓库中配置。</p>
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <strong>Git</strong>
+              <p>仅当你准备 <code>git push</code> 部署到 GitHub Pages 时需要，本地预览不强制安装。</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 提示卡片 -->
+        <aside class="callout callout-info animate-in">
+          <div class="callout-icon">ⓘ</div>
+          <div class="callout-content">
+            <h3 class="callout-title">Why pnpm, not npm?</h3>
+            <p>pnpm 的硬链接机制能让 <code>node_modules</code> 在多项目间共享，安装速度比 npm 快 2-3 倍，磁盘占用也更小。FilePress Blog 的 CI 工作流也基于 pnpm
+              编写。</p>
+          </div>
+        </aside>
+      </section>
+
+      <!-- 安装 + 启动 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">5 步从克隆到第一篇预览</h2>
+        <p>下面是从空目录到打开 <code>http://localhost:5173</code> 看到博客首页的完整流程：</p>
+
+        <div class="flow-steps animate-in">
+          <div class="flow-step">
+            <div class="flow-step-num">1</div>
+            <p>克隆仓库</p>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <div class="flow-step-num">2</div>
+            <p>安装依赖</p>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <div class="flow-step-num">3</div>
+            <p>启动 dev</p>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <div class="flow-step-num">4</div>
+            <p>写文章</p>
+          </div>
+          <span class="flow-arrow">→</span>
+          <div class="flow-step">
+            <div class="flow-step-num">5</div>
+            <p>一键部署</p>
+          </div>
+        </div>
+
+        <!-- 代码块 + 说明 -->
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">BASH</span>
+            <pre><code>
+<span class="code-line"><span class="code-comment"># 1. 克隆 / 进入工程</span></span>
+<span class="code-line">git clone https://github.com/dcyyd/dcyyd.github.io.git</span>
+<span class="code-line"><span class="code-function">cd</span> dcyyd.github.io</span>
+
+<span class="code-line"><span class="code-comment"># 2. 安装依赖（推荐 pnpm ≥ 9）</span></span>
+<span class="code-line">pnpm install</span>
+
+<span class="code-line"><span class="code-comment"># 3. 启动开发服务器（默认 http://localhost:5173）</span></span>
+<span class="code-line">pnpm dev</span>
+
+<span class="code-line"><span class="code-comment"># 4. 另开终端，创建文章，Vite 热更新自动生效</span></span>
+<span class="code-line">pnpm post n my-first-post -T <span class="code-string">"我的第一篇博客"</span> -t <span class="code-string">"随笔,入门"</span></span>
+
+<span class="code-line"><span class="code-comment"># 5. 一键部署到 GitHub Pages</span></span>
+<span class="code-line">pnpm post d -y</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">将远程仓库克隆到本地，并进入项目根目录</p>
+              <p class="tl">读取 <code>package.json</code> 依赖，下载至 <code>node_modules/</code></p>
+              <p class="tl">执行 RSS / 站点地图生成，启动 VitePress 开发服务（0.0.0.0:5173）</p>
+              <p class="tl">通过 post-cli 创建文章，自动写入 <code>content/posts/my-first-post.md</code></p>
+              <p class="tl">一键完成：预检 → 构建 → 推送至 gh-pages → 清理临时文件</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 服务运行原理 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">当你敲下 <code>pnpm dev</code>，背后发生了什么？</h2>
+        <p>这不是一个简单的"启动 VitePress"——它会先运行两个生成器：</p>
+
+        <div class="arch-diagram animate-in">
+          <div class="arch-zone">
+            <div class="arch-zone-label">本地命令行</div>
+            <div class="arch-component" data-desc="scripts/post-cli.mjs 入口，解析子命令并分发至对应功能模块">
+              <div class="arch-icon">⚡</div>
+              <span>post-cli</span>
+            </div>
+            <div class="arch-component" data-desc="scripts/generate-rss.mjs — 扫描文章，生成 public/feed.xml">
+              <div class="arch-icon">📡</div>
+              <span>RSS 生成器</span>
+            </div>
+            <div class="arch-component" data-desc="scripts/generate-sitemap.mjs — 生成站点地图 public/sitemap.xml">
+              <div class="arch-icon">🗺️</div>
+              <span>sitemap 生成器</span>
+            </div>
+            <div class="arch-component" data-desc=".vitepress/config.mts 定义站点配置，构建虚拟模块系统">
+              <div class="arch-icon">⚙️</div>
+              <span>VitePress 配置</span>
+            </div>
+          </div>
+
+          <div class="arch-zone">
+            <div class="arch-zone-label">浏览器看到的</div>
+            <div class="arch-component" data-desc="VitePress 编译 Markdown 为 Vue 组件，首屏加载极快">
+              <div class="arch-icon">🌐</div>
+              <span>http://localhost:5173</span>
+            </div>
+          </div>
+        </div>
+        <div class="arch-description" id="arch-desc">点击任意组件，查看它在流水线中的作用</div>
+
+        <!-- 命令说明 -->
+        <ul class="badge-list animate-in">
+          <li class="badge-item">
+            <code class="badge-code">pnpm dev</code>
+            <span class="badge-desc"><code>pnpm rss && pnpm sitemap && vitepress dev . --host 0.0.0.0</code> —
+              先生成静态资源，再启动开发服务</span>
+          </li>
+          <li class="badge-item">
+            <code class="badge-code">pnpm build</code>
+            <span class="badge-desc"><code>pnpm typecheck && pnpm rss && pnpm sitemap && vitepress build .</code> — 类型检查
+              + 资源生成 + 生产构建</span>
+          </li>
+          <li class="badge-item">
+            <code class="badge-code">pnpm preview</code>
+            <span class="badge-desc"><code>vitepress preview . --host 0.0.0.0</code> — 4173 端口预览生产构建产物</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 故障排查 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">第一次跑？这里有 5 个高频问题</h2>
+
+        <div class="quiz-container" id="quiz-module2">
+          <!-- 问题1 -->
+          <div class="quiz-question-block" data-correct="option-c"
+            data-explanation-right="对。FilePress Blog 启用了 strictPort: true，5173 端口被占用会直接报错，不会自动切换端口。"
+            data-explanation-wrong="项目不会自动切换端口，启用 strictPort 后端口冲突会直接退出启动。">
+            <h3 class="quiz-question">Q1 · 启动时报 "Port 5173 is already in use"，怎么办？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" type="button" data-value="option-a">
+                <div class="quiz-option-radio"></div>
+                <span>删掉 <code>node_modules/</code> 重装</span>
+              </button>
+              <button class="quiz-option" type="button" data-value="option-b">
+                <div class="quiz-option-radio"></div>
+                <span>系统会静默切换到 5174，刷新即可</span>
+              </button>
+              <button class="quiz-option" type="button" data-value="option-c">
+                <div class="quiz-option-radio"></div>
+                <span>关闭占用端口的进程，或临时修改 <code>vite.config.ts</code> 端口</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <!-- 问题2 -->
+          <div class="quiz-question-block" data-correct="option-a" data-explanation-right="对。这是终止终端服务的标准操作。"
+            data-explanation-wrong="可使用 Ctrl+C 关闭服务，或直接关闭终端，无需其他操作。">
+            <h3 class="quiz-question">Q2 · 怎么停止 dev server？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" type="button" data-value="option-a">
+                <div class="quiz-option-radio"></div>
+                <span>在终端按 <code>Ctrl + C</code></span>
+              </button>
+              <button class="quiz-option" type="button" data-value="option-b">
+                <div class="quiz-option-radio"></div>
+                <span>必须重启电脑</span>
+              </button>
+              <button class="quiz-option" type="button" data-value="option-c">
+                <div class="quiz-option-radio"></div>
+                <span>删除 <code>.vitepress/cache</code> 目录</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <!-- 问题3 -->
+          <div class="quiz-question-block" data-correct="option-b"
+            data-explanation-right="对。项目要求 Node.js ≥ 20，低版本会导致语法报错。"
+            data-explanation-wrong="请使用 node -v 检查版本，通过 nvm 升级至 20 及以上。">
+            <h3 class="quiz-question">Q3 · 启动时报 "SyntaxError: Unexpected token ?" 是什么意思？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" type="button" data-value="option-a">
+                <div class="quiz-option-radio"></div>
+                <span>网络问题，依赖安装不完整</span>
+              </button>
+              <button class="quiz-option" type="button" data-value="option-b">
+                <div class="quiz-option-radio"></div>
+                <span>Node.js 版本过低（&lt; 20），需要升级</span>
+              </button>
+              <button class="quiz-option" type="button" data-value="option-c">
+                <div class="quiz-option-radio"></div>
+                <span>未执行 <code>git init</code></span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" type="button" onclick="checkQuiz('quiz-module2')">检查答案</button>
+          <button class="quiz-reset-btn" type="button" onclick="resetQuiz('quiz-module2')">重新作答</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
