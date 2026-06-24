@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@theme/*": [".vitepress/theme/*"],
+      "@components/*": [".vitepress/theme/components/*"],
+      "@utils/*": [".vitepress/theme/utils/*"],
+      "@types/*": [".vitepress/theme/types/*"],
+      "@content/*": ["content/*"]
+    }
+  },
+  "include": [
+    ".vitepress/**/*.ts",
+    ".vitepress/**/*.mts",
+    ".vitepress/**/*.vue",
+    "posts/**/*.ts",
+    "tags/**/*.ts",
+    "env.d.ts"
+  ],
+  "exclude": ["node_modules", ".vitepress/dist"]
+}

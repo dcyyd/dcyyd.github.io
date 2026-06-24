@@ -1,0 +1,121 @@
+<script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ArrowUp, Heart, Clock } from 'lucide-vue-next'
+
+const visible = ref(false)
+const now = ref('')
+
+function handleScroll() {
+  visible.value = window.scrollY > 320
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function updateTime() {
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, '0')
+  now.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
+let timer: ReturnType<typeof setInterval> | null = null
+
+onMounted(() => {
+  handleScroll()
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  updateTime()
+  timer = setInterval(updateTime, 60_000)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+  if (timer) clearInterval(timer)
+})
+
+const footerLinks = [
+  { label: 'GitHub', href: 'https://github.com/dcyyd/dcyyd.github.io' },
+  { label: 'Email', href: 'mailto:dcyyd_kcug@yeah.net' },
+  { label: 'RSS', href: '/feed.xml' }
+]
+</script>
+
+<template>
+  <footer class="mt-12 border-t" :style="{ borderColor: 'var(--ink-200)', background: 'var(--paper)' }">
+    <div class="mx-auto max-w-[1240px] px-6 sm:px-8">
+      <!-- 主行 -->
+      <div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-y-3 gap-x-8 py-5 text-[11.5px]">
+        <!-- 左侧 -->
+        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-center sm:text-left"
+          style="color: var(--text-tertiary);">
+          <span style="color: var(--text-primary); font-weight: 500;">© 2026 FilePress · Blog</span>
+          <span aria-hidden="true">—</span>
+          <span class="inline-flex items-center gap-1">
+            <Heart class="h-3 w-3" aria-hidden="true" />
+            <span>Powered by <a href="https://vitepress.dev" class="text-[var(--accent)]">VitePress</a></span>
+          </span>
+        </div>
+
+        <!-- 右侧 -->
+        <div class="flex items-center gap-4">
+          <!-- 快捷导航 -->
+          <a v-for="link in footerLinks" :key="link.href" :href="link.href"
+            class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]"
+            style="color: var(--text-tertiary);">
+            {{ link.label }}
+          </a>
+
+          <!-- 时钟 -->
+          <span v-if="now" class="mono-num inline-flex items-center gap-1"
+            style="color: var(--text-tertiary);">
+            <Clock class="h-3 w-3" aria-hidden="true" />
+            {{ now }}
+          </span>
+
+          <!-- 回到顶部 -->
+          <button v-show="visible" type="button"
+            class="footer-top-btn" aria-label="回到顶部" @click="scrollToTop">
+            <ArrowUp class="h-3 w-3" aria-hidden="true" />
+            <span>TOP</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+</template>
+
+<style scoped>
+.footer-top-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 9999px;
+  border: 1px solid var(--ink-200);
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-tertiary);
+  background: var(--paper);
+  transition: all 0.25s ease;
+}
+
+.footer-top-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.footer-link {
+  text-decoration: none;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.75; transform: scale(1.08); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 2.4s ease-in-out infinite;
+}
+</style>

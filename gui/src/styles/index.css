@@ -1,0 +1,506 @@
+/* ============================================
+   FilePress Blog GUI · Design Tokens
+   与 VitePress 主题 .vitepress/theme/styles/index.css 保持一致
+   Modern Editorial · 印刷感单色系 · 禁用渐变
+   ============================================ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+
+  /* Surface */
+  --paper:    #fafaf9;
+  --card:     #ffffff;
+  --muted:    #f6f6f4;
+  --rule:     1px solid #e5e5e5;
+  --rule-strong: 1px solid #c4c4c4;
+
+  /* Ink */
+  --ink-50:  #f6f6f4;
+  --ink-100: #efefee;
+  --ink-200: #e5e5e5;
+  --ink-300: #c4c4c4;
+  --ink-400: #8a8a8a;
+  --ink-500: #6b6b6b;
+  --ink-700: #2a2a2a;
+  --ink-900: #0a0a0a;
+
+  /* Text */
+  --text:           #0a0a0a;
+  --text-muted:     #6b6b6b;
+  --text-tertiary:  #8a8a8a;
+
+  /* Background alias (legacy) */
+  --bg:             #fafaf9;
+  --border:         #e5e5e5;
+
+  /* Moss · 唯一强调色 */
+  --accent:         #1a4d3a;
+  --accent-hover:   #143a2c;
+  --accent-soft:    #266b51;
+  --accent-bg:      rgba(26, 77, 58, 0.08);
+  --accent-bg-strong: rgba(26, 77, 58, 0.14);
+
+  /* Semantic */
+  --success:  #1a4d3a;
+  --warning:  #b45309;
+  --danger:   #991b1b;
+  --info:     #1e40af;
+
+  /* Motion */
+  --ease-spring:    cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out-soft:  cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast:  160ms;
+  --duration-base:  240ms;
+  --duration-slow:  500ms;
+
+  /* 字体（与 VitePress 站点一致） */
+  --font-sans:    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-serif:   ui-serif, 'Iowan Old Style', 'Apple Garamond', Georgia, 'Times New Roman', serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --paper:   #0a0a0a;
+  --card:    #111111;
+  --muted:   #181818;
+  --ink-50:  #181818;
+  --ink-100: #1f1f1f;
+  --ink-200: #2a2a2a;
+  --ink-300: #3a3a3a;
+  --ink-400: #6b6b6b;
+  --ink-500: #8a8a8a;
+  --ink-700: #c4c4c4;
+  --ink-900: #ededed;
+
+  --text:           #ededed;
+  --text-muted:     #8a8a8a;
+  --text-tertiary:  #6b6b6b;
+
+  --bg:             #0a0a0a;
+  --border:         #2a2a2a;
+
+  --accent:         #5a9a7e;
+  --accent-hover:   #6fb38e;
+  --accent-soft:    #5a9a7e;
+  --accent-bg:      rgba(90, 154, 126, 0.10);
+  --accent-bg-strong: rgba(90, 154, 126, 0.16);
+
+  --rule:           1px solid #2a2a2a;
+  --rule-strong:    1px solid #3a3a3a;
+}
+
+/* ============================================
+   Base
+   ============================================ */
+html, body, #app { height: 100%; }
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--paper);
+  color: var(--text);
+  font-feature-settings: 'cv11', 'ss01', 'ss03';
+  transition: background-color var(--duration-base) var(--ease-out-soft),
+              color var(--duration-base) var(--ease-out-soft);
+}
+
+::selection {
+  background-color: var(--accent-bg-strong);
+  color: var(--text);
+}
+
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.02em;
+}
+
+/* 滚动条（Mac 风格） */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--ink-200);
+  border-radius: 999px;
+  border: 2px solid var(--paper);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--ink-300); }
+.dark ::-webkit-scrollbar-thumb { background: var(--ink-200); border-color: var(--paper); }
+
+/* ============================================
+   Typography helpers（与 VitePress 一致）
+   ============================================ */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.serif-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.mono-num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.italic-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+.link-underline {
+  position: relative;
+  display: inline;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size var(--duration-base) var(--ease-out-soft);
+}
+.link-underline:hover {
+  background-size: 100% 1px;
+  color: var(--accent);
+}
+
+/* ============================================
+   Reusable: card / button / badge
+   与 VitePress .btn 一致：实心 + 描边 + 圆形
+   ============================================ */
+.card {
+  background: var(--card);
+  border: var(--rule);
+  border-radius: 12px;
+  transition: border-color var(--duration-fast) var(--ease-out-soft);
+}
+.card:hover { border-color: var(--ink-300); }
+.dark .card:hover { border-color: var(--ink-300); }
+
+.card-static {
+  background: var(--card);
+  border: var(--rule);
+  border-radius: 12px;
+}
+
+.card-muted {
+  background: var(--muted);
+  border: var(--rule);
+  border-radius: 12px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 18px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out-soft);
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--ink-200);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--muted);
+  border-color: var(--ink-300);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--danger);
+  border-color: var(--danger);
+}
+.btn-danger:hover:not(:disabled) {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.btn-sm { height: 30px; padding: 0 12px; font-size: 12px; }
+.btn-xs { height: 26px; padding: 0 10px; font-size: 11.5px; gap: 4px; }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 22px;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.badge-green   { background: var(--accent-bg-strong); color: var(--accent); }
+.badge-yellow  { background: rgba(180, 83, 9, 0.10); color: var(--warning); }
+.badge-red     { background: rgba(153, 27, 27, 0.10); color: var(--danger); }
+.badge-blue    { background: rgba(30, 64, 175, 0.10); color: var(--info); }
+.badge-gray    { background: var(--muted); color: var(--text-muted); }
+.badge-outline { background: transparent; border: 1px solid var(--ink-200); color: var(--text-muted); }
+
+/* ============================================
+   Input / Textarea
+   ============================================ */
+.input, .textarea, .select {
+  width: 100%;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--ink-200);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 13.5px;
+  font-family: var(--font-sans);
+  transition: border-color var(--duration-fast) var(--ease-out-soft);
+}
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.input::placeholder, .textarea::placeholder { color: var(--text-tertiary); }
+.textarea { resize: vertical; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; }
+
+/* ============================================
+   Terminal-style log
+   与 VitePress 站点的 code 块同色系（更暗的纸面）
+   ============================================ */
+.terminal {
+  background: #0a0a0a;
+  color: #d4d4d4;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 1px solid #1f1f1f;
+  max-height: 480px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.terminal-line { display: block; padding: 1px 0; }
+.terminal-line-info    { color: #5a9a7e; }
+.terminal-line-stdout  { color: #d4d4d4; }
+.terminal-line-stderr  { color: #d97706; }
+.terminal-line-error   { color: #ef4444; }
+.terminal-line-done    { color: #5a9a7e; font-weight: 600; }
+.terminal-prompt       { color: #5a9a7e; }
+.terminal-ts           { color: #6b6b6b; margin-right: 8px; }
+
+/* ============================================
+   Markdown preview（编辑器右侧实时渲染）
+   字体与 VitePress 站点的 .prose 保持一致
+   ============================================ */
+.preview-body {
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  line-height: 1.75;
+  color: var(--text);
+  word-wrap: break-word;
+}
+.preview-body h1, .preview-body h2, .preview-body h3,
+.preview-body h4, .preview-body h5, .preview-body h6 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 1.4em 0 0.6em;
+  line-height: 1.2;
+}
+.preview-body h1 { font-size: 1.6em; border-bottom: var(--rule); padding-bottom: 0.3em; }
+.preview-body h2 { font-size: 1.35em; border-bottom: var(--rule); padding-bottom: 0.3em; }
+.preview-body h3 { font-size: 1.15em; }
+.preview-body p  { margin: 0.8em 0; }
+.preview-body ul, .preview-body ol { padding-left: 1.6em; margin: 0.6em 0; }
+.preview-body li { margin: 0.25em 0; }
+.preview-body blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 0.2em 0 0.2em 1em;
+  color: var(--text-muted);
+  margin: 0.8em 0;
+  font-style: italic;
+}
+.preview-body code:not(pre code) {
+  background: var(--muted);
+  border: var(--rule);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 0.88em;
+  color: var(--accent);
+}
+.preview-body pre {
+  background: #0a0a0a;
+  color: #d4d4d4;
+  padding: 12px 14px;
+  border-radius: 8px;
+  overflow: auto;
+  font-size: 12.5px;
+  line-height: 1.55;
+  margin: 0.8em 0;
+}
+.preview-body a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.preview-body hr { border: 0; border-top: var(--rule); margin: 1.6em 0; }
+.preview-body table { border-collapse: collapse; width: 100%; margin: 0.8em 0; }
+.preview-body th, .preview-body td { border: var(--rule); padding: 6px 10px; }
+.preview-body th { background: var(--muted); text-align: left; }
+.preview-body img { max-width: 100%; border-radius: 6px; }
+.preview-body .mermaid-block {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 8px;
+  padding: 1.25rem 1rem;
+  margin: 1.2em 0;
+  overflow-x: auto;
+}
+.preview-body .mermaid-container {
+  display: flex;
+  justify-content: center;
+}
+.preview-body .mermaid-container svg {
+  max-width: 100%;
+  height: auto;
+}
+.preview-body .mermaid-loading {
+  color: var(--text-tertiary);
+  font-size: 12px;
+  font-style: italic;
+}
+.preview-body .mermaid-error {
+  color: #ef4444;
+  font-size: 12px;
+  white-space: pre-wrap;
+}
+
+/* ============================================
+   Toast（极简提示）
+   ============================================ */
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--card);
+  border: var(--rule-strong);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  min-width: 260px;
+  max-width: 420px;
+}
+.toast-icon { flex-shrink: 0; line-height: 1; padding-top: 1px; }
+.toast-msg  { flex: 1; line-height: 1.5; }
+.toast-success { border-left: 3px solid var(--accent); }
+.toast-error   { border-left: 3px solid var(--danger); }
+.toast-warning { border-left: 3px solid var(--warning); }
+.toast-info    { border-left: 3px solid var(--info); }
+
+/* ============================================
+   Status dot（脉冲）
+   ============================================ */
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+.dot-green  { background: var(--accent); }
+.dot-yellow { background: var(--warning); animation: pulse 1.4s ease-in-out infinite; }
+.dot-red    { background: var(--danger); }
+.dot-gray   { background: var(--ink-300); }
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.85); }
+}
+
+/* ============================================
+   Table
+   ============================================ */
+.tbl { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.tbl th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 10px 14px;
+  border-bottom: var(--rule);
+  background: var(--muted);
+}
+.tbl td { padding: 12px 14px; border-bottom: var(--rule); }
+.tbl tr:last-child td { border-bottom: 0; }
+.tbl tbody tr { transition: background var(--duration-fast) var(--ease-out-soft); }
+.tbl tbody tr:hover { background: var(--muted); }
+
+/* ============================================
+   Sidebar item hover
+   ============================================ */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all var(--duration-fast) var(--ease-out-soft);
+  cursor: pointer;
+  user-select: none;
+}
+.nav-item:hover { background: var(--muted); color: var(--text); }
+.nav-item.active { background: var(--accent-bg); color: var(--accent); }
+
+/* ============================================
+   Empty state
+   ============================================ */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--text-tertiary);
+  text-align: center;
+  font-size: 13.5px;
+}

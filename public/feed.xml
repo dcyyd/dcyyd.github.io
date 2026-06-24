@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>FilePress Blog</title>
+    <link>https://dcyyd.github.io</link>
+    <description><![CDATA[零数据库 · 零 CMS · 纯 Markdown 文件驱动 · VitePress 技术博客。]]></description>
+    <language>zh-CN</language>
+    <copyright>© 2026 窦长友</copyright>
+    <lastBuildDate>Wed, 24 Jun 2026 11:03:46 GMT</lastBuildDate>
+    <atom:link href="https://dcyyd.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    <generator>filepress-blog rss generator</generator>
+    <item>
+      <title><![CDATA[Astro 静态博客搭建全攻略：从零到生产环境部署]]></title>
+      <link>https://dcyyd.github.io/posts/astro静态博客搭建指南</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/astro静态博客搭建指南</guid>
+      <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[本文档提供了一份完整的 Astro 静态博客搭建指南，涵盖项目初始化、内容管理、样式定制、功能集成及多平台部署全流程。]]></description>
+      <category>Astro</category>
+      <category>静态博客</category>
+    </item>
+    <item>
+      <title><![CDATA[Git 命令速查手册]]></title>
+      <link>https://dcyyd.github.io/posts/git-命令速查手册</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/git-命令速查手册</guid>
+      <pubDate>Wed, 24 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[整理开发常用Git全套命令，包含配置、仓库、文件、分支、远程、标签、储藏、重置、变基等操作，适合开发人员快速查阅使用。]]></description>
+      <category>Git</category>
+      <category>版本控制</category>
+      <category>开发工具</category>
+      <category>命令行</category>
+    </item>
+    <item>
+      <title><![CDATA[DeepSeek V4 API完整接入实战手册]]></title>
+      <link>https://dcyyd.github.io/posts/deepseek-v4-api完整接入实战手册</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/deepseek-v4-api完整接入实战手册</guid>
+      <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[本文完整讲解DeepSeek V4大模型API从账号注册、密钥创建、余额充值、Python代码调用、参数说明、故障排查全流程，同时提供免代码开箱工具EasyClaw对比方案，覆盖普通对话、流式实时输出、多轮上下文对话三类开发场景。]]></description>
+      <category>DeepSeek</category>
+      <category>V4</category>
+      <category>API对接</category>
+      <category>Python</category>
+      <category>大模型调用</category>
+      <category>流式输出</category>
+    </item>
+    <item>
+      <title><![CDATA[ECharts 专业化数据可视化开发完整学习文档（从基础到企业级实战）]]></title>
+      <link>https://dcyyd.github.io/posts/echarts-professional-dev-guide</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/echarts-professional-dev-guide</guid>
+      <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[一套面向前端开发、数据分析场景的专业化 ECharts 系统学习教程，覆盖基础配置、复杂图表、性能优化、项目封装、大屏可视化、踩坑解决方案全套实战内容。]]></description>
+      <category>ECharts</category>
+      <category>数据可视化</category>
+      <category>大屏图表</category>
+      <category>性能优化</category>
+      <category>TypeScript</category>
+    </item>
+    <item>
+      <title><![CDATA[Linux命令速查手册]]></title>
+      <link>https://dcyyd.github.io/posts/linux-命令速查手册</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/linux-命令速查手册</guid>
+      <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[本文整理了Linux系统中常用的命令，涵盖文件与目录操作、权限管理、用户与群组管理、进程管理、系统信息查看、网络管理、软件包管理、文本处理、压缩与解压等九大核心场景，是Linux初学者和运维人员的实用速查手册。]]></description>
+      <category>Linux</category>
+      <category>命令行</category>
+      <category>运维</category>
+      <category>系统管理</category>
+    </item>
+    <item>
+      <title><![CDATA[如何在 VitePress 站点集成 Giscus 评论系统]]></title>
+      <link>https://dcyyd.github.io/posts/如何集成giscus评论系统</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/如何集成giscus评论系统</guid>
+      <pubDate>Tue, 23 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[基于 GitHub Discussions 的零后端评论系统，5 步接入 VitePress：仓库配置、环境变量、CI 注入、组件封装、SPA 路由适配。]]></description>
+      <category>VitePress</category>
+      <category>Giscus</category>
+      <category>评论系统</category>
+      <category>GitHub Discussions</category>
+    </item>
+    <item>
+      <title><![CDATA[Agent 文档怎么写：面向 AI 消费的可执行文档编写指南]]></title>
+      <link>https://dcyyd.github.io/posts/agent文档怎么写</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/agent文档怎么写</guid>
+      <pubDate>Mon, 22 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[不同于给人看的文档，Agent 文档需要结构化、可解析、可验证。本文给出从元数据到代码示例的完整规范。]]></description>
+      <category>Agent</category>
+      <category>Skill</category>
+      <category>文档工程</category>
+    </item>
+    <item>
+      <title><![CDATA[AI Agent 架构设计：从 ReAct 到 Multi-Agent 协作]]></title>
+      <link>https://dcyyd.github.io/posts/ai-agent-design</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/ai-agent-design</guid>
+      <pubDate>Mon, 22 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[系统梳理 AI Agent 四大组件（规划/记忆/工具/行动），对比 ReAct、Plan-Execute、Multi-Agent 三种架构模式的工程取舍。]]></description>
+      <category>AI</category>
+      <category>Agent</category>
+      <category>LLM</category>
+      <category>架构设计</category>
+    </item>
+    <item>
+      <title><![CDATA[生产级 RAG 系统设计笔记]]></title>
+      <link>https://dcyyd.github.io/posts/production-rag-system-design</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/production-rag-system-design</guid>
+      <pubDate>Thu, 18 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[拆解检索增强生成(RAG)在工程落地中的五大挑战,以及对应的成熟解决方案。]]></description>
+      <category>RAG</category>
+      <category>向量检索</category>
+      <category>LLM</category>
+    </item>
+    <item>
+      <title><![CDATA[大语言模型架构演进史]]></title>
+      <link>https://dcyyd.github.io/posts/llm-architecture-evolution</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/llm-architecture-evolution</guid>
+      <pubDate>Tue, 16 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[从 Transformer 到 MoE,梳理近五年主流 LLM 在架构层面的关键突破与权衡。]]></description>
+      <category>LLM</category>
+      <category>Transformer</category>
+      <category>MoE</category>
+    </item>
+    <item>
+      <title><![CDATA[TypeScript 高级类型体操指北]]></title>
+      <link>https://dcyyd.github.io/posts/typescript-advanced-types</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/typescript-advanced-types</guid>
+      <pubDate>Sun, 14 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[从条件类型、模板字面量到类型推断，掌握让同事眼前一亮的 TS 工具类型写法。]]></description>
+      <category>TypeScript</category>
+      <category>类型系统</category>
+      <category>进阶</category>
+    </item>
+    <item>
+      <title><![CDATA[深入理解 Vue 3 响应式系统]]></title>
+      <link>https://dcyyd.github.io/posts/vue3-reactivity-deep-dive</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/vue3-reactivity-deep-dive</guid>
+      <pubDate>Fri, 12 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[从 Proxy 拦截到 effect 调度，一步步拆解 Vue 3 reactivity 包的核心实现。]]></description>
+      <category>Vue3</category>
+      <category>响应式</category>
+      <category>源码分析</category>
+    </item>
+    <item>
+      <title><![CDATA[VitePress 站点性能优化实战]]></title>
+      <link>https://dcyyd.github.io/posts/vitepress-performance-guide</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/vitepress-performance-guide</guid>
+      <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[从构建配置、运行时加载、第三方依赖三个维度，拆解 VitePress 1.x 站点的常见性能瓶颈。]]></description>
+      <category>VitePress</category>
+      <category>性能优化</category>
+      <category>静态站点</category>
+    </item>
+  </channel>
+</rss>
