@@ -255,9 +255,31 @@ async function preflight(options) {
   }
 }
 
-/** 步骤 1：构建 */
+/** 步骤 1：构建（先生成 RSS/Sitemap，再执行 VitePress build） */
 async function stepBuild() {
   heading(ui.bold('② 构建静态站点'))
+
+  // 1) 生成 RSS feed
+  info('正在生成 RSS feed...')
+  try {
+    const { execSync } = await import('node:child_process')
+    execSync('node scripts/generate-rss.mjs', { cwd: PROJECT_ROOT, stdio: 'pipe' })
+    success('RSS feed 已生成')
+  } catch (err) {
+    warn(`RSS 生成失败: ${err.message}`)
+  }
+
+  // 2) 生成 Sitemap
+  info('正在生成 sitemap.xml...')
+  try {
+    const { execSync } = await import('node:child_process')
+    execSync('node scripts/generate-sitemap.mjs', { cwd: PROJECT_ROOT, stdio: 'pipe' })
+    success('sitemap.xml 已生成')
+  } catch (err) {
+    warn(`Sitemap 生成失败: ${err.message}`)
+  }
+
+  // 3) 执行 VitePress 构建
   info(`执行: ${DEFAULTS.buildCommand} ${DEFAULTS.buildArgs.join(' ')}`)
   blank()
   try {

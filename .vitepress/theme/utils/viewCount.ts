@@ -68,6 +68,11 @@ export function getAllViewCounts(): Record<string, number> {
   return { ...load().entries }
 }
 
+/** 站点累计总访问量（所有文章浏览量之和） */
+export function getTotalViewCount(): number {
+  return Object.values(load().entries).reduce((sum, v) => sum + (Number.isFinite(v) ? v : 0), 0)
+}
+
 /**
  * 给指定 slug 累计 +1
  * - 通过 sessionStorage 防止同一会话内（标签切换/前进后退）重复计数

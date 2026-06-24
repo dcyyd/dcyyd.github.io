@@ -18,6 +18,33 @@ interface ChangelogEntry {
 
 const changelog: ChangelogEntry[] = [
   {
+    version: 'v2.3.0',
+    date: '2026-06-25',
+    type: 'minor',
+    highlights: [
+      '🐛 修复 Markdown 解析器死循环（4 反引号代码块导致 OOM）',
+      '🐛 修复中文 slug 文章加载失败（API 双重编码）',
+      '🐛 修复编辑器加载大文章时主线程同步阻塞',
+      '⚡ GUI 浏览量计算优化（单次读取替代逐篇累加）',
+      '🔄 浏览量实时同步：GUI 工作台/文件管理 + 5s 定时轮询',
+      '👁️ 站点前端 SiteFooter 显示站点总访问量（Eye 图标 + 10s 自动刷新）'
+    ],
+    changes: [
+      { type: 'fix',      text: 'B011：Markdown 解析器死循环 → 段落检测排除正则匹配到 \`\`\`\`markdown（4 反引号），触发空段落 + 未递增 i → 死循环耗尽 2GB 内存 → 新增加空 p 防御守卫' },
+      { type: 'fix',      text: 'B012：中文 slug 文章 API 返回数据正常但前端加载卡住 → `api/index.ts` 中 `getPost`/`updatePost` 错误使用 `decodeURIComponent(slug)` 导致双重编码 → 移除冗余解码' },
+      { type: 'fix',      text: 'B013：编辑器加载大文章时界面卡死 → `fromPost()` 内同步调用 `updatePreviewSync()` 阻塞主线程 → 改为 `schedulePreviewUpdate()` 走防抖机制' },
+      { type: 'fix',      text: 'GUI 浏览量不刷新：storage 事件仅在跨标签页触发，同标签页内不更新 → DashboardView + FilesView 新增 5s 定时轮询 `setInterval`' },
+      { type: 'perf',     text: 'GUI 总浏览量计算：DashboardView/FilesView 原来逐篇调 `getViewCount(slug)` 每次都读 localStorage → `getTotalViewCount()` 一次读取聚合' },
+      { type: 'feat',     text: '新增 `gui/src/utils/wordAndView.ts` 的 `getTotalViewCount()` / `getAllViewCounts()` / `formatViewCount()` 导出' },
+      { type: 'feat',     text: '新增 `.vitepress/theme/utils/viewCount.ts` 的 `getTotalViewCount()` 导出，供前端 SiteFooter 使用' },
+      { type: 'feat',     text: '`.vitepress/theme/components/SiteFooter.vue` 新增站点总访问量显示（`Eye` 图标 + `formatViewCount` 格式化数字），每 10s 自动刷新' },
+      { type: 'feat',     text: '新增文章 `springboot-kafka-integration.md`：Spring Boot 集成 Kafka 全链路实战（Docker 环境、Producer/Consumer、死信队列、事务、监控运维）' },
+      { type: 'refactor', text: '`gui/src/utils/wordAndView.ts` 重写：统一与 `viewCount.ts` 相同的存储键与 `load()` 逻辑，消除两处读取不一致的隐患' },
+      { type: 'chore',    text: '项目版本号升级 2.2.0 → 2.3.0（package.json），GUI 子包 0.1.0 → 0.2.0' },
+      { type: 'chore',    text: 'GUI 新增 `onBeforeUnmount` 清理定时器（DashboardView / FilesView），防止内存泄漏' }
+    ]
+  },
+  {
     version: 'v2.2.0',
     date: '2026-06-24',
     type: 'minor',

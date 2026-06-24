@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { ArrowUp, Heart, Clock } from 'lucide-vue-next'
+import { ArrowUp, Heart, Clock, Eye } from 'lucide-vue-next'
+import { getTotalViewCount, formatViewCount } from '../utils/viewCount'
 
 const visible = ref(false)
 const now = ref('')
+const totalViews = ref(0)
 
 function handleScroll() {
   visible.value = window.scrollY > 320
@@ -19,18 +21,27 @@ function updateTime() {
   now.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
+function refreshViews() {
+  totalViews.value = getTotalViewCount()
+}
+
 let timer: ReturnType<typeof setInterval> | null = null
+let viewTimer: ReturnType<typeof setInterval> | null = null
 
 onMounted(() => {
   handleScroll()
   window.addEventListener('scroll', handleScroll, { passive: true })
   updateTime()
   timer = setInterval(updateTime, 60_000)
+  // 初始化浏览量 + 定时刷新
+  refreshViews()
+  viewTimer = setInterval(refreshViews, 10_000)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
   if (timer) clearInterval(timer)
+  if (viewTimer) clearInterval(viewTimer)
 })
 
 const footerLinks = [
@@ -70,6 +81,13 @@ const footerLinks = [
             style="color: var(--text-tertiary);">
             <Clock class="h-3 w-3" aria-hidden="true" />
             {{ now }}
+          </span>
+
+          <!-- 站点总访问量 -->
+          <span class="mono-num inline-flex items-center gap-1"
+            style="color: var(--text-tertiary);">
+            <Eye class="h-3 w-3" aria-hidden="true" />
+            {{ formatViewCount(totalViews) }} 次访问
           </span>
 
           <!-- 回到顶部 -->

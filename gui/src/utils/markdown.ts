@@ -13,6 +13,9 @@ const ESCAPE_MAP: Record<string, string> = {
   "'": '&#39;'
 }
 
+/** 超过此阈值跳过渲染，避免极端场景下主线程长时间阻塞 */
+const MAX_PREVIEW_CHARS = 150_000
+
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) => ESCAPE_MAP[c] ?? c)
 }
@@ -110,6 +113,12 @@ function parse(md: string): Block[] {
       p.push(lines[i] ?? '')
       i++
     }
+    // 防御：若 p 为空，说明当前行触发了「看起来像块元素」但并非任何已识别块。
+    // 将此行当作单行段落处理，避免死循环（例如 \`\`\`\`markdown 等四反引号行）
+    if (p.length === 0) {
+      p.push(lines[i] ?? '')
+      i++
+    }
     blocks.push({ type: 'p', content: p.join('\n') })
   }
   return blocks
@@ -176,5 +185,9 @@ function renderHtml(md: string): string {
 }
 
 export function renderMarkdown(md: string): string {
-  return renderHtml(md ?? '')
+  const text = md ?? ''
+  if (text.length > MAX_PREVIEW_CHARS) {
+    return `<div style="padding:16px;color:var(--text-muted,oklch(0.55_0.01_260));border:1px dashed var(--border,oklch(0.88_0_260));border-radius:6px;font-size:13px;">⚠️ 内容过长（${text.length.toLocaleString()} 字符），已暂停实时预览以保持编辑器流畅。保存后仍可正常发布。</div>`
+  }
+  return renderHtml(text)
 }

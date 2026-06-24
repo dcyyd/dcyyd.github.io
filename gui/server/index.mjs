@@ -118,21 +118,35 @@ async function readPost(slug) {
   if (!safe) return null
   const filePath = path.join(POSTS_DIR, `${safe}.md`)
   if (!existsSync(filePath)) return null
-  const raw = await fs.readFile(filePath, 'utf-8')
-  const parsed = matter(raw)
-  const stat = statSync(filePath)
-  const fm = { ...(parsed.data ?? {}) }
-  // 同步 description：description 优先，其次 summary（GUI 字段）
-  if (!fm.description && typeof fm.summary === 'string') {
-    fm.description = fm.summary
-  }
-  return {
-    slug: safe,
-    filePath: path.relative(PROJECT_ROOT, filePath),
-    frontmatter: fm,
-    body: parsed.content ?? '',
-    size: stat.size,
-    mtime: stat.mtimeMs
+  
+  try {
+    const raw = await fs.readFile(filePath, 'utf-8')
+    
+    // 防止解析超大文件导致阻塞
+    if (raw.length > 500000) {
+      console.warn(`[readPost] File too large: ${safe}.md (${raw.length} chars)`)
+    }
+    
+    const parsed = matter(raw)
+    const stat = statSync(filePath)
+    const fm = { ...(parsed.data ?? {}) }
+    
+    // 同步 description：description 优先，其次 summary（GUI 字段）
+    if (!fm.description && typeof fm.summary === 'string') {
+      fm.description = fm.summary
+    }
+    
+    return {
+      slug: safe,
+      filePath: path.relative(PROJECT_ROOT, filePath),
+      frontmatter: fm,
+      body: parsed.content ?? '',
+      size: stat.size,
+      mtime: stat.mtimeMs
+    }
+  } catch (e) {
+    console.error(`[readPost] Error reading ${safe}.md:`, e)
+    throw e
   }
 }
 

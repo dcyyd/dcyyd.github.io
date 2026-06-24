@@ -6,9 +6,21 @@
     <description><![CDATA[零数据库 · 零 CMS · 纯 Markdown 文件驱动 · VitePress 技术博客。]]></description>
     <language>zh-CN</language>
     <copyright>© 2026 窦长友</copyright>
-    <lastBuildDate>Wed, 24 Jun 2026 11:03:46 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 24 Jun 2026 23:05:50 GMT</lastBuildDate>
     <atom:link href="https://dcyyd.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <generator>filepress-blog rss generator</generator>
+    <item>
+      <title><![CDATA[Spring Boot 集成 Kafka 实战指南：从入门到生产调优]]></title>
+      <link>https://dcyyd.github.io/posts/springboot-kafka-integration</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/springboot-kafka-integration</guid>
+      <pubDate>Thu, 25 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[全面掌握 Spring Boot 3.x 与 Apache Kafka 的集成实践，涵盖生产者/消费者配置、消息序列化、事务管理、批量处理、消费重试、死信队列及生产环境调优，附完整可运行示例代码。]]></description>
+      <category>SpringBoot</category>
+      <category>Kafka</category>
+      <category>消息队列</category>
+      <category>分布式系统</category>
+    </item>
     <item>
       <title><![CDATA[Astro 静态博客搭建全攻略：从零到生产环境部署]]></title>
       <link>https://dcyyd.github.io/posts/astro静态博客搭建指南</link>

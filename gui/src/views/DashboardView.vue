@@ -1,27 +1,44 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { FileText, Type, Eye, Plus, Rocket, History, Activity, Folder, Hash, Clock } from 'lucide-vue-next'
 import { usePostsStore } from '../stores'
 import { api } from '../api'
 import type { PostSummary } from '../api'
-import { getViewCount, getWordCount } from '../utils/wordAndView'
+import { getViewCount, getWordCount, getTotalViewCount, formatViewCount } from '../utils/wordAndView'
 
 const postsStore = usePostsStore()
 const router = useRouter()
 
 const previewRunning = ref(false)
-// 触发刷新：listening on storage event
+// 浏览量版本号：storage 事件 + 定时轮询
 const viewVersion = ref(0)
 
 onMounted(async () => {
   await postsStore.refresh(true)
   try { previewRunning.value = (await api.previewStatus()).running } catch { /* noop */ }
   window.addEventListener('storage', onStorage)
+  // 定时轮询：同一标签页内的浏览量变化（storage 事件不会在写入标签页触发）
+  startViewPolling()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('storage', onStorage)
+  if (viewPollTimer !== null) {
+    window.clearInterval(viewPollTimer)
+    viewPollTimer = null
+  }
 })
 
 function onStorage(e: StorageEvent) {
   if (e.key && e.key.startsWith('fpb:view-counts')) viewVersion.value++
+}
+
+let viewPollTimer: number | null = null
+function startViewPolling() {
+  viewPollTimer = window.setInterval(() => {
+    viewVersion.value++
+  }, 5000)
 }
 
 // ============== 工具 ==============
@@ -63,7 +80,7 @@ const publishedCount = computed(() => postsStore.posts.filter((p) => !isDraft(p)
 const totalWords = computed(() => postsStore.posts.reduce((s, p) => s + getWordCount(p.body ?? ''), 0))
 const totalViews = computed(() => {
   void viewVersion.value
-  return postsStore.posts.reduce((s, p) => s + getViewCount(p.slug), 0)
+  return getTotalViewCount()
 })
 
 const monthStart = (() => { const d = new Date(); d.setDate(1); d.setHours(0, 0, 0, 0); return d.getTime() })()

@@ -57,7 +57,7 @@ interface SocialLink {
 }
 
 const socialLinks: SocialLink[] = [
-  { icon: Github, label: 'GitHub', href: 'https://FilePress · Blog/dcyyd/dcyyd.github.io', external: true },
+  { icon: Github, label: 'GitHub', href: 'https://github.com/dcyyd/dcyyd.github.io', external: true },
   { icon: Mail, label: 'Email', href: 'mailto:dcyyd_kcug@yeah.net', external: false },
   { icon: Rss, label: 'RSS', href: '/feed.xml', external: true },
 ]

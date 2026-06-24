@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { ArrowUpDown, Eye, Hash, Trash2, Square, CheckSquare, RotateCcw, Search } from 'lucide-vue-next'
 import { usePostsStore, useToastStore } from '../stores'
 import type { PostSummary } from '../api'
-import { getViewCount, getWordCount } from '../utils/wordAndView'
+import { getViewCount, getWordCount, getTotalViewCount } from '../utils/wordAndView'
 
 const postsStore = usePostsStore()
 const router = useRouter()
@@ -179,14 +179,31 @@ const totalWords = computed(() => postsStore.posts.reduce((s, p) => s + getWordC
 const totalViews = computed(() => {
   // 引用 viewVersion 触发重算
   void viewVersion.value
-  return postsStore.posts.reduce((s, p) => s + getViewCount(p.slug), 0)
+  return getTotalViewCount()
 })
 
 // 监听 localStorage 变化（其它页面增加访问量时同步过来）
 function onStorage(e: StorageEvent) {
   if (e.key && e.key.startsWith('fpb:view-counts')) viewVersion.value++
 }
-onMounted(() => window.addEventListener('storage', onStorage))
+
+let viewPollTimer: number | null = null
+
+onMounted(() => {
+  window.addEventListener('storage', onStorage)
+  // 定时轮询：同一标签页内的浏览量变化
+  viewPollTimer = window.setInterval(() => {
+    viewVersion.value++
+  }, 5000)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('storage', onStorage)
+  if (viewPollTimer !== null) {
+    window.clearInterval(viewPollTimer)
+    viewPollTimer = null
+  }
+})
 </script>
 
 <template>

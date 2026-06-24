@@ -6,6 +6,7 @@ import { usePostsStore, useToastStore } from '../stores'
 import { renderMarkdown } from '../utils/markdown'
 import { calculateEditorStats, extractOutline } from '../utils/editorStats'
 import type { PostSummary } from '../api'
+import type { EditorStats, OutlineItem } from '../utils/editorStats'
 import mermaid from 'mermaid'
 
 const route = useRoute()
@@ -37,11 +38,45 @@ const titleForView = computed(() => {
   return frontmatter.value.title || slug.value
 })
 
-const previewHtml = computed(() => renderMarkdown(body.value))
+// ============== 防抖渲染：避免每次按键同步解析 Markdown 阻塞主线程 ==============
+const DEBOUNCE_MS = 150
 
-// ============== 实时统计 & 大纲 ==============
-const stats = computed(() => calculateEditorStats(body.value))
-const outline = computed(() => extractOutline(body.value))
+const previewHtml = ref('')
+const stats = ref<EditorStats>({ chars: 0, words: 0, chinese: 0, latin: 0, lines: 1, readingTime: 1 })
+const outline = ref<OutlineItem[]>([])
+const previewUpdating = ref(false)
+
+let debounceTimer: ReturnType<typeof setTimeout> | null = null
+
+function updatePreviewSync() {
+  try {
+    const text = body.value
+    previewHtml.value = renderMarkdown(text)
+    stats.value = calculateEditorStats(text)
+    outline.value = extractOutline(text)
+  } catch (e) {
+    console.error('[EditorView] Preview update error:', e)
+    previewHtml.value = `<div style="padding:16px;color:#ef4444;border:1px dashed #ef4444;border-radius:6px;font-size:13px;">渲染错误: ${e instanceof Error ? e.message : String(e)}</div>`
+  } finally {
+    previewUpdating.value = false
+  }
+}
+
+function schedulePreviewUpdate() {
+  previewUpdating.value = true
+  if (debounceTimer !== null) clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(updatePreviewSync, DEBOUNCE_MS)
+}
+
+function cancelDebounce() {
+  if (debounceTimer !== null) { clearTimeout(debounceTimer); debounceTimer = null }
+}
+
+// 初始渲染（body 初始为空，直接同步即可）
+updatePreviewSync()
+
+// 监听 body 变化触发防抖更新
+watch(body, () => schedulePreviewUpdate(), { flush: 'sync' })
 
 // ============== 自动保存草稿（localStorage） ==============
 const DRAFT_KEY = computed(() => `fpb:draft:${slug.value || 'new'}`)
@@ -105,6 +140,8 @@ function fromPost(p: PostSummary) {
   tagsInput.value = frontmatter.value.tags.join(', ')
   body.value = p.body ?? ''
   dirty.value = false
+  // 使用防抖更新预览，避免同步阻塞主线程
+  schedulePreviewUpdate()
 }
 
 async function load() {
@@ -123,21 +160,25 @@ async function load() {
   // 防御性：10 秒后强制关闭 loading，避免任何异常路径把 UI 卡在「加载中…」
   const forceTimer = window.setTimeout(() => {
     if (loading.value) {
-      // eslint-disable-next-line no-console
       console.warn('[EditorView] load 超时，强制关闭 loading')
       loading.value = false
+      toast.error('加载超时，请刷新重试')
     }
   }, 10000)
   try {
     const r = await postsStore.getPost(slug.value)
-    if (r) fromPost(r)
-    else toast.error('文章不存在')
-    // 拉取成功后再检测是否有未恢复的草稿
-    if (hasDraftToRestore()) {
-      restoreDraftHint.value = true
+    if (r) {
+      fromPost(r)
+      // 拉取成功后再检测是否有未恢复的草稿
+      if (hasDraftToRestore()) {
+        restoreDraftHint.value = true
+      }
+    } else {
+      toast.error('文章不存在')
     }
   } catch (e) {
-    toast.error(e instanceof Error ? e.message : String(e))
+    console.error('[EditorView] load error:', e)
+    toast.error(e instanceof Error ? e.message : '加载失败')
   } finally {
     window.clearTimeout(forceTimer)
     loading.value = false
@@ -344,7 +385,7 @@ async function renderMermaidInPreview() {
 watch(previewHtml, async () => {
   await nextTick()
   renderMermaidInPreview()
-})
+}, { flush: 'post' })
 
 // ============== 键盘快捷键 ==============
 function onKeydown(e: KeyboardEvent) {
@@ -372,6 +413,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
   stopDraftTimer()
+  cancelDebounce()
   if (dirty.value && body.value) saveDraft()
 })
 </script>
@@ -582,8 +624,9 @@ onBeforeUnmount(() => {
         <div class="card-static flex-1 flex flex-col min-h-0">
           <div class="px-5 py-3 border-b flex items-center gap-2" style="border-color: var(--border);">
             <span class="eyebrow">PREVIEW · 实时预览</span>
+            <span v-if="previewUpdating" class="text-[10.5px]" style="color: var(--text-tertiary);">渲染中…</span>
             <span v-if="frontmatter.draft" class="badge badge-yellow ml-1">草稿</span>
-            <span v-else class="badge badge-green ml-1">将发布</span>
+            <span v-else-if="!previewUpdating" class="badge badge-green ml-1">将发布</span>
           </div>
           <div ref="previewRef" class="flex-1 overflow-auto p-6" style="background: var(--paper);">
             <article class="preview-body" v-html="previewHtml || '<p style=\'color: var(--text-tertiary); font-style: italic;\'>在左侧开始书写…</p>'"></article>

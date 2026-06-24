@@ -7,14 +7,14 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3_strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind](https://img.shields.io/badge/TailwindCSS-3.4.17-38bdf8&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Node](https://img.shields.io/badge/Node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Version](https://img.shields.io/badge/version-2.2.0-22c55e)](#changelog)
+[![Version](https://img.shields.io/badge/version-2.3.0-22c55e)](#changelog)
 [![License](https://img.shields.io/badge/license-MIT-22c55e)](#license)
 
 **FilePress Blog (`filepress-blog`)** 是一款以"**文件即数据**"为核心理念的现代化静态技术博客引擎。所有内容以 Markdown 文件存放于 `content/posts/`，VitePress 在**构建期**扫描并生成静态 HTML，运行时无任何 IO 与数据库依赖，最终产物是一组可托管在任意 CDN / Nginx / Pages 上的纯静态文件。
 
 - **作者**：窦长友
 - **邮箱**：dcyyd_kcug@yeah.net
-- **当前版本**：2.2.0
+- **当前版本**：2.3.0
 - **部署站点**：[https://dcyyd.github.io](https://dcyyd.github.io)
 
 ---
@@ -32,7 +32,7 @@
 - [评论系统](#评论系统)
 - [sitemap](#sitemap)
 - [构建与部署](#构建与部署)
-- [v2.1 新增与变更](#v21-新增与变更)
+- [v2.3 新增与变更](#v23-新增与变更)
 - [安全模型](#安全模型)
 - [文档与日志](#文档与日志)
 - [License](#license)
@@ -52,6 +52,7 @@
 - 🛠️ **零依赖 CLI** — `pnpm post new|update|publish|deploy|list|read|serve|clean` 一条命令管全部内容。
 - 🚀 **一键部署** — `pnpm post d` 自动完成预检 → 构建 → 推送 `gh-pages` → 清理，跨平台。
 - 🖥️ **GUI 管理后台** — 纯 Web SPA（Vue 3 + Pinia + Tailwind），工作台 / Markdown 编辑器 / 文件管理 / 一键部署 / 本地预览，对小白友好。
+- 📊 **站点访问量统计** — 前端 localStorage 持久化（每篇文章 +1，session 去重），SiteFooter 实时显示总访问量，GUI 工作台定时轮询同步。
 - 🖼️ **图片优化管线** — `pnpm images` 一键生成 WebP + LQIP 模糊占位。
 - 📦 **强类型** — `tsc strict + noUncheckedIndexedAccess + exactOptionalPropertyTypes`。
 
@@ -553,41 +554,55 @@ SITE_URL=https://blog.example.com pnpm build
 
 ---
 
-## v2.1 新增与变更
+## v2.3 新增与变更
 
-> 完整变更记录见 [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md)。
+> 完整变更记录见 [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) 和 [ChangelogPage](#changelog)。
 
-### 新增功能
+### 重大 BUG 修复（v2.3）
+
+| ID | 现象 | 根因 | 修复 |
+| --- | --- | --- | --- |
+| **B011** | 加载含 4 反引号代码块的文章时页面卡死、Node OOM（2GB） | Markdown 解析器段落检测排除正则匹配 3 反引号但 fence 不匹配 4 反引号 → 死循环 | 段落处理末尾新增空 p 防御守卫 |
+| **B012** | 中文 slug 文章加载失败（API 成功返回数据） | Vue Router 自动解码后 `api/index.ts` 又 `decodeURIComponent` → 双重编码 | 移除冗余 `decodeURIComponent` |
+| **B013** | 编辑器加载大文章时主线程卡死 | `fromPost()` 同步调用 `updatePreviewSync()` → `renderMarkdown()` 阻塞 | 改为 `schedulePreviewUpdate()` 走 150ms 防抖 |
+
+### 新增功能（v2.3）
+
+| 模块 | 变更 |
+| --- | --- |
+| **站点总访问量** | SiteFooter 页脚新增 `Eye` 图标 + 格式化浏览量显示，每 10s 自动刷新 |
+| **浏览量聚合** | `viewCount.ts` 新增 `getTotalViewCount()`，一次读取 `load().entries` 聚合 |
+| **GUI 浏览量优化** | `wordAndView.ts` 新增 `getAllViewCounts()` / `getTotalViewCount()` / `formatViewCount()`，与前端统一 |
+| **实时同步** | DashboardView + FilesView 新增 5s 定时轮询，解决同标签页浏览量不刷新问题 |
+| **新增文章** | 《Spring Boot 集成 Kafka 实战指南》（`springboot-kafka-integration.md`） |
+
+### 历史版本（v2.1）
+
+<details>
+<summary>点击展开 v2.1 变更记录</summary>
 
 | 模块 | 变更 |
 | --- | --- |
 | **Giscus 评论系统** | 新增 `CommentSection.vue` 组件，集成 GitHub Discussions 评论；5 步接入，零后端 |
 | **自定义 404** | 新增 `NotFoundPage.vue` + `404.md`，友好错误页（返回 / 推荐入口） |
-| **sitemap 自动生成** | 新增 `scripts/generate-sitemap.mjs` + `pnpm sitemap` 脚本，扫描 `content/posts` 与全部静态路由 |
+| **sitemap 自动生成** | 新增 `scripts/generate-sitemap.mjs` + `pnpm sitemap` 脚本 |
 | **Giscus 文档** | 新增 [docs/COMMENTS.md](docs/COMMENTS.md) 完整配置指南 |
-| **.env.example** | 新增环境变量模板，标准化 Giscus 配置入口 |
-| **构建流水线** | `pnpm dev` / `pnpm build` 串联 `sitemap` 步骤 |
 
-### BUG 修复
+| ID (v2.1) | 现象 | 修复 |
+| --- | --- | --- |
+| **B007** | 部署后 Giscus 显示 `giscus is not installed` | CI 注入 `VITE_GISCUS_*` 变量 |
+| **B008** | 本地 Giscus 配置丢失 | `config.mts` 增加 .env 解析器 |
+| **B009** | 404 页面未生效 | 移除 `layout: page` 冲突配置 |
+| **B010** | sitemap URL 默认值错误 | 改为 `https://dcyyd.github.io` |
 
-| ID | 现象 | 根因 | 修复 |
-| --- | --- | --- | --- |
-| **B007** | 部署后 Giscus 显示 `An error occurred: giscus is not installed on this repository` | CI 环境未注入 `VITE_GISCUS_*` 环境变量 | `.github/workflows/deploy.yml` 的 Build env 注入全部 Giscus 变量，敏感 ID 走 GitHub Secrets |
-| **B008** | 本地 `pnpm dev` 时 Giscus 配置丢失 | VitePress 不会自动加载 `.env` | `config.mts` 增加轻量级 .env 解析器，注入 `process.env` 后再走 `vite.define` |
-| **B009** | 404 页面未生效，仍显示 VitePress 默认页 | `404.md` 设置了 `layout: page` 覆盖了内置 `not-found` 布局 | 移除 `layout: page` / `sidebar` / `aside` / `outline` 等冲突配置 |
-| **B010** | sitemap URL 默认值 `https://example.com` 与生产不符 | `generate-sitemap.mjs` 硬编码了示例域名 | 默认 URL 改为 `https://dcyyd.github.io`，并支持 `SITE_URL` 环境变量覆盖 |
-
-### 重构 / 优化
-
-- 🎨 **CommentSection.vue 极简化** — 移除响应式状态机（idle/loading/ready/error）、轮询逻辑、手动主题切换；改用 `setAttribute` 直接构建 script 元素，信任 Giscus 原生能力；代码从 272 行精简到 112 行（-59%）
-- 📝 移除 `enabled` / `loadingText` props 与未启用降级 UI，改用 `v-if="ready"` 直接控制是否渲染
-- 📦 移除 `useData().isDark` 依赖，Giscus 通过 `data-theme="preferred_color_scheme"` 自动跟随系统主题
+</details>
 
 ### 文档体系
 
-- ✅ 新增 [docs/COMMENTS.md](docs/COMMENTS.md)：Giscus 5 步接入 + 常见问题
-- ✅ [README.md](README.md) 重写为 v2.1 视角，补充评论系统、sitemap 章节
-- ✅ [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) 新增 v2.1 变更记录
+- ✅ [README.md](README.md) 更新至 v2.3，补充浏览量统计、BUG 修复记录
+- ✅ [gui/README.md](gui/README.md) 更新至 v0.2，同步最新 GUI 修复
+- ✅ [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) 新增 v2.3 变更记录（B011–B013 + 浏览量优化）
+- ✅ [.vitepress/theme/components/ChangelogPage.vue](.vitepress/theme/components/ChangelogPage.vue) 新增 v2.3 条目
 
 ---
 
@@ -652,7 +667,7 @@ SITE_URL=https://blog.example.com pnpm build
 | [docs/FAQ.md](docs/FAQ.md) | 开发、构建、部署常见问题排查 |
 | [docs/发布全流程指南.md](docs/发布全流程指南.md) | 端到端发布工作流教程 |
 | [gui/README.md](gui/README.md) | 🖥️ GUI 管理后台完整文档（功能 / 架构 / API / CLI 映射） |
-| [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) | 项目迭代总结（v1.0 → v2.1 全量变更） |
+| [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) | 项目迭代总结（v1.0 → v2.3 全量变更） |
 | [scripts/readme.md](scripts/readme.md) | post-cli 文章管理工具详细文档 |
 
 ---
