@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { X, Hash } from 'lucide-vue-next'
+import { computed, ref } from 'vue'
+import { X, Hash, ChevronDown, ChevronUp } from 'lucide-vue-next'
 import type { TagInfo } from '../types/blog'
 
 const props = defineProps<{
@@ -11,6 +12,22 @@ const emit = defineEmits<{
   change: [value: string[]]
   clear: []
 }>()
+
+const COLLAPSE_THRESHOLD = 12
+
+const expanded = ref(false)
+
+const visibleTags = computed(() => {
+  if (expanded.value || props.tags.length <= COLLAPSE_THRESHOLD) {
+    return props.tags
+  }
+  return props.tags.slice(0, COLLAPSE_THRESHOLD)
+})
+
+const hiddenCount = computed(() => {
+  if (props.tags.length <= COLLAPSE_THRESHOLD) return 0
+  return props.tags.length - COLLAPSE_THRESHOLD
+})
 
 function isSelected(tag: string): boolean {
   return props.selected.includes(tag)
@@ -38,7 +55,7 @@ function toggleTag(tag: string): void {
     </div>
 
     <ul class="flex flex-wrap gap-1.5">
-      <li v-for="tag in tags" :key="tag.slug">
+      <li v-for="tag in visibleTags" :key="tag.slug">
         <button type="button"
           :class="['tag-chip', isSelected(tag.name) && 'is-active']"
           :aria-pressed="isSelected(tag.name)"
@@ -49,6 +66,17 @@ function toggleTag(tag: string): void {
         </button>
       </li>
     </ul>
+
+    <!-- 展开/收起 -->
+    <button
+      v-if="tags.length > COLLAPSE_THRESHOLD"
+      type="button"
+      class="tag-expand-btn mt-2"
+      @click="expanded = !expanded"
+    >
+      <component :is="expanded ? ChevronUp : ChevronDown" class="h-3 w-3" aria-hidden="true" />
+      {{ expanded ? '收起标签' : `展开更多标签（${hiddenCount}）` }}
+    </button>
   </div>
 </template>
 
@@ -65,6 +93,7 @@ function toggleTag(tag: string): void {
   color: var(--text-secondary);
   border: 1px solid var(--ink-200);
   cursor: pointer;
+  border-radius: 9999px;
   transition: all 0.2s ease;
 }
 
@@ -100,5 +129,25 @@ function toggleTag(tag: string): void {
 
 .tag-chip.is-active .tag-count {
   opacity: 0.9;
+}
+
+.tag-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  background: none;
+  border: 1px solid var(--ink-150);
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tag-expand-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 </style>

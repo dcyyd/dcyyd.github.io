@@ -7,14 +7,14 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3_strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind](https://img.shields.io/badge/TailwindCSS-3.4.17-38bdf8&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Node](https://img.shields.io/badge/Node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Version](https://img.shields.io/badge/version-2.3.0-22c55e)](#changelog)
+[![Version](https://img.shields.io/badge/version-2.5.0-22c55e)](#changelog)
 [![License](https://img.shields.io/badge/license-MIT-22c55e)](#license)
 
 **FilePress Blog (`filepress-blog`)** 是一款以"**文件即数据**"为核心理念的现代化静态技术博客引擎。所有内容以 Markdown 文件存放于 `content/posts/`，VitePress 在**构建期**扫描并生成静态 HTML，运行时无任何 IO 与数据库依赖，最终产物是一组可托管在任意 CDN / Nginx / Pages 上的纯静态文件。
 
 - **作者**：窦长友
 - **邮箱**：dcyyd_kcug@yeah.net
-- **当前版本**：2.3.0
+- **当前版本**：2.5.0
 - **部署站点**：[https://dcyyd.github.io](https://dcyyd.github.io)
 
 ---
@@ -32,7 +32,7 @@
 - [评论系统](#评论系统)
 - [sitemap](#sitemap)
 - [构建与部署](#构建与部署)
-- [v2.3 新增与变更](#v23-新增与变更)
+- [v2.5 新增与变更](#v25-新增与变更)
 - [安全模型](#安全模型)
 - [文档与日志](#文档与日志)
 - [License](#license)
@@ -60,21 +60,21 @@
 
 ## 技术栈
 
-| 类别 | 选型 | 版本 | 用途 |
-| --- | --- | --- | --- |
-| 静态站点引擎 | VitePress | 1.4.5 | SSG + 客户端路由 |
-| 构建工具 | Vite | 5.4.11 | 极速冷启动 / HMR |
-| UI 框架 | Vue | 3.5.13 | 自定义主题组件 |
-| 类型系统 | TypeScript | 5.6.3 | 全面 strict 模式 |
-| 样式方案 | Tailwind CSS | 3.4.17 | 原子化 + 排版插件 |
-| 图标库 | lucide-vue-next | 0.468.0 | 矢量图标 |
-| 数学公式 | KaTeX | 0.16.11 | 行内 / 块级公式 |
-| 图表渲染 | Mermaid | 11.15.0 | Markdown 代码块图表（SSG 预渲染） |
-| 工具集 | @vueuse/core | 11.3.0 | 组合式 API 工具 |
-| Markdown | unified / remark / rehype | 11.x | 安全 Markdown 解析 |
-| Frontmatter | gray-matter | 4.0.3 | YAML 头解析与序列化 |
-| 图片处理 | sharp | 0.33.5 | WebP / LQIP 生成 |
-| 代码检查 | ESLint + Prettier | 8.57 / 3.4 | 统一风格 |
+| 类别         | 选型                      | 版本       | 用途                              |
+| ------------ | ------------------------- | ---------- | --------------------------------- |
+| 静态站点引擎 | VitePress                 | 1.4.5      | SSG + 客户端路由                  |
+| 构建工具     | Vite                      | 5.4.11     | 极速冷启动 / HMR                  |
+| UI 框架      | Vue                       | 3.5.13     | 自定义主题组件                    |
+| 类型系统     | TypeScript                | 5.6.3      | 全面 strict 模式                  |
+| 样式方案     | Tailwind CSS              | 3.4.17     | 原子化 + 排版插件                 |
+| 图标库       | lucide-vue-next           | 0.468.0    | 矢量图标                          |
+| 数学公式     | KaTeX                     | 0.16.11    | 行内 / 块级公式                   |
+| 图表渲染     | Mermaid                   | 11.15.0    | Markdown 代码块图表（SSG 预渲染） |
+| 工具集       | @vueuse/core              | 11.3.0     | 组合式 API 工具                   |
+| Markdown     | unified / remark / rehype | 11.x       | 安全 Markdown 解析                |
+| Frontmatter  | gray-matter               | 4.0.3      | YAML 头解析与序列化               |
+| 图片处理     | sharp                     | 0.33.5     | WebP / LQIP 生成                  |
+| 代码检查     | ESLint + Prettier         | 8.57 / 3.4 | 统一风格                          |
 
 ---
 
@@ -105,29 +105,29 @@ pnpm post d -y
 
 ## npm 脚本一览
 
-| 脚本 | 命令 | 说明 |
-| --- | --- | --- |
-| `pnpm dev` | `pnpm rss && pnpm sitemap && vitepress dev . --host 0.0.0.0` | 启动开发服务器，先生成 RSS 与 sitemap（v2.1 新增 sitemap） |
-| `pnpm build` | `pnpm typecheck && pnpm rss && pnpm sitemap && vitepress build .` | 类型检查 → RSS → sitemap → 生产构建（v2.1 新增 sitemap） |
-| `pnpm preview` | `vitepress preview . --host 0.0.0.0` | 本地预览构建产物 |
-| `pnpm typecheck` | `vue-tsc --noEmit` | 严格类型检查 |
-| `pnpm lint` | `eslint . --ext .ts,.mts,.vue` | 代码规范检查 |
-| `pnpm format` | `prettier --write .` | 全量格式化 |
-| `pnpm rss` | `node scripts/generate-rss.mjs` | 重新生成 `public/feed.xml` |
-| **`pnpm sitemap`** | `node scripts/generate-sitemap.mjs` | **🆕 v2.1 生成 `sitemap.xml`（扫描 content/posts）** |
-| `pnpm images` | `node scripts/optimize-images.mjs` | 扫描 `assets/images/raw/` 输出 WebP + LQIP |
-| `pnpm post` | `node scripts/post-cli.mjs` | 文章管理 CLI（交互或子命令） |
-| `pnpm pn` | `node scripts/post-cli.mjs new` | `post new` 快捷别名 |
-| `pnpm pu` | `node scripts/post-cli.mjs update` | `post update` 快捷别名 |
-| `pnpm pp` | `node scripts/post-cli.mjs publish` | `post publish` 快捷别名 |
-| `pnpm pd` | `node scripts/post-cli.mjs deploy` | `post deploy` 一键部署快捷别名 |
-| `pnpm pl` | `node scripts/post-cli.mjs list` | `post list` 快捷别名 |
-| `pnpm pr` | `node scripts/post-cli.mjs read` | `post read` 快捷别名 |
-| `pnpm ps` | `node scripts/post-cli.mjs serve` | `post serve` 快捷别名 |
-| `pnpm pc` | `node scripts/post-cli.mjs clean` | `post clean` 快捷别名 |
-| **`pnpm gui:dev`** | `cd gui && pnpm dev` | **🖥️ 启动 GUI 开发服务器（端口 3000）** |
-| **`pnpm gui:build`** | `cd gui && pnpm build` | **构建 GUI 到 gui/dist/** |
-| **`pnpm gui:start`** | `cd gui && pnpm start` | **生产模式启动 GUI API（端口 5174）** |
+| 脚本                         | 命令                                                                | 说明                                                         |
+| ---------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `pnpm dev`                 | `pnpm rss && pnpm sitemap && vitepress dev . --host 0.0.0.0`      | 启动开发服务器，先生成 RSS 与 sitemap（v2.1 新增 sitemap）   |
+| `pnpm build`               | `pnpm typecheck && pnpm rss && pnpm sitemap && vitepress build .` | 类型检查 → RSS → sitemap → 生产构建（v2.1 新增 sitemap）  |
+| `pnpm preview`             | `vitepress preview . --host 0.0.0.0`                              | 本地预览构建产物                                             |
+| `pnpm typecheck`           | `vue-tsc --noEmit`                                                | 严格类型检查                                                 |
+| `pnpm lint`                | `eslint . --ext .ts,.mts,.vue`                                    | 代码规范检查                                                 |
+| `pnpm format`              | `prettier --write .`                                              | 全量格式化                                                   |
+| `pnpm rss`                 | `node scripts/generate-rss.mjs`                                   | 重新生成`public/feed.xml`                                  |
+| **`pnpm sitemap`**   | `node scripts/generate-sitemap.mjs`                               | **🆕 v2.1 生成 `sitemap.xml`（扫描 content/posts）** |
+| `pnpm images`              | `node scripts/optimize-images.mjs`                                | 扫描`assets/images/raw/` 输出 WebP + LQIP                  |
+| `pnpm post`                | `node scripts/post-cli.mjs`                                       | 文章管理 CLI（交互或子命令）                                 |
+| `pnpm pn`                  | `node scripts/post-cli.mjs new`                                   | `post new` 快捷别名                                        |
+| `pnpm pu`                  | `node scripts/post-cli.mjs update`                                | `post update` 快捷别名                                     |
+| `pnpm pp`                  | `node scripts/post-cli.mjs publish`                               | `post publish` 快捷别名                                    |
+| `pnpm pd`                  | `node scripts/post-cli.mjs deploy`                                | `post deploy` 一键部署快捷别名                             |
+| `pnpm pl`                  | `node scripts/post-cli.mjs list`                                  | `post list` 快捷别名                                       |
+| `pnpm pr`                  | `node scripts/post-cli.mjs read`                                  | `post read` 快捷别名                                       |
+| `pnpm ps`                  | `node scripts/post-cli.mjs serve`                                 | `post serve` 快捷别名                                      |
+| `pnpm pc`                  | `node scripts/post-cli.mjs clean`                                 | `post clean` 快捷别名                                      |
+| **`pnpm gui:dev`**   | `cd gui && pnpm dev`                                              | **🖥️ 启动 GUI 开发服务器（端口 3000）**              |
+| **`pnpm gui:build`** | `cd gui && pnpm build`                                            | **构建 GUI 到 gui/dist/**                              |
+| **`pnpm gui:start`** | `cd gui && pnpm start`                                            | **生产模式启动 GUI API（端口 5174）**                  |
 
 ---
 
@@ -210,6 +210,7 @@ filepress-blog/
 │           ├── MarkdownRenderer.vue # Safe AST → Vue VNode 的安全渲染器
 │           ├── CodeBlock.vue
 │           ├── CopyButton.vue       # 基于 Clipboard API 的复制按钮
+│           ├── SearchModal.vue       # 🆕 v2.5 全局搜索弹窗（Cmd+K/Ctrl+K）
 │           ├── MermaidChart.vue      # Mermaid 图表组件（SSG 预渲染为 SVG）
 │           ├── OptimizedImage.vue   # WebP + 模糊占位图组件
 │           ├── CommentSection.vue   # 🆕 v2.1 Giscus 评论组件
@@ -320,13 +321,13 @@ draft: false                 # 可空，默认 false
 
 若 Markdown 缺少 YAML 头，系统自动按以下规则降级（见 `utils/excerpt.ts`）：
 
-| 字段 | 降级策略 |
-| --- | --- |
-| `title` | 取正文中第一个 `#` 一级标题 |
-| `date` | 取文件最后修改时间 (`mtimeMs`) |
-| `description` | 取正文前 200 字符 |
-| `category` | `"未分类"` |
-| `tags` | `[]` |
+| 字段            | 降级策略                         |
+| --------------- | -------------------------------- |
+| `title`       | 取正文中第一个`#` 一级标题     |
+| `date`        | 取文件最后修改时间 (`mtimeMs`) |
+| `description` | 取正文前 200 字符                |
+| `category`    | `"未分类"`                     |
+| `tags`        | `[]`                           |
 
 ### slug 规则
 
@@ -404,13 +405,13 @@ pnpm gui:build
 
 ### 五大核心模块
 
-| 模块 | 能力 |
-|------|------|
-| 📊 **工作台** | 站点统计卡片（文章数 / 总字数 / 本月新增 / 累计访问量）、分类分布进度条、最近活动时间线、快捷入口 |
-| ✏️ **Markdown 编辑器** | 左右分栏编辑/预览、实时统计（字数/行数/阅读时长）、目录大纲、Mermaid 图表渲染、代码/标题/列表/引用/链接/图片快捷插入、自动保存草稿（30s）、Ctrl+S 快捷保存 |
-| 📁 **文件管理** | 列表 + 字数/浏览量列、搜索（slug/标题/标签）、多维筛选（分类/标签/状态一行布局）、多列排序、批量多选（发布/标草稿/删除） |
-| 🚀 **一键部署** | 调用 `post d` 推送 `gh-pages`、SSE 实时日志、心跳动画、停止按钮（区分 stopped 与 error 状态）、日志搜索+级别过滤+自动滚屏 |
-| 👀 **本地预览** | 启动/停止 VitePress dev、实时日志、端口冲突提示、状态查询、与部署互不干扰 |
+| 模块                          | 能力                                                                                                                                                       |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📊**工作台**            | 站点统计卡片（文章数 / 总字数 / 本月新增 / 累计访问量）、分类分布进度条、最近活动时间线、快捷入口                                                          |
+| ✏️**Markdown 编辑器** | 左右分栏编辑/预览、实时统计（字数/行数/阅读时长）、目录大纲、Mermaid 图表渲染、代码/标题/列表/引用/链接/图片快捷插入、自动保存草稿（30s）、Ctrl+S 快捷保存 |
+| 📁**文件管理**          | 列表 + 字数/浏览量列、搜索（slug/标题/标签）、多维筛选（分类/标签/状态一行布局）、多列排序、批量多选（发布/标草稿/删除）                                   |
+| 🚀**一键部署**          | 调用`post d` 推送 `gh-pages`、SSE 实时日志、心跳动画、停止按钮（区分 stopped 与 error 状态）、日志搜索+级别过滤+自动滚屏                               |
+| 👀**本地预览**          | 启动/停止 VitePress dev、实时日志、端口冲突提示、状态查询、与部署互不干扰                                                                                  |
 
 ### 架构
 
@@ -552,123 +553,37 @@ server {
 SITE_URL=https://blog.example.com pnpm build
 ```
 
----
-
-## v2.3 新增与变更
-
-> 完整变更记录见 [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) 和 [ChangelogPage](#changelog)。
-
-### 重大 BUG 修复（v2.3）
-
-| ID | 现象 | 根因 | 修复 |
-| --- | --- | --- | --- |
-| **B011** | 加载含 4 反引号代码块的文章时页面卡死、Node OOM（2GB） | Markdown 解析器段落检测排除正则匹配 3 反引号但 fence 不匹配 4 反引号 → 死循环 | 段落处理末尾新增空 p 防御守卫 |
-| **B012** | 中文 slug 文章加载失败（API 成功返回数据） | Vue Router 自动解码后 `api/index.ts` 又 `decodeURIComponent` → 双重编码 | 移除冗余 `decodeURIComponent` |
-| **B013** | 编辑器加载大文章时主线程卡死 | `fromPost()` 同步调用 `updatePreviewSync()` → `renderMarkdown()` 阻塞 | 改为 `schedulePreviewUpdate()` 走 150ms 防抖 |
-
-### 新增功能（v2.3）
-
-| 模块 | 变更 |
-| --- | --- |
-| **站点总访问量** | SiteFooter 页脚新增 `Eye` 图标 + 格式化浏览量显示，每 10s 自动刷新 |
-| **浏览量聚合** | `viewCount.ts` 新增 `getTotalViewCount()`，一次读取 `load().entries` 聚合 |
-| **GUI 浏览量优化** | `wordAndView.ts` 新增 `getAllViewCounts()` / `getTotalViewCount()` / `formatViewCount()`，与前端统一 |
-| **实时同步** | DashboardView + FilesView 新增 5s 定时轮询，解决同标签页浏览量不刷新问题 |
-| **新增文章** | 《Spring Boot 集成 Kafka 实战指南》（`springboot-kafka-integration.md`） |
-
-### 历史版本（v2.1）
-
-<details>
-<summary>点击展开 v2.1 变更记录</summary>
-
-| 模块 | 变更 |
-| --- | --- |
-| **Giscus 评论系统** | 新增 `CommentSection.vue` 组件，集成 GitHub Discussions 评论；5 步接入，零后端 |
-| **自定义 404** | 新增 `NotFoundPage.vue` + `404.md`，友好错误页（返回 / 推荐入口） |
-| **sitemap 自动生成** | 新增 `scripts/generate-sitemap.mjs` + `pnpm sitemap` 脚本 |
-| **Giscus 文档** | 新增 [docs/COMMENTS.md](docs/COMMENTS.md) 完整配置指南 |
-
-| ID (v2.1) | 现象 | 修复 |
-| --- | --- | --- |
-| **B007** | 部署后 Giscus 显示 `giscus is not installed` | CI 注入 `VITE_GISCUS_*` 变量 |
-| **B008** | 本地 Giscus 配置丢失 | `config.mts` 增加 .env 解析器 |
-| **B009** | 404 页面未生效 | 移除 `layout: page` 冲突配置 |
-| **B010** | sitemap URL 默认值错误 | 改为 `https://dcyyd.github.io` |
-
-</details>
-
-### 文档体系
-
-- ✅ [README.md](README.md) 更新至 v2.3，补充浏览量统计、BUG 修复记录
-- ✅ [gui/README.md](gui/README.md) 更新至 v0.2，同步最新 GUI 修复
-- ✅ [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) 新增 v2.3 变更记录（B011–B013 + 浏览量优化）
-- ✅ [.vitepress/theme/components/ChangelogPage.vue](.vitepress/theme/components/ChangelogPage.vue) 新增 v2.3 条目
-
----
-
-## v2.0 历史变更（摘要）
-
-> 完整记录见 [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) 的 v2.0 章节。
-
-### 新增功能
-
-| 模块 | 变更 |
-| --- | --- |
-| **post-cli 部署子系统** | 新增 `scripts/post-cli/deploy.mjs`（预检/构建/推送/清理）与 `pnpm post d` / `pnpm pd` 入口 |
-| **`clean` 独立命令** | 从隐式行为升级为显式子命令 `pnpm post c` |
-| **更多短选项** | `SHORT_FLAGS` 新增 `m`（message）、`p`（port）、`h`（host） |
-| **跨平台执行** | 所有 git/ssh 调用统一走 `node:child_process`，不再依赖 PowerShell `$env:HOME` 等命令 |
-| **HOME + GIT_SSH_COMMAND 自动注入** | Windows 上自动设置 `HOME=C:/Users/...` 与 `GIT_SSH_COMMAND`，确保 ssh 找到 `~/.ssh/id_rsa` |
-
-### BUG 修复（B001–B006）
-
-| ID | 现象 | 根因 | 修复 |
-| --- | --- | --- | --- |
-| **B001** | `pnpm post d` 推送时 `error: pathspec 'update' did not match` | `execFile` 使用 `shell: true` + 含空格 message 被 shell 拆分 | 改为 `shell: false`，args 作为数组原样传递 |
-| **B002** | `-m "fix: ..."` 解析后 `消息: true` | `m` 未注册为短选项，fallback 成 boolean flag | `SHORT_FLAGS` 注册 `m: 'message'`；并加 `typeof === 'string'` 防御 |
-| **B003** | `pnpm post d` 推送时 `Could not create directory '/home/root/.ssh'` | Windows 节点进程未设置 `HOME`，Git for Windows ssh 找不到 `~/.ssh` | `getDeployEnv()` 注入 `HOME`（C:/ 格式）+ `GIT_SSH_COMMAND` |
-| **B004** | 中文分类 / 标签页 404：`https://.../categories/ai-%E4%B8%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B` | `tagToSlug()` 二次 `encodeURIComponent` 导致 URL 出现双重编码 | 改用中文原字符作为 slug，移除 `encodeURIComponent` |
-| **B005** | SSH 预检误报失败 | 启用 `BatchMode=yes` + 仅看退出码，但 `ssh -T` 认证成功时也以非零退出 | 改为解析 `successfully authenticated` 文本；改为软警告而非硬失败 |
-| **B006** | `pnpm post d` 预检阶段大量 `DEP0190` 警告 | `execFile(..., { shell: true })` 行为被 Node 标记为不安全 | 改为 `shell: false` + `.exe` 后缀自动追加 |
-
-### UI / 输出优化
-
-- ✅ **步骤化输出** — 部署拆为 ① 预检 / ② 构建 / ③ 推送 / ④ 清理，阶段标题加粗带颜色
-- ✅ **diff 预览** — 部署前打印 `仓库/分支/消息/跳过项` 配置摘要
-- ✅ **错误降级** — 失败时给出 `hint` 提示下一步操作（如 SSH 失败 → "检查 ~/.ssh/id_rsa 是否已添加"）
-- ✅ **构建进度透传** — `npx vitepress build` 的 stdout 实时透传，不缓冲
-- ✅ **推送成功回显** — 输出 `网站将在 1-2 分钟内更新：https://dcyyd.github.io`
-
----
-
-## 安全模型
-
-| 风险面 | 缓解措施 |
-| --- | --- |
-| Markdown 注入 | `rehype-sanitize` 在 Markdown 解析链路中过滤危险节点 |
-| 原生 HTML | VitePress 默认不解析 Markdown 内的原始 HTML |
-| XSS 渲染 | 所有 Vue 组件**禁止 `v-html`**（ESLint 规则 `vue/no-v-html: error`） |
-| 类型安全 | `tsc strict` + `noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` |
-| 代码风格 | `any` 类型 ESLint 报错 |
-| 复制按钮 | 仅使用 `navigator.clipboard.writeText`，废弃 `execCommand` |
-| 部署凭据 | SSH 私钥走 `~/.ssh/id_rsa` + `GIT_SSH_COMMAND` 注入，**不落盘不打印** |
 
 > ⚠️ 受交付环境限制，工程不内置字体二进制文件；生产部署时将合法授权的字体放入 `public/fonts/` 并在 `.vitepress/theme/styles/fonts.css` 启用 `@font-face`。
 
----
+## v2.5 新增与变更
+
+| 类别 | 内容 |
+| --- | --- |
+| 🔍 **全局全文搜索** | 新增 [`SearchModal.vue`](.vitepress/theme/components/SearchModal.vue)：Cmd+K / Ctrl+K 快捷唤起弹窗，搜索标题+描述+正文+标签，加权评分（标题150/标签60/描述40/正文20），关键词高亮，↑↓ 键盘导航，Enter 跳转，150ms 防抖。索引基于 `posts.data` 构建期数据，零外部依赖 |
+| 🔍 **搜索入口** | [`HeaderNav.vue`](.vitepress/theme/components/HeaderNav.vue) 桌面导航栏 + 移动端抽屉各新增 Search 搜索按钮；[`AppLayout.vue`](.vitepress/theme/components/AppLayout.vue) 挂载 `<SearchModal>` + 全局快捷键监听 |
+| 🌐 **SEO 增强** | [`config.mts`](.vitepress/config.mts) `head[]` 新增静态 `og:type` / `og:site_name` / `og:locale` / `twitter:card` / `twitter:site`；新增 `transformHead` 钩子按页动态生成 `og:title` / `og:description` / `og:url` / `og:image` + Twitter 镜像标签 |
+
+## 安全模型
+
+- **AST 管线**：`Markdown → remark → rehype → rehype-sanitize → Vue VNode`，所有 HTML 标签经白名单过滤
+- **ESLint 硬约束**：`vue/no-v-html: error`，禁止在 Vue 模板中使用 `v-html`
+- **TypeScript strict**：`strict + noUncheckedIndexedAccess + exactOptionalPropertyTypes` 防类型漏洞
+- **路径校验**：`safeSlug` 过滤路径穿越字符（`../`、`..\\`）
+- **凭据隔离**：`.env` 在 `.gitignore` 中，CI 敏感值走 GitHub Secrets，SSH 密钥不写入项目目录
 
 ## 文档与日志
 
-| 入口 | 内容 |
-| --- | --- |
-| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | 部署指南：GitHub Actions / gh-pages / Nginx / Netlify / 一键脚本 |
-| [docs/COMMENTS.md](docs/COMMENTS.md) | 🆕 v2.1 Giscus 评论系统 5 步接入 + 常见问题 |
-| [docs/DIRECTORY_STRUCTURE.md](docs/DIRECTORY_STRUCTURE.md) | 标准化目录结构与组件依赖关系 |
-| [docs/FAQ.md](docs/FAQ.md) | 开发、构建、部署常见问题排查 |
-| [docs/发布全流程指南.md](docs/发布全流程指南.md) | 端到端发布工作流教程 |
-| [gui/README.md](gui/README.md) | 🖥️ GUI 管理后台完整文档（功能 / 架构 / API / CLI 映射） |
-| [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) | 项目迭代总结（v1.0 → v2.3 全量变更） |
-| [scripts/readme.md](scripts/readme.md) | post-cli 文章管理工具详细文档 |
+| 入口                                                                | 内容                                                             |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)                               | 部署指南：GitHub Actions / gh-pages / Nginx / Netlify / 一键脚本 |
+| [docs/COMMENTS.md](docs/COMMENTS.md)                                   | 🆕 v2.1 Giscus 评论系统 5 步接入 + 常见问题                      |
+| [docs/DIRECTORY_STRUCTURE.md](docs/DIRECTORY_STRUCTURE.md)             | 标准化目录结构与组件依赖关系                                     |
+| [docs/FAQ.md](docs/FAQ.md)                                             | 开发、构建、部署常见问题排查                                     |
+| [docs/发布全流程指南.md](docs/发布全流程指南.md)                       | 端到端发布工作流教程                                             |
+| [gui/README.md](gui/README.md)                                         | 🖥️ GUI 管理后台完整文档（功能 / 架构 / API / CLI 映射）        |
+| [logs/PROJECT_ITERATION_SUMMARY.md](logs/PROJECT_ITERATION_SUMMARY.md) | 项目迭代总结（v1.0 → v2.5 全量变更）                            |
+| [scripts/readme.md](scripts/readme.md)                                 | post-cli 文章管理工具详细文档                                    |
 
 ---
 

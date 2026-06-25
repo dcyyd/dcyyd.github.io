@@ -75,6 +75,12 @@ function scrollToHeading(id: string): void {
 // ====== 访问量（客户端 +1，session 内去重） ======
 const viewCount = ref(0)
 
+// ====== CC 协议信息 ======
+const licenseUrl = computed(() => {
+  if (typeof window === 'undefined') return ''
+  return window.location.href
+})
+
 // ====== 生命周期 ======
 onMounted(() => {
   window.addEventListener('scroll', updateProgress, { passive: true })
@@ -207,6 +213,131 @@ onUnmounted(() => {
           <MarkdownRenderer :root="post.content" />
         </div>
 
+        <!-- ====== CC BY-NC-ND 4.0 版权声明 ====== -->
+        <section
+          class="license-block mb-10 overflow-hidden rounded-xl border border-solid"
+          style="border-color: var(--ink-200); background: var(--paper);"
+        >
+          <!-- 协议头部 -->
+          <div
+            class="flex items-center gap-3 px-6 py-4 border-b border-solid"
+            style="border-color: var(--ink-150); background: linear-gradient(135deg, var(--muted) 0%, var(--paper) 100%);"
+          >
+            <div
+              class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
+              style="background: var(--accent); color: #fff;"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M14.83 14.83a4 4 0 1 1 0-5.66"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-[13px] font-semibold leading-snug" style="color: var(--text-primary);">
+                版权声明 &middot; CC BY-NC-ND 4.0
+              </h4>
+              <p class="text-[11px] mt-0.5" style="color: var(--text-tertiary);">
+                署名-非商业性使用-禁止演绎 4.0 国际
+              </p>
+            </div>
+          </div>
+
+          <!-- 协议内容 -->
+          <div class="px-6 py-5 space-y-4 text-[13px] leading-relaxed">
+            <!-- 版权归属 -->
+            <div class="flex items-start gap-3">
+              <span
+                class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5"
+                style="background: var(--muted); color: var(--text-tertiary); font-size: 11px;"
+                aria-hidden="true"
+              >1</span>
+              <div>
+                <span class="font-semibold" style="color: var(--text-primary);">版权归属</span>
+                <p class="mt-1" style="color: var(--text-secondary);">
+                  本作品著作权归 <strong style="color: var(--text-primary);">{{ post.author || '窦长友' }}</strong> 所有，
+                  首次发布于
+                  <a
+                    :href="licenseUrl"
+                    class="break-all transition-colors duration-200 hover:text-[var(--accent)]"
+                    style="color: var(--accent); text-decoration: underline; text-underline-offset: 3px;"
+                    rel="bookmark"
+                  >{{ licenseUrl }}</a>
+                  ，受相关知识产权法律法规保护。
+                </p>
+              </div>
+            </div>
+
+            <!-- 授权范围 -->
+            <div class="flex items-start gap-3">
+              <span
+                class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5"
+                style="background: var(--muted); color: var(--text-tertiary); font-size: 11px;"
+                aria-hidden="true"
+              >2</span>
+              <div>
+                <span class="font-semibold" style="color: var(--text-primary);">授权范围</span>
+                <ul class="mt-1.5 space-y-1" style="color: var(--text-secondary); list-style: none; padding: 0;">
+                  <li class="flex items-baseline gap-1.5">
+                    <span style="color: var(--accent); font-weight: 600;" aria-hidden="true">&#10003;</span>
+                    <span>可自由<strong style="color: var(--text-primary);">分享</strong> — 在任何媒介以任何形式复制、转载本文</span>
+                  </li>
+                  <li class="flex items-baseline gap-1.5">
+                    <span style="color: #ef4444; font-weight: 600;" aria-hidden="true">&#10007;</span>
+                    <span>不得用于<strong style="color: var(--text-primary);">商业目的</strong> — 未经书面授权禁止商用</span>
+                  </li>
+                  <li class="flex items-baseline gap-1.5">
+                    <span style="color: #ef4444; font-weight: 600;" aria-hidden="true">&#10007;</span>
+                    <span>禁止<strong style="color: var(--text-primary);">演绎修改</strong> — 不得改编、转换或以本文为基础再创作</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 署名要求 -->
+            <div class="flex items-start gap-3">
+              <span
+                class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5"
+                style="background: var(--muted); color: var(--text-tertiary); font-size: 11px;"
+                aria-hidden="true"
+              >3</span>
+              <div>
+                <span class="font-semibold" style="color: var(--text-primary);">署名要求</span>
+                <p class="mt-1" style="color: var(--text-secondary);">
+                  转载或引用时须<strong style="color: var(--text-primary);">明确标注作者姓名</strong>、<strong style="color: var(--text-primary);">原文出处</strong>及本许可协议链接。
+                  不得以任何方式暗示或声称作者为您的使用背书。
+                </p>
+              </div>
+            </div>
+
+            <!-- 协议链接 -->
+            <div
+              class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-dashed"
+              style="border-color: var(--ink-150);"
+            >
+              <a
+                href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh"
+                target="_blank"
+                rel="noopener noreferrer license"
+                class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid"
+                style="border-color: var(--ink-200); color: var(--text-secondary); background: var(--paper);"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
+                查看完整许可证
+              </a>
+              <a
+                href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.zh-Hans"
+                target="_blank"
+                rel="noopener noreferrer license"
+                class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid"
+                style="border-color: var(--ink-200); color: var(--text-secondary); background: var(--paper);"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="3" y="3" rx="2" ry="2"/><line x1="8" x2="16" y1="12" y2="12"/><line x1="12" x2="12" y1="8" y2="16"/></svg>
+                法律文本（英文）
+              </a>
+            </div>
+          </div>
+        </section>
+
         <!-- ====== 评论区 ====== -->
         <CommentSection class="comments-section" />
 
@@ -332,6 +463,12 @@ onUnmounted(() => {
   color: var(--accent) !important;
   background: rgba(16, 185, 129, 0.06) !important;
   transform: translateY(-1px);
+}
+
+/* ====== 协议按钮 ====== */
+.license-btn:hover {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
 }
 
 /* ====== 导航卡片 ====== */

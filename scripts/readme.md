@@ -1,6 +1,6 @@
 # `post` CLI · FilePress Blog 内容管理工具
 
-> 一套面向 **FilePress Blog (`filepress-blog` v2.0.0)** 项目的 Node.js 命令行工具，覆盖**文章创建、元数据更新、草稿发布、一键部署、查询、开发服务器启动与缓存清理**全流程。
+> 一套面向 **FilePress Blog (`filepress-blog` v2.5.0)** 项目的 Node.js 命令行工具，覆盖**文章创建、元数据更新、草稿发布、一键部署、查询、开发服务器启动与缓存清理**全流程。
 > 与项目既有的 slug 规则、frontmatter 顺序、gray-matter 解析保持完全一致，写入即被 VitePress HMR 捕获，**无需重启 dev server**。
 >
 > 命令设计灵感来自 Hexo 常用指令体系，支持**短选项**（`-T` / `-t` / `-m` / `-y`）与**命令简写**（`n` / `u` / `p` / `d` / `l` / `r` / `s` / `c`）。
@@ -576,18 +576,17 @@ CLI 落盘后，VitePress dev server 会通过 `chokidar` 自动重新加载该 
 
 ---
 
-## 12. v2.0 更新摘要
+## 12. v2.0–v2.5 累计更新摘要
 
-| 类别 | 内容 |
-| --- | --- |
-| 新增命令 | `deploy` / `d`（一键部署）、`clean` 独立化 |
-| 新增短选项 | `-m` / `-p` / `-h` |
-| 新增脚本 | `pnpm sitemap` · 扫描 `content/posts` 生成 `sitemap.xml`，已串联进 `pnpm build` / `pnpm dev` |
-| 新增页面 | `404.md` + `NotFoundPage.vue` · 友好 404 错误页，含返回/推荐入口 |
-| BUG 修复 | B001-B006 详见 § 5.5.7 |
-| UI 优化 | 步骤化输出（① 预检 / ② 构建 / ③ 推送 / ④ 清理）、diff 预览、`hint` 错误降级 |
-| 跨平台 | 不再依赖 PowerShell；Windows 自动注入 `HOME` 与 `GIT_SSH_COMMAND` |
+| 版本 | 类别 | 内容 |
+| --- | --- | --- |
+| **v2.5** | 搜索 + SEO | 全局全文搜索（Cmd+K）、Open Graph / Twitter Card 全站 meta 标签、`SearchModal.vue` 新组件 |
+| **v2.4** | 浏览量 + 版权 | 全局实时计数（countapi.xyz）、CC BY-NC-ND 4.0 版权声明、Blog 分页、TagFilter 折叠 |
+| **v2.3** | BUG 修复 + 优化 | B011-B013 修复（解析器死循环/中文 slug/编辑器阻塞）、GUI 浏览量轮询、SiteFooter 总访问量 |
+| **v2.2** | GUI 后台 | 完整 Web SPA 管理后台（5 大模块）、MermaidChart.vue、viewCount.ts、migrate 工具 |
+| **v2.1** | 评论 + 404 + sitemap | Giscus 评论、NotFoundPage、sitemap.xml 自动生成、B007-B010 修复 |
+| **v2.0** | CLI + 部署 | `deploy`/`clean` 命令、`-m`/`-p`/`-h` 短选项、B001-B006 修复、跨平台、UI 优化 |
 
 ---
 
-**FilePress Blog** · v2.0.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

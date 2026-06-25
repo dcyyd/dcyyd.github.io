@@ -46,8 +46,30 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#1a4d3a' }],
     ['meta', { name: 'color-scheme', content: 'light dark' }],
     ['link', { rel: 'icon', href: `${base}favicon.svg`, type: 'image/svg+xml' }],
-    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'RSS Feed', href: `${base}feed.xml` }]
+    ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'RSS Feed', href: `${base}feed.xml` }],
+    // ============== SEO: Open Graph + Twitter Card ==============
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'FilePress Blog' }],
+    ['meta', { property: 'og:locale', content: 'zh_CN' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:site', content: '@dcyyd' }],
   ],
+  // ============== 动态 SEO：每页独立 OG 标签 ==============
+  transformHead(context) {
+    const title = context.title || 'FilePress Blog'
+    const description = context.description || '极致文件驱动技术博客 — VitePress 1.4 重构的零数据库、零CMS、纯 Markdown 文件驱动。'
+    const url = `https://dcyyd.github.io${context.page}`
+    const ogImage = `${base}og-image.png`
+    return [
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: url }],
+      ['meta', { property: 'og:image', content: ogImage }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+      ['meta', { name: 'twitter:image', content: ogImage }],
+    ]
+  },
   markdown: {
     lineNumbers: true,
     theme: {

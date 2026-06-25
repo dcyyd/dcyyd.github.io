@@ -1,8 +1,10 @@
 # 部署指南
 
-> **FilePress Blog** (`filepress-blog` v2.0.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
+> **FilePress Blog** (`filepress-blog` v2.5.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
 >
 > 本文档覆盖 VitePress 构建产物的多种部署方案，包含 GitHub Actions、gh-pages 一键推送、Nginx / 静态托管、Netlify / Vercel 等场景。所有方案均与项目 `post-cli` 子系统保持完全一致。
+>
+> **最近更新**：2026-06-26 发布 v2.5.0，全局全文搜索（Cmd+K）、SEO Open Graph / Twitter Card 全站 meta 标签。
 
 ---
 
@@ -446,4 +448,4 @@ ssh -T git@github.com
 
 ---
 
-**FilePress Blog** · v2.0.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

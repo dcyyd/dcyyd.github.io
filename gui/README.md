@@ -10,14 +10,14 @@ FilePress Blog GUI 是 **VitePress 博客**（位于 `content/posts/`）的图�
 
 ## ✨ 核心特性
 
-| 模块 | 能力 |
-|------|------|
-| 📊 **工作台** | 站点统计卡片（文章数 / 总字数 / 本月新增 / 累计访问量）、分类分布进度条、最近活动时间线、快捷入口（新建 / 部署 / 预览）、浏览量实时轮询同步（5s） |
-| ✏️ **Markdown 编辑器** | 左右分栏（编辑 / 实时预览）、实时统计（字数 / 字符 / 行数 / 阅读时长）、目录大纲、Mermaid 图表渲染、代码片段 / 标题 / 列表 / 引用 / 链接 / 图片快捷插入、自动保存草稿（30s）、`Ctrl+S` 快捷保存 |
-| 📁 **文件管理** | 列表 + 字数 / 浏览量列、搜索（slug / 标题 / 标签）、多维筛选（分类 / 标签 / 状态）、多列排序（修改时间 / 标题 / 大小 / 字数 / 浏览量）、批量多选（发布 / 标草稿 / 删除） |
-| 🚀 **一键部署** | 调用 `post d` 推送 `gh-pages`、SSE 实时日志输出、运行中心跳（脉冲动画 + 持续时间）、一键停止（区分 `stopped` 与 `error` 状态）、日志搜索 + 级别过滤 + 自动滚屏 |
-| 👀 **本地预览** | 启动 / 停止 VitePress dev（端口 5173）、实时日志、端口冲突自动提示、状态查询、与一键部署互不干扰 |
-| ❓ **使用指引** | 4 步上手教程、FAQ、快捷操作入口 |
+| 模块                          | 能力                                                                                                                                                                                              |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 📊**工作台**            | 站点统计卡片（文章数 / 总字数 / 本月新增 / 累计访问量）、分类分布进度条、最近活动时间线、快捷入口（新建 / 部署 / 预览）、浏览量实时轮询同步（5s）                                                 |
+| ✏️**Markdown 编辑器** | 左右分栏（编辑 / 实时预览）、实时统计（字数 / 字符 / 行数 / 阅读时长）、目录大纲、Mermaid 图表渲染、代码片段 / 标题 / 列表 / 引用 / 链接 / 图片快捷插入、自动保存草稿（30s）、`Ctrl+S` 快捷保存 |
+| 📁**文件管理**          | 列表 + 字数 / 浏览量列、搜索（slug / 标题 / 标签）、多维筛选（分类 / 标签 / 状态）、多列排序（修改时间 / 标题 / 大小 / 字数 / 浏览量）、批量多选（发布 / 标草稿 / 删除）                          |
+| 🚀**一键部署**          | 调用`post d` 推送 `gh-pages`、SSE 实时日志输出、运行中心跳（脉冲动画 + 持续时间）、一键停止（区分 `stopped` 与 `error` 状态）、日志搜索 + 级别过滤 + 自动滚屏                             |
+| 👀**本地预览**          | 启动 / 停止 VitePress dev（端口 5173）、实时日志、端口冲突自动提示、状态查询、与一键部署互不干扰                                                                                                  |
+| ❓**使用指引**          | 4 步上手教程、FAQ、快捷操作入口                                                                                                                                                                   |
 
 ---
 
@@ -66,13 +66,13 @@ pnpm gui:dev
 
 ### 启动模式对比
 
-| 命令 | 端口 | 说明 |
-|------|------|------|
-| `pnpm gui:dev` | 3000 | Vite + API 中间件（推荐，单进程） |
-| `pnpm gui:dev:web` | 3000 | 只跑 Vite（前端） |
-| `pnpm gui:dev:api` | 5174 | 只跑 Node API |
-| `pnpm gui:build` | — | 类型检查 + 生产构建到 `gui/dist/` |
-| `pnpm gui:start` | 5174 | 生产模式启动 Node API |
+| 命令                                  | 端口        | 说明                               |
+| ------------------------------------- | ----------- | ---------------------------------- |
+| `pnpm gui:dev`                      | 3000        | Vite + API 中间件（推荐，单进程）  |
+| `pnpm gui:dev:web`                  | 3000        | 只跑 Vite（前端）                  |
+| `pnpm gui:dev:api`                  | 5174        | 只跑 Node API                      |
+| `pnpm gui:build`                    | —          | 类型检查 + 生产构建到`gui/dist/` |
+| `pnpm gui:start`                    | 5174        | 生产模式启动 Node API              |
 | `pnpm gui:start` + `pnpm preview` | 5174 + 4173 | 完整生产链路（API + 静态前端预览） |
 
 > **端口冲突**：dev 端口 3000 已 `strictPort: true`，被占用即启动失败并报错。修改 [`vite.config.ts`](./vite.config.ts) 中的 `server.port` 可改端口。
@@ -120,21 +120,21 @@ gui/
 
 > 全部以 `/api/*` 暴露，由 [`server/index.mjs`](./server/index.mjs) 路由表实现。
 
-| 方法 | 路径 | 说明 |
-|------|------|------|
-| GET | `/api/health` | 健康检查（含版本与运行中进程数） |
-| GET | `/api/posts` | 列出全部文章 |
-| GET | `/api/posts/:slug` | 读取单篇 |
-| POST | `/api/posts` | 新建文章 |
-| PUT | `/api/posts/:slug` | 更新文章 |
-| DELETE | `/api/posts/:slug` | 删除文章 |
-| GET | `/api/logs` | 列出 `logs/` 下的文件 |
-| GET | `/api/logs/:name` | 读取日志内容（≤1MB） |
-| GET | `/api/cli/:cmd` | SSE 流式执行 `list` / `help`（白名单） |
-| GET | `/api/deploy` | SSE 流式一键部署（`pnpm post d -y`） |
-| GET | `/api/preview/start` | SSE 启动本地预览（`pnpm post s --open`） |
-| GET | `/api/preview/stop` | 停止本地预览 |
-| GET | `/api/preview/status` | 查询预览运行状态 |
+| 方法   | 路径                    | 说明                                       |
+| ------ | ----------------------- | ------------------------------------------ |
+| GET    | `/api/health`         | 健康检查（含版本与运行中进程数）           |
+| GET    | `/api/posts`          | 列出全部文章                               |
+| GET    | `/api/posts/:slug`    | 读取单篇                                   |
+| POST   | `/api/posts`          | 新建文章                                   |
+| PUT    | `/api/posts/:slug`    | 更新文章                                   |
+| DELETE | `/api/posts/:slug`    | 删除文章                                   |
+| GET    | `/api/logs`           | 列出`logs/` 下的文件                     |
+| GET    | `/api/logs/:name`     | 读取日志内容（≤1MB）                      |
+| GET    | `/api/cli/:cmd`       | SSE 流式执行`list` / `help`（白名单）  |
+| GET    | `/api/deploy`         | SSE 流式一键部署（`pnpm post d -y`）     |
+| GET    | `/api/preview/start`  | SSE 启动本地预览（`pnpm post s --open`） |
+| GET    | `/api/preview/stop`   | 停止本地预览                               |
+| GET    | `/api/preview/status` | 查询预览运行状态                           |
 
 > CLI 子命令严格白名单，仅 `list` / `help` 可用，**避免任意命令执行**风险。
 
@@ -162,12 +162,12 @@ gui/
 
 ## 🧱 状态机：部署 / 预览
 
-| 触发 | 状态 | UI 表现 |
-|------|------|---------|
-| 启动任务 | `running` | 黄色徽章 + 脉冲点 + 持续秒数 |
-| 后端 `done` 且 `ok=true` | `success` | 绿色徽章 |
-| 后端 `done` 且 `ok=false` | `error` | 红色徽章 + 错误摘要 |
-| **用户点停止** | `stopped` | 灰色徽章（与 error 区分） |
+| 触发                         | 状态        | UI 表现                      |
+| ---------------------------- | ----------- | ---------------------------- |
+| 启动任务                     | `running` | 黄色徽章 + 脉冲点 + 持续秒数 |
+| 后端`done` 且 `ok=true`  | `success` | 绿色徽章                     |
+| 后端`done` 且 `ok=false` | `error`   | 红色徽章 + 错误摘要          |
+| **用户点停止**         | `stopped` | 灰色徽章（与 error 区分）    |
 
 > 停止时若后端 `done` 事件晚到（竞态），前端会丢弃覆盖、不把 `stopped` 改回 `error`。
 
@@ -175,14 +175,14 @@ gui/
 
 ## 🔄 与 CLI 的对应关系
 
-| GUI 按钮 | 等价 CLI |
-|----------|----------|
-| 创建 / 更新文章 | `pnpm post n` / `pnpm post u` |
-| 标记草稿 | `pnpm post p <slug>`（取消草稿） |
-| 删除文章 | `pnpm post d`（如 CLI 提供；GUI 走 DELETE /api/posts/:slug） |
-| 一键部署 | `pnpm post d -y` |
-| 启动本地预览 | `pnpm post s --open` |
-| 停止本地预览 | 终止后端 spawn 的 vite 进程树 |
+| GUI 按钮        | 等价 CLI                                                       |
+| --------------- | -------------------------------------------------------------- |
+| 创建 / 更新文章 | `pnpm post n` / `pnpm post u`                              |
+| 标记草稿        | `pnpm post p <slug>`（取消草稿）                             |
+| 删除文章        | `pnpm post d`（如 CLI 提供；GUI 走 DELETE /api/posts/:slug） |
+| 一键部署        | `pnpm post d -y`                                             |
+| 启动本地预览    | `pnpm post s --open`                                         |
+| 停止本地预览    | 终止后端 spawn 的 vite 进程树                                  |
 
 GUI 不替代 CLI —— 它是 CLI 的可视化封装，CLI 适合批量与自动化，GUI 适合日常写作与小修改。
 
@@ -198,6 +198,15 @@ GUI 不替代 CLI —— 它是 CLI 的可视化封装，CLI 适合批量与自�
 ---
 
 ## 📋 版本历史
+
+### v0.4.0 (2026-06-26)
+
+- 版本号同步主项目 v2.5.0（搜索 + SEO）
+
+### v0.3.0 (2026-06-26)
+
+- **新增**：`fetchGlobalViewCount()` — 从 countapi.xyz 读取生产环境全局实时访问量
+- **同步**：与 `.vitepress/theme/utils/viewCount.ts` 共享计数器命名空间（`dcyyd-github-io`）
 
 ### v0.2.0 (2026-06-25)
 
@@ -218,4 +227,4 @@ GUI 不替代 CLI —— 它是 CLI 的可视化封装，CLI 适合批量与自�
 
 ---
 
-**FilePress Blog GUI** · v0.2.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog GUI** · v0.4.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

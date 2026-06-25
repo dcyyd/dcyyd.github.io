@@ -1,6 +1,6 @@
 {
   "name": "filepress-blog",
-  "version": "2.3.0",
+  "version": "2.5.0",
   "private": true,
   "type": "module",
   "description": "FilePress Blog · 零数据库、零 CMS、纯文件驱动的 VitePress 技术博客系统，集成 Giscus 评论与一键部署。",

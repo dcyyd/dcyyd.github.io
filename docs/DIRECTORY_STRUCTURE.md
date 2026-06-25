@@ -1,8 +1,10 @@
 # 目录结构
 
-> **FilePress Blog** (`filepress-blog` v2.0.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
+> **FilePress Blog** (`filepress-blog` v2.5.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
 >
 > 按"职责分层"组织。`node_modules/`、`.vitepress/cache/`、`.vitepress/dist/` 已省略。所有路径相对工程根。
+>
+> **最近更新**：2026-06-26 发布 v2.5.0，全局全文搜索（Cmd+K）、SEO Open Graph / Twitter Card 全站 meta 标签。
 
 ---
 
@@ -58,6 +60,7 @@ filepress-blog/
 │
 │ ── 文档与日志 ──
 ├── docs/                        # 项目技术文档
+│   ├── COMMENTS.md              # 🆕 v2.1 Giscus 评论系统配置指南
 │   ├── DEPLOYMENT.md            # 部署指南（含 v2.0 一键部署脚本）
 │   ├── DIRECTORY_STRUCTURE.md   # 本文件
 │   ├── FAQ.md                   # 常见问题排查
@@ -108,23 +111,28 @@ filepress-blog/
 │       │   ├── excerpt.ts       # 标题/摘要提取（含无 frontmatter 降级）
 │       │   ├── date.ts          # 日期格式化与 ISO 转换
 │       │   ├── readingTime.ts   # 阅读时长（200 字/分钟）
-│       │   └── slug.ts          # 文件名 → slug、tag → slug（v2.0 修复中文 URL 二次编码）
+│       │   ├── slug.ts          # 文件名 → slug、tag → slug（v2.0 修复中文 URL 二次编码）
+│       │   └── viewCount.ts     # 🆕 v2.2 浏览量统计（localStorage + sessionStorage + countapi.xyz 全局计数）
 │       ├── styles/
 │       │   ├── index.css        # Tailwind + Markdown 排版
 │       │   └── fonts.css        # @font-face 接入点
 │       └── components/          # Vue 3 组件
 │           ├── AppLayout.vue    # 全局布局（顶栏 + 主区 + 页脚 + 滚动进度）
-│           ├── HeaderNav.vue    # 顶栏导航 + 移动端汉堡菜单
-│           ├── SiteFooter.vue   # 全局页脚
+│           ├── HeaderNav.vue    # 顶栏导航 + 移动端汉堡菜单 + 🆕 v2.5 搜索入口
+│           ├── SiteFooter.vue   # 全局页脚（🆕 v2.3 站点总访问量）
 │           ├── ThemeToggle.vue  # 明暗主题切换（写入 localStorage）
+│           ├── SearchModal.vue  # 🆕 v2.5 全局搜索弹窗（标题/描述/正文/标签加权评分）
 │           ├── HomePage.vue
 │           ├── BlogPage.vue
 │           ├── ArticleCard.vue  # 列表卡片
-│           ├── PostPage.vue     # 文章详情
+│           ├── PostPage.vue     # 文章详情（🆕 v2.4 CC 版权声明模块）
 │           ├── MarkdownRenderer.vue  # Safe AST → Vue VNode
 │           ├── CodeBlock.vue
 │           ├── CopyButton.vue   # 基于 Clipboard API
+│           ├── MermaidChart.vue # 🆕 v2.2 Mermaid 图表 SSG 预渲染为 SVG
 │           ├── OptimizedImage.vue    # WebP + LQIP 占位
+│           ├── CommentSection.vue    # 🆕 v2.1 Giscus 评论组件
+│           ├── NotFoundPage.vue      # 🆕 v2.1 自定义 404 错误页
 │           ├── TagFilter.vue    # 标签多选筛选
 │           ├── TagPage.vue
 │           ├── CategoryPage.vue
@@ -138,6 +146,7 @@ filepress-blog/
 ├── public/
 │   ├── favicon.svg
 │   ├── feed.xml                 # RSS 2.0（由 pnpm rss 生成）
+│   ├── sitemap.xml              # 🆕 v2.1 SEO 站点地图（由 pnpm sitemap 生成）
 │   ├── fonts/
 │   │   └── README.md            # 字体放置说明
 │   └── images/
@@ -151,6 +160,8 @@ filepress-blog/
 │ ── 工具脚本 ──
 ├── scripts/
 │   ├── generate-rss.mjs         # RSS 2.0 订阅源生成器
+│   ├── generate-sitemap.mjs     # 🆕 v2.1 sitemap.xml 生成器
+│   ├── migrate-summary-to-description.mjs  # 🆕 v2.2 frontmatter 字段迁移工具
 │   ├── optimize-images.mjs      # sharp 图片优化（WebP + LQIP base64）
 │   ├── post-cli.mjs             # post-cli 入口（参数解析、子命令分派）
 │   ├── post-cli/
@@ -169,6 +180,35 @@ filepress-blog/
 │   │   ├── slug.mjs             # slug 生成与 tag 归一
 │   │   └── validate.mjs         # slug / 日期校验
 │   └── readme.md                # post-cli 详细文档
+│
+│ ── GUI 管理后台（🆕 v2.2） ──
+├── gui/                         # Web SPA 子包（Vue 3 + Vite 5 + Pinia + Tailwind）
+│   ├── package.json
+│   ├── README.md
+│   ├── vite.config.ts           # dev 端口 3000 + /api 中间件
+│   ├── server/
+│   │   ├── index.mjs            # 纯 Node http server（路由表 + SSE + 进程管理）
+│   │   └── port-check.mjs
+│   └── src/
+│       ├── main.ts              # Pinia + Vue Router 入口
+│       ├── App.vue
+│       ├── router/index.ts      # 5 路由（hash 模式）
+│       ├── api/index.ts         # fetch + EventSource 封装
+│       ├── stores/index.ts      # Pinia: posts / logs / toast / deploy
+│       ├── utils/
+│       │   ├── markdown.ts      # 自研零依赖 Markdown 渲染器
+│       │   ├── editorStats.ts   # 字数 / 阅读时长 / 标题大纲
+│       │   └── wordAndView.ts   # 字数与浏览量聚合
+│       ├── components/          # AppSidebar / AppHeader / ToastContainer
+│       └── views/               # 工作台 / 编辑器 / 文件管理 / 部署 / 帮助
+│
+│ ── 交互式教程（🆕 codebase-to-course） ──
+├── course-tutorial/             # 自包含 HTML 交互式课程
+│   ├── index.html               # 课程入口
+│   ├── main.js                  # 交互逻辑
+│   ├── styles.css               # 课程样式
+│   ├── build.cjs                # 构建脚本
+│   └── modules/                 # 课程模块（概览/快速开始/架构/CLI/GUI 部署/FAQ）
 │
 │ ── 根文档 ──
 └── README.md                    # 项目入口文档
@@ -194,11 +234,12 @@ filepress-blog/
 
 ```
 AppLayout
-├── HeaderNav          # 顶栏 + 移动端汉堡菜单
+├── HeaderNav          # 顶栏 + 移动端汉堡菜单 + 🔍 搜索入口
+├── SearchModal        # 🆕 v2.5 全局搜索弹窗（Cmd+K/Ctrl+K）
 ├── <RouterView />     # 各页面组件由路由决定
 │   ├── HomePage → ArticleCard
 │   ├── BlogPage → TagFilter + ArticleCard
-│   ├── PostPage → MarkdownRenderer → CodeBlock + CopyButton + OptimizedImage
+│   ├── PostPage → MarkdownRenderer → CodeBlock + CopyButton + OptimizedImage + MermaidChart + CommentSection
 │   ├── TagPage → ArticleCard
 │   ├── CategoryPage → ArticleCard
 │   ├── CategoriesPage
@@ -206,7 +247,7 @@ AppLayout
 │   ├── ChangelogPage
 │   ├── FriendsPage
 │   └── AboutPage
-├── SiteFooter         # 页脚
+├── SiteFooter         # 页脚（含站点总访问量）
 └── ThemeToggle        # 明暗切换（全局浮动）
 ```
 
@@ -236,30 +277,42 @@ Markdown → remark → rehype → rehype-sanitize → VNode
 ### 运行期（浏览器）
 
 - 客户端仅消费构建期生成的 JSON 数据。
-- `localStorage` 仅用于主题偏好（`light` / `dark` / `auto`）。
-- **无任何 fetch / XHR / WebSocket** —— 纯静态 + 客户端水合。
+- 全局搜索（🆕 v2.5）基于 `posts.data` 构建索引，客户端实时搜索，无服务端依赖。
+- `localStorage` 用于主题偏好（`light` / `dark` / `auto`）和浏览量统计。
+- **无外部 API 依赖** —— 纯静态 + 客户端水合。
 
 ---
 
-## v2.0 新增 / 变更节点
+## v2.0–v2.5 累计新增 / 变更节点
 
-| 路径 | 变更类型 | 说明 |
-| --- | --- | --- |
-| `scripts/post-cli/deploy.mjs` | 🆕 新增 | 一键部署：预检 / 构建 / 推送 / 清理 |
-| `scripts/post-cli/clean.mjs` | 🆕 新增 | 独立清理命令（原为 `hexo clean` 式隐式行为） |
-| `package.json` | ✏️ 修改 | name = `filepress-blog` · version = `2.0.0` · author 字段结构化 |
-| `scripts/post-cli.mjs` | ✏️ 修改 | 新增 `-m` / `-p` / `-h` 短选项注册与 `m: 'message'` 类型防御 |
-| `.vitepress/theme/utils/slug.ts` | ✏️ 修改 | 移除 `tagToSlug()` 二次 `encodeURIComponent`，中文标签直接作为 slug |
-| `categories/[category].paths.ts` | ✏️ 修改 | 中文 category 作为路径片段，生成 `/categories/<中文>` |
-| `tags/[tag].paths.ts` | ✏️ 修改 | 同上，生成 `/tags/<中文>` |
-| `docs/DEPLOYMENT.md` | ✏️ 重写 | 新增 `pnpm post d` 完整章节 |
-| `docs/DIRECTORY_STRUCTURE.md` | ✏️ 重写 | 同步 deploy.mjs / clean.mjs 节点 |
-| `docs/FAQ.md` | ✏️ 重写 | 新增 BUG 修复与 SSH 排错章节 |
-| `docs/发布全流程指南.md` | ✏️ 重写 | 端到端整合 `pnpm post d` 流程 |
-| `logs/PROJECT_ITERATION_SUMMARY.md` | ✏️ 重写 | v2.0 全量变更与决策记录 |
-| `scripts/readme.md` | ✏️ 重写 | § 5.5 新增 deploy 命令完整文档 |
-| `README.md` | ✏️ 重写 | 新增 v2.0 变更、BUG 修复、UI 优化章节 |
+| 版本 | 路径 | 变更类型 | 说明 |
+| --- | --- | --- | --- |
+| **v2.5** | `.vitepress/theme/components/SearchModal.vue` | 🆕 新增 | 全局全文搜索弹窗（Cmd+K/Ctrl+K） |
+| **v2.5** | `.vitepress/config.mts` | ✏️ 修改 | 新增 `head[]` 静态 OG meta + `transformHead` 动态 SEO 标签 |
+| **v2.5** | `.vitepress/theme/components/HeaderNav.vue` | ✏️ 修改 | 桌面 + 移动端新增 Search 搜索按钮 |
+| **v2.5** | `.vitepress/theme/components/AppLayout.vue` | ✏️ 修改 | 挂载 `<SearchModal>` + 全局快捷键监听 |
+| **v2.4** | `.vitepress/theme/utils/viewCount.ts` | ✏️ 修改 | 新增 `hitGlobalViewCount()` / `fetchGlobalViewCount()` 全局实时计数 |
+| **v2.4** | `.vitepress/theme/components/PostPage.vue` | ✏️ 修改 | 新增 CC BY-NC-ND 4.0 版权声明模块 |
+| **v2.4** | `.vitepress/theme/components/BlogPage.vue` | ✏️ 修改 | 新增分页系统（12 篇/页） |
+| **v2.4** | `.vitepress/theme/components/TagFilter.vue` | ✏️ 修改 | 新增标签折叠（>12 个时展开/收起） |
+| **v2.3** | `gui/src/utils/wordAndView.ts` | ✏️ 重写 | 统一与 `viewCount.ts` 相同存储键；新增 `getTotalViewCount()` |
+| **v2.3** | `.vitepress/theme/components/SiteFooter.vue` | ✏️ 修改 | 新增站点总访问量（Eye 图标 + 10s 刷新） |
+| **v2.2** | `gui/` | 🆕 新增 | 完整 GUI 管理后台子包（Vue 3 SPA） |
+| **v2.2** | `.vitepress/theme/components/MermaidChart.vue` | 🆕 新增 | Mermaid 图表 SSG 预渲染为 SVG |
+| **v2.2** | `.vitepress/theme/utils/viewCount.ts` | 🆕 新增 | 浏览量统计（localStorage + sessionStorage） |
+| **v2.2** | `scripts/migrate-summary-to-description.mjs` | 🆕 新增 | frontmatter 字段迁移工具 |
+| **v2.2** | `course-tutorial/` | 🆕 新增 | 交互式 HTML 课程 |
+| **v2.1** | `.vitepress/theme/components/CommentSection.vue` | 🆕 新增 | Giscus 评论组件 |
+| **v2.1** | `.vitepress/theme/components/NotFoundPage.vue` + `404.md` | 🆕 新增 | 自定义 404 错误页 |
+| **v2.1** | `scripts/generate-sitemap.mjs` | 🆕 新增 | sitemap.xml 自动生成器 |
+| **v2.1** | `docs/COMMENTS.md` | 🆕 新增 | Giscus 5 步配置指南 |
+| **v2.0** | `scripts/post-cli/deploy.mjs` | 🆕 新增 | 一键部署：预检 / 构建 / 推送 / 清理 |
+| **v2.0** | `scripts/post-cli/clean.mjs` | 🆕 新增 | 独立清理命令 |
+| **v2.0** | `scripts/post-cli.mjs` | ✏️ 修改 | 新增 `-m` / `-p` / `-h` 短选项 |
+| **v2.0** | `.vitepress/theme/utils/slug.ts` | ✏️ 修改 | 修复中文 URL 二次编码 |
+| **v2.0** | `docs/` 全量文档 | ✏️ 重写 | DEPLOYMENT / DIRECTORY_STRUCTURE / FAQ / 发布全流程指南 |
+| **v2.0** | `README.md` | ✏️ 重写 | v2.0 视角完整入口文档 |
 
 ---
 
-**FilePress Blog** · v2.0.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

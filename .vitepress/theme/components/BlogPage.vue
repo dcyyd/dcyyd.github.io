@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { Search, X, Layers, FileSearch } from 'lucide-vue-next'
+import { computed, ref, watch } from 'vue'
+import { Search, X, FileSearch, ChevronLeft, ChevronRight } from 'lucide-vue-next'
 import { data as postsData } from '../data/posts.data'
 import { data as tagsData } from '../data/tags.data'
 import type { PostDetail, PostMeta, TagInfo } from '../types/blog'
@@ -11,10 +11,13 @@ import TagFilter from './TagFilter.vue'
 const posts = postsData as PostDetail[]
 const tags = tagsData as TagInfo[]
 
+const PAGE_SIZE = 12
+
 const postMetas = computed<PostMeta[]>(() => posts.map(toPostMeta))
 
 const selectedTags = ref<string[]>([])
 const query = ref('')
+const currentPage = ref(1)
 
 function updateSelectedTags(value: string[]): void {
   selectedTags.value = value
@@ -39,12 +42,63 @@ const filtered = computed<PostMeta[]>(() => {
   return result
 })
 
+const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PAGE_SIZE)))
+
+const paginatedPosts = computed<PostMeta[]>(() => {
+  const start = (currentPage.value - 1) * PAGE_SIZE
+  return filtered.value.slice(start, start + PAGE_SIZE)
+})
+
+// 搜索或标签变化时重置到第 1 页
+watch([query, selectedTags], () => {
+  currentPage.value = 1
+}, { deep: false })
+
+// 总页数减少时修正当前页
+watch(totalPages, (pages) => {
+  if (currentPage.value > pages) {
+    currentPage.value = pages
+  }
+})
+
+function goToPage(page: number) {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+    // 滚动到文章列表顶部
+    const listEl = document.getElementById('article-list')
+    if (listEl) {
+      listEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+}
+
 const totalCount = computed(() => postMetas.value.length)
+const filteredCount = computed(() => filtered.value.length)
 
 function clearFilters() {
   selectedTags.value = []
   query.value = ''
 }
+
+// 构建页码数组（含省略号逻辑）
+const pageNumbers = computed(() => {
+  const pages: (number | '...')[] = []
+  const p = currentPage.value
+  const t = totalPages.value
+
+  if (t <= 7) {
+    for (let i = 1; i <= t; i++) pages.push(i)
+  } else {
+    pages.push(1)
+    if (p > 3) pages.push('...')
+    for (let i = Math.max(2, p - 1); i <= Math.min(t - 1, p + 1); i++) {
+      pages.push(i)
+    }
+    if (p < t - 2) pages.push('...')
+    pages.push(t)
+  }
+  return pages
+})
 </script>
 
 <template>
@@ -107,11 +161,38 @@ function clearFilters() {
     </section>
 
     <!-- ============== 文章列表 ============== -->
-    <section class="pb-20" aria-label="文章列表">
+    <section id="article-list" class="pb-10" aria-label="文章列表">
+      <!-- 筛选状态提示 -->
+      <div
+        v-if="selectedTags.length > 0 || query"
+        class="flex items-center justify-between mb-6 px-1"
+      >
+        <span class="text-[13px]" style="color: var(--text-secondary);">
+          找到 <b style="color: var(--text-primary);">{{ filteredCount }}</b> 篇匹配文章
+          <template v-if="selectedTags.length > 0">
+            · 标签：
+            <span
+              v-for="tag in selectedTags"
+              :key="tag"
+              class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-medium"
+              style="background: var(--muted); color: var(--accent); border: 1px solid var(--ink-200);"
+            >{{ tag }}</span>
+          </template>
+        </span>
+        <button type="button"
+          class="inline-flex items-center gap-1 text-[11px] font-medium transition-colors hover:text-[var(--accent)]"
+          style="color: var(--text-tertiary); background: none; border: 0; cursor: pointer;"
+          @click="clearFilters"
+        >
+          <X class="h-3 w-3" aria-hidden="true" />
+          清除筛选
+        </button>
+      </div>
+
       <div v-if="filtered.length > 0"
         class="grid gap-x-10 gap-y-8 md:grid-cols-2 animate-fade-up">
-        <ArticleCard v-for="(post, idx) in filtered" :key="post.slug"
-          :post="post" :index="idx + 1" />
+        <ArticleCard v-for="(post, idx) in paginatedPosts" :key="post.slug"
+          :post="post" :index="(currentPage - 1) * PAGE_SIZE + idx + 1" />
       </div>
 
       <div v-else
@@ -130,5 +211,106 @@ function clearFilters() {
         </button>
       </div>
     </section>
+
+    <!-- ============== 分页导航 ============== -->
+    <nav
+      v-if="totalPages > 1"
+      class="flex items-center justify-center gap-1 pb-20"
+      aria-label="分页导航"
+    >
+      <!-- 上一页 -->
+      <button
+        type="button"
+        class="page-btn"
+        :disabled="currentPage <= 1"
+        :aria-label="'上一页'"
+        @click="goToPage(currentPage - 1)"
+      >
+        <ChevronLeft class="h-4 w-4" aria-hidden="true" />
+      </button>
+
+      <!-- 页码 -->
+      <template v-for="item in pageNumbers" :key="item">
+        <span
+          v-if="item === '...'"
+          class="page-ellipsis"
+          aria-hidden="true"
+        >...</span>
+        <button
+          v-else
+          type="button"
+          class="page-btn"
+          :class="{ 'page-btn-active': item === currentPage }"
+          :aria-current="item === currentPage ? 'page' : undefined"
+          :aria-label="`第 ${item} 页`"
+          @click="goToPage(item)"
+        >{{ item }}</button>
+      </template>
+
+      <!-- 下一页 -->
+      <button
+        type="button"
+        class="page-btn"
+        :disabled="currentPage >= totalPages"
+        :aria-label="'下一页'"
+        @click="goToPage(currentPage + 1)"
+      >
+        <ChevronRight class="h-4 w-4" aria-hidden="true" />
+      </button>
+    </nav>
   </article>
 </template>
+
+<style scoped>
+/* ====== 分页按钮 ====== */
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-secondary);
+  background: var(--paper);
+  border: 1px solid var(--ink-200);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.page-btn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.page-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.page-btn-active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.page-btn-active:hover {
+  background: var(--accent);
+  opacity: 0.9;
+}
+
+.page-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  user-select: none;
+}
+</style>

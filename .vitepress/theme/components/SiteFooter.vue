@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { ArrowUp, Heart, Clock, Eye } from 'lucide-vue-next'
-import { getTotalViewCount, formatViewCount } from '../utils/viewCount'
+import { fetchGlobalViewCount, hitGlobalViewCount, formatViewCount, getTotalViewCount } from '../utils/viewCount'
 
 const visible = ref(false)
 const now = ref('')
@@ -21,21 +21,26 @@ function updateTime() {
   now.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
-function refreshViews() {
-  totalViews.value = getTotalViewCount()
+/** 刷新全局实时访问量 */
+async function refreshViews() {
+  // 优先使用全局实时计数器；API 不可用时降级为 localStorage 本地值
+  const global = await fetchGlobalViewCount()
+  totalViews.value = global > 0 ? global : getTotalViewCount()
 }
 
 let timer: ReturnType<typeof setInterval> | null = null
 let viewTimer: ReturnType<typeof setInterval> | null = null
 
-onMounted(() => {
+onMounted(async () => {
   handleScroll()
   window.addEventListener('scroll', handleScroll, { passive: true })
   updateTime()
   timer = setInterval(updateTime, 60_000)
-  // 初始化浏览量 + 定时刷新
-  refreshViews()
-  viewTimer = setInterval(refreshViews, 10_000)
+
+  // 初始化：hit 全局计数器（首次访问），然后定时刷新显示
+  const hitResult = await hitGlobalViewCount()
+  totalViews.value = hitResult > 0 ? hitResult : getTotalViewCount()
+  viewTimer = setInterval(refreshViews, 30_000)
 })
 
 onBeforeUnmount(() => {
@@ -59,7 +64,7 @@ const footerLinks = [
         <!-- 左侧 -->
         <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-center sm:text-left"
           style="color: var(--text-tertiary);">
-          <span style="color: var(--text-primary); font-weight: 500;">© 2026 FilePress · Blog</span>
+          <span style="color: var(--text-primary); font-weight: 500;">&copy; 2026 FilePress &middot; Blog</span>
           <span aria-hidden="true">—</span>
           <span class="inline-flex items-center gap-1">
             <Heart class="h-3 w-3" aria-hidden="true" />
@@ -83,7 +88,7 @@ const footerLinks = [
             {{ now }}
           </span>
 
-          <!-- 站点总访问量 -->
+          <!-- 站点总访问量（全局实时） -->
           <span class="mono-num inline-flex items-center gap-1"
             style="color: var(--text-tertiary);">
             <Eye class="h-3 w-3" aria-hidden="true" />

@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { Menu, X } from 'lucide-vue-next'
+import { Menu, Search, X } from 'lucide-vue-next'
+
+const emit = defineEmits<{
+  search: []
+}>()
 import { useRoute } from 'vitepress'
 import { computed, ref, watch } from 'vue'
 import ThemeToggle from './ThemeToggle.vue'
@@ -57,6 +61,16 @@ watch(() => route.path, () => { open.value = false })
           {{ item.label }}
         </a>
         <span class="mx-1.5 inline-block h-4 w-px" style="background: var(--ink-200);" aria-hidden="true" />
+        <button
+          type="button"
+          class="inline-flex items-center justify-center p-1.5 rounded-sm hover:bg-[var(--muted)] transition-colors"
+          aria-label="搜索 (Ctrl+K)"
+          title="搜索 (Ctrl+K)"
+          @click="emit('search')"
+        >
+          <Search class="h-4 w-4" style="color: var(--text-secondary);" aria-hidden="true" />
+        </button>
+        <span class="mx-1.5 inline-block h-4 w-px" style="background: var(--ink-200);" aria-hidden="true" />
         <ThemeToggle />
       </div>
 
@@ -83,6 +97,18 @@ watch(() => route.path, () => { open.value = false })
               style="color: var(--accent);" aria-hidden="true">active</span>
           </a>
           <div class="flex items-center justify-between pt-3 mt-1">
+            <span class="eyebrow" style="font-size: 10px;">搜索</span>
+            <button
+              type="button"
+              class="inline-flex items-center justify-center p-2 rounded-sm"
+              style="color: var(--text-secondary);"
+              aria-label="搜索文章"
+              @click="emit('search')"
+            >
+              <Search class="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+          <div class="flex items-center justify-between pt-2">
             <span class="eyebrow" style="font-size: 10px;">Theme</span>
             <ThemeToggle />
           </div>

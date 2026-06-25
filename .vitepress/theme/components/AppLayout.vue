@@ -3,14 +3,18 @@ import { Content, useData } from 'vitepress'
 import HeaderNav from './HeaderNav.vue'
 import SiteFooter from './SiteFooter.vue'
 import NotFoundPage from './NotFoundPage.vue'
+import SearchModal from './SearchModal.vue'
 
 // 路由感知：内容页 / 文章页使用紧凑宽度
 // Hero 页（首页 / blog）允许更宽
 import { useRoute } from 'vitepress'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const route = useRoute()
 const { page } = useData()
+
+// 搜索弹窗状态
+const showSearch = ref(false)
 
 // 是否为 404 页面（VitePress 内部标记）
 const isNotFound = computed(() => page.value.isNotFound === true)
@@ -28,7 +32,7 @@ const isWidePage = computed(() => {
 
 <template>
   <div class="flex min-h-screen flex-col">
-    <HeaderNav />
+    <HeaderNav @search="showSearch = true" />
     <main
       class="mx-auto w-full flex-1 px-4 py-8 sm:px-6 lg:px-8"
       :class="isWidePage ? 'max-w-[100rem]' : 'max-w-6xl'"
@@ -42,5 +46,6 @@ const isWidePage = computed(() => {
       <Content v-else />
     </main>
     <SiteFooter />
+    <SearchModal v-model="showSearch" />
   </div>
 </template>

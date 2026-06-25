@@ -18,6 +18,45 @@ interface ChangelogEntry {
 
 const changelog: ChangelogEntry[] = [
   {
+    version: 'v2.5.0',
+    date: '2026-06-26',
+    type: 'minor',
+    highlights: [
+      '🔍 全局全文搜索：Cmd+K / Ctrl+K 快捷唤起，搜索标题+内容+标签，高亮匹配，键盘导航',
+      '🌐 SEO 增强：Open Graph + Twitter Card 全站 meta 标签，静态 + 动态（transformHead）每页独立标题/描述/图片',
+      '⚡ 搜索零依赖：基于 posts.data 构建期数据，客户端实时搜索，自动索引，无需外部服务'
+    ],
+    changes: [
+      { type: 'feat',     text: '新增 `.vitepress/theme/components/SearchModal.vue`：全局搜索弹窗组件，搜索标题/描述/正文/标签，加权评分排序，关键词高亮，↑↓ 键盘导航 + Enter 跳转' },
+      { type: 'feat',     text: '`.vitepress/theme/components/HeaderNav.vue` 桌面导航栏 + 移动端抽屉各新增 Search 搜索按钮，点击唤起搜索弹窗' },
+      { type: 'feat',     text: '`.vitepress/theme/components/AppLayout.vue` 挂载 `<SearchModal>`，全局 Cmd+K/Ctrl+K 快捷键监听' },
+      { type: 'feat',     text: '`.vitepress/config.mts` `head` 数组新增 og:type / og:site_name / og:locale / twitter:card / twitter:site 静态 meta' },
+      { type: 'feat',     text: '`.vitepress/config.mts` 新增 `transformHead` 钩子：根据每页 title/description/page 动态生成 og:title / og:description / og:url / og:image + twitter 对应标签' },
+      { type: 'refactor', text: '`SearchModal.vue` 搜索索引直接从 `posts.data` 构建（零外部依赖），150ms 防抖，自动提取正文 snippet 高亮' },
+      { type: 'chore',    text: '项目版本号升级 2.4.0 → 2.5.0（package.json），GUI 子包 0.3.0 → 0.4.0' }
+    ]
+  },
+  {
+    version: 'v2.4.0',
+    date: '2026-06-26',
+    type: 'minor',
+    highlights: [
+      '🌐 访问量统计升级为全局实时计数（countapi.xyz），所有访客看到同一真实访问量',
+      '📜 所有文章底部新增 CC BY-NC-ND 4.0 专业版权声明模块（结构化三段式布局 + 交互按钮）',
+      '📄 Blog 页面自动分页（12 篇/页）+ 智能页码导航 + 搜索/标签筛选联动',
+      '🏷️ 标签筛选器自动折叠（超过 12 个标签时仅显示前 12 个，支持展开/收起）'
+    ],
+    changes: [
+      { type: 'feat',     text: '`.vitepress/theme/utils/viewCount.ts` 新增 `hitGlobalViewCount()` / `fetchGlobalViewCount()`：基于 countapi.xyz 的全局实时计数器，sessionStorage 防同一会话重复 hit，API 不可用时降级为 localStorage' },
+      { type: 'feat',     text: '`.vitepress/theme/components/PostPage.vue` 新增 CC BY-NC-ND 4.0 版权声明模块：三段式编号布局（版权归属/授权范围/署名要求）+ ✓✗ 清单 + 双 CTA 按钮' },
+      { type: 'feat',     text: '`.vitepress/theme/components/BlogPage.vue` 新增分页系统：12 篇/页、搜索/标签变化自动重置页码、分页总数减少时自动修正、页码省略号导航' },
+      { type: 'feat',     text: '`.vitepress/theme/components/TagFilter.vue` 新增标签折叠：>12 个标签时仅显示前 12 个，展开/收起按钮带隐藏数量提示' },
+      { type: 'refactor', text: '`viewCount.ts` 文章 session 去重键改名为 `fpb:article-session:v1`，与全局 hit 键 `fpb:global-hit:v1` 彻底隔离' },
+      { type: 'refactor', text: '`incrementViewCount()` 内新增异步 `hitGlobalViewCount()` 调用，用户访问任意文章时自动 hit 全局计数器' },
+      { type: 'chore',    text: '项目版本号升级 2.3.0 → 2.4.0（package.json），GUI 子包 0.2.0 → 0.3.0' }
+    ]
+  },
+  {
     version: 'v2.3.0',
     date: '2026-06-25',
     type: 'minor',

@@ -1,8 +1,10 @@
 # 常见问题（FAQ）
 
-> **FilePress Blog** (`filepress-blog` v2.0.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
+> **FilePress Blog** (`filepress-blog` v2.5.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
 >
 > 本文档收录开发、构建、部署、内容管理、CLI 工具的常见问题与排错步骤。
+>
+> **最近更新**：2026-06-26 发布 v2.5.0，全局全文搜索（Cmd+K）、SEO Open Graph / Twitter Card 全站 meta 标签。
 
 ---
 
@@ -249,7 +251,26 @@ pnpm post u my-post --tags "Vue3,源码" -y
 
 ---
 
-## BUG 修复记录（v2.0）
+## BUG 修复记录
+
+### v2.3 修复
+
+| ID | 现象 | 根因 | 修复 | 文件 |
+| --- | --- | --- | --- | --- |
+| **B011** | Markdown 解析器死循环 OOM | 4 反引号代码块触发空段落 + 未递增 i | 段落检测排除 4 反引号，新增加空 p 防御 | `gui/src/utils/markdown.ts` |
+| **B012** | 中文 slug 文章 API 加载卡住 | `getPost`/`updatePost` 错误使用 `decodeURIComponent` | 移除冗余解码 | `gui/src/api/index.ts` |
+| **B013** | 编辑器加载大文章界面卡死 | `fromPost()` 同步调用 `updatePreviewSync()` 阻塞 | 改为 `schedulePreviewUpdate()` 防抖 | `gui/src/views/EditorView.vue` |
+
+### v2.1 修复
+
+| ID | 现象 | 根因 | 修复 | 文件 |
+| --- | --- | --- | --- | --- |
+| **B007** | CI 部署后 Giscus 报 `repo=undefined` | `.env` 被 `.gitignore`，CI 拿不到变量 | CI Build env 注入 `VITE_GISCUS_*` | `.github/workflows/deploy.yml` |
+| **B008** | 本地 dev 时 Giscus 配置丢失 | VitePress 不自动加载 `.env` | `config.mts` 增加轻量级 .env 解析器 | `.vitepress/config.mts` |
+| **B009** | 404 页面未生效 | `404.md` 设置 `layout: page` 覆盖内置布局 | 移除冲突配置 | `404.md` |
+| **B010** | sitemap URL 默认值为 `https://example.com` | 硬编码示例域名 | 改为 `https://dcyyd.github.io` + `SITE_URL` 覆盖 | `scripts/generate-sitemap.mjs` |
+
+### v2.0 修复
 
 | ID | 现象 | 根因 | 修复 | 文件 |
 | --- | --- | --- | --- | --- |
@@ -307,6 +328,40 @@ colors: {
 
 ---
 
+## 搜索与 SEO（🆕 v2.5）
+
+### 如何打开全局搜索？
+
+- **快捷键**：`Cmd+K`（macOS）/ `Ctrl+K`（Windows/Linux）
+- **桌面导航栏**：点击导航栏中 Search 图标按钮
+- **移动端**：打开汉堡菜单，点击搜索行
+
+### 搜索索引如何构建？
+
+搜索索引在客户端直接从 VitePress 的 `posts.data` 构建，**无需 pagefind 等第三方工具**。索引包含标题、描述、正文和标签字段，加权评分排序：
+
+| 字段 | 权重 |
+| --- | --- |
+| 标题 | 150 |
+| 标签 | 60 |
+| 描述 | 40 |
+| 正文 | 20 |
+
+### 搜索支持哪些操作？
+
+- 输入即搜（150ms 防抖）
+- 键盘导航：`↑` / `↓` 选择结果，`Enter` 打开，`Esc` 关闭
+- 关键词高亮匹配 + 正文 snippet 展示
+- 最多显示 15 条结果
+
+### SEO meta 标签有哪些？
+
+- **静态标签**（所有页面）：`og:type`、`og:site_name`、`og:locale`、`twitter:card`、`twitter:site`
+- **动态标签**（每页独立）：`og:title`、`og:description`、`og:url`、`og:image` 及对应的 Twitter 镜像标签
+- 数据源：`config.mts` 的 `transformHead` 钩子从 `context.title` / `context.description` / `context.page` 动态生成
+
+---
+
 ## 安全与凭据
 
 ### SSH 私钥放哪？
@@ -339,4 +394,4 @@ DEPLOY_REPO=git@github.com:OWNER/REPO.git DEPLOY_BRANCH=main pnpm post d -y
 
 ---
 
-**FilePress Blog** · v2.0.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
