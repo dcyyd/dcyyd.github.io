@@ -1,10 +1,10 @@
 # 常见问题（FAQ）
 
-> **FilePress Blog** (`filepress-blog` v2.5.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
+> **FilePress Blog** (`filepress-blog` v2.6.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
 >
 > 本文档收录开发、构建、部署、内容管理、CLI 工具的常见问题与排错步骤。
 >
-> **最近更新**：2026-06-26 发布 v2.5.0，全局全文搜索（Cmd+K）、SEO Open Graph / Twitter Card 全站 meta 标签。
+> **最近更新**：2026-06-26 发布 v2.6.0：🌐 SEO 全方位增强（robots.txt / Schema.org / Meta 优化） · 📊 访问量统计重构（不蒜子 busuanzi 主统计 + localStorage 降级） · 🔤 字体加载优化（@fontsource self-host 消除 FOIT） · 🖼️ OptimizedImage 全站接入（WebP + aspect-ratio 防 CLS） · ✨ 动画与视觉层次增强（stagger / spring / 设计令牌） · 🍞 Breadcrumbs 面包屑导航。
 
 ---
 
@@ -17,6 +17,11 @@
 - [post-cli 常见错误](#post-cli-常见错误)
 - [BUG 修复记录（v2.0）](#bug-修复记录v20)
 - [自定义](#自定义)
+- [搜索与 SEO（v2.5）](#搜索与-seov25)
+- [访问量统计（🆕 v2.6）](#访问量统计-v26)
+- [字体加载（🆕 v2.6）](#字体加载-v26)
+- [图片优化（🆕 v2.6）](#图片优化-v26)
+- [UI/UX 视觉层次（🆕 v2.6）](#uiux-视觉层次-v26)
 - [安全与凭据](#安全与凭据)
 
 ---
@@ -285,10 +290,27 @@ pnpm post u my-post --tags "Vue3,源码" -y
 
 ## 自定义
 
-### 添加自定义字体
+### 添加自定义字体（🆕 v2.6 推荐使用 @fontsource）
+
+v2.6 起项目**默认通过 `@fontsource/inter` + `@fontsource/jetbrains-mono` self-host Inter / JetBrains Mono 字体**，免去外网依赖与 FOIT。如需新增其他字体，推荐使用 `@fontsource` 体系：
+
+```bash
+# 在工作区根安装（pnpm 9+ 需 -w 标志）
+pnpm add -w @fontsource/your-font
+```
+
+然后在 `.vitepress/theme/styles/fonts.css` 顶部引入对应字重子文件：
+
+```css
+@import "@fontsource/your-font/300.css";
+@import "@fontsource/your-font/500.css";
+@import "@fontsource/your-font/700.css";
+```
+
+如需自托管非 `@fontsource` 收录的字体：
 
 1. 将 `.woff2` 文件放入 `public/fonts/`。
-2. 在 `.vitepress/theme/styles/fonts.css` 中添加 `@font-face`。
+2. 在 `.vitepress/theme/styles/fonts.css` 中添加 `@font-face`（**务必**加 `font-display: swap;`）。
 3. 在 `tailwind.config.js` 中扩展字体族：
 
 ```js
@@ -362,6 +384,99 @@ colors: {
 
 ---
 
+## 访问量统计（🆕 v2.6）
+
+### 站点底部和文章底部的访问量是怎么算的？
+
+v2.6 起**主统计**使用 [不蒜子](https://busuanzi.cc)（busuanzi）云持久化方案：
+
+- 站点总 PV：标签 `id="busuanzi_site_pv"`
+- 站点总 UV：标签 `id="busuanzi_site_uv"`
+- 文章页 PV：标签 `id="busuanzi_page_pv"`
+
+不蒜子脚本由 `.vitepress/config.mts` 的 `head[]` 注入：
+
+```html
+<script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" async></script>
+```
+
+不蒜子服务挂掉 / 屏蔽时，组件会自动回退到 `localStorage` 本地计数（在 `viewCount.ts` 中实现），确保数字始终有兜底。
+
+### 为什么我本地看到 0，部署后才有数字？
+
+不蒜子依赖客户端 JS 注入 + 云端累加，SSR 阶段标签内无值。为避免 **Hydration Mismatch**，`SiteFooter.vue` / `PostPage.vue` 使用 `v-if="mounted"` 仅在客户端渲染标签，部署到 GitHub Pages 后即可看到真实数字。
+
+### `countapi.xyz` 服务挂了怎么处理？
+
+v2.6 已**彻底移除** `api.countapi.xyz` 依赖（修复 B015：DNS 解析失败问题）。站点 PV/UV 全部走不蒜子云端；文章 PV 走不蒜子 `busuanzi_page_pv`；本地兜底为 `localStorage`。
+
+### 能不能换其他统计服务（如 51la、百度统计、Umami）？
+
+可以。直接编辑 `.vitepress/config.mts` 的 `head[]`，删掉不蒜子脚本并替换为对应服务的统计代码即可。统计相关的 UI 渲染在 `SiteFooter.vue` / `PostPage.vue` 中。
+
+---
+
+## 字体加载（🆕 v2.6）
+
+### 字体加载时为什么会有"看不见的文字"闪烁（FOIT）？
+
+v2.5 及更早版本通过 `@import url(...)` 外链 Google Fonts，国内访问慢 + FOIT 严重。v2.6 改用 `@fontsource/inter` + `@fontsource/jetbrains-mono` self-host，并显式声明 `font-display: swap`，加载期间会用本地字体（PingFang SC / 微软雅黑）占位，**消除 FOIT**。
+
+### 怎么验证字体已被 self-host？
+
+打开 DevTools → Network → 过滤 Font，应全部来自 `node_modules/@fontsource/*` 或 Vite 打包后的同源资源，**没有对 fonts.googleapis.com / cdn.jsdelivr.net 的请求**。
+
+### 想换字体怎么办？
+
+参见上方"自定义"章节的"添加自定义字体（🆕 v2.6 推荐使用 @fontsource）"。
+
+---
+
+## 图片优化（🆕 v2.6）
+
+### 卡片缩略图为什么换成了 WebP？
+
+`ArticleCard.vue` 在 v2.6 全面使用 `OptimizedImage` 组件：自动输出 WebP 格式 + LQIP 模糊占位 + 懒加载（首屏前 3 张 `priority`）。WebP 平均比 PNG/JPG 小 30%。
+
+### 怎么防止图片加载时布局偏移（CLS）？
+
+v2.6 优化方案：
+
+1. ArticleCard 容器固定 `aspect-ratio: 16/9`
+2. frontmatter 可选 `coverWidth` / `coverHeight` 自定义封面图实际尺寸
+3. OptimizedImage 渲染前会撑满占位区域，加载完成后无 reflow
+
+### 已有 JPG/PNG 怎么转 WebP？
+
+```bash
+pnpm images
+```
+
+`scripts/optimize-images.mjs` 会扫描 `assets/images/raw/`，输出 WebP + LQIP 到 `assets/images/`。
+
+---
+
+## UI/UX 视觉层次（🆕 v2.6）
+
+### 卡片 / 按钮 hover 时为什么变得"更精致"了？
+
+v2.6 引入统一设计令牌（`.vitepress/theme/styles/index.css`）：
+
+- **间距系统**：`--space-xs` 到 `--space-3xl`（8 阶，4/8/12/16/24/32/48/64/96px）
+- **阴影层级**：`--shadow-sm` 到 `--shadow-xl`（4 阶）
+- **缓动函数**：`--ease-spring`（cubic-bezier(0.34, 1.56, 0.64, 1)）取代硬切线
+- **hover 动效**：上移 6px + 阴影增强 + 缩放 1.04
+
+### 列表项依次渐入的效果是怎么做的？
+
+使用 `index.css` 中新增的 `@keyframes fade-up-stagger`，配合 `animation-delay: calc(var(--i) * 80ms)` 实现 80ms 错峰渐入。ArticleCard / TagFilter 列表已全量应用。
+
+### 面包屑在哪显示？
+
+仅**内容页**显示：文章页 / 分类页 / 标签页 / 归档页。路径：`Home > 分类 > 当前页`（Home 用 `lucide-vue-next` 的 Home 图标）。首页 / 博客列表 / 友链等宽页面不显示，由 `AppLayout.vue` 自动控制。
+
+---
+
 ## 安全与凭据
 
 ### SSH 私钥放哪？
@@ -394,4 +509,4 @@ DEPLOY_REPO=git@github.com:OWNER/REPO.git DEPLOY_BRANCH=main pnpm post d -y
 
 ---
 
-**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.6.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

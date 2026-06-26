@@ -143,6 +143,8 @@ function parsePostFile(filePath: string): Omit<PostDetail, 'previous' | 'next'> 
     excerpt: createExcerpt(parsed.content),
     hasFrontmatter: Object.keys(parsed.data).length > 0,
     cover: frontmatter.cover,
+    coverWidth: frontmatter.coverWidth,
+    coverHeight: frontmatter.coverHeight,
     markdown: parsed.content,
     content: renderMarkdownToSafeAst(parsed.content)
   }
@@ -161,7 +163,9 @@ function normalizeFrontmatter(data: Record<string, unknown>): PostFrontmatter {
       : undefined,
     category: typeof data.category === 'string' ? data.category : undefined,
     draft: typeof data.draft === 'boolean' ? data.draft : undefined,
-    cover: typeof data.cover === 'string' ? data.cover : undefined
+    cover: typeof data.cover === 'string' ? data.cover : undefined,
+    coverWidth: typeof data.coverWidth === 'number' ? data.coverWidth : undefined,
+    coverHeight: typeof data.coverHeight === 'number' ? data.coverHeight : undefined
   }
 }
 

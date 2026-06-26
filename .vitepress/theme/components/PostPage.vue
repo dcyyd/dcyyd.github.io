@@ -4,7 +4,7 @@ import { Clock, CalendarDays, AlertTriangle, ArrowLeft, ArrowRight, Tag, Hash, E
 import { data as postsData } from '../data/posts.data'
 import type { PostDetail } from '../types/blog'
 import { tagToSlug } from '../utils/slug'
-import { formatViewCount, formatWordCount, incrementViewCount } from '../utils/viewCount'
+import { formatWordCount } from '../utils/viewCount'
 import MarkdownRenderer from './MarkdownRenderer.vue'
 
 const props = defineProps<{
@@ -72,8 +72,8 @@ function scrollToHeading(id: string): void {
   }
 }
 
-// ====== 访问量（客户端 +1，session 内去重） ======
-const viewCount = ref(0)
+// ====== 访问量（busuanzi 统计） ======
+const mounted = ref(false)
 
 // ====== CC 协议信息 ======
 const licenseUrl = computed(() => {
@@ -83,12 +83,11 @@ const licenseUrl = computed(() => {
 
 // ====== 生命周期 ======
 onMounted(() => {
+  mounted.value = true
   window.addEventListener('scroll', updateProgress, { passive: true })
   window.addEventListener('scroll', updateActiveToc, { passive: true })
   updateProgress()
   extractToc()
-  // 累计访问量（同一会话同篇文章只 +1 一次）
-  if (props.slug) viewCount.value = incrementViewCount(props.slug)
 })
 
 onUnmounted(() => {
@@ -173,11 +172,11 @@ onUnmounted(() => {
                 <Hash class="h-3.5 w-3.5 opacity-60" aria-hidden="true" />
                 <span class="mono-num">{{ formatWordCount(post.wordCount) }} 字</span>
               </span>
-              <!-- 访问量 -->
-              <span class="inline-flex items-center gap-1.5">
+              <!-- 访问量（busuanzi 统计） -->
+              <span v-if="mounted" class="inline-flex items-center gap-1.5">
                 <Eye class="h-3.5 w-3.5 opacity-60" aria-hidden="true" />
-                <span class="mono-num" :title="`本站累计 ${viewCount} 次浏览（本机统计）`">
-                  {{ formatViewCount(viewCount) }} 次浏览
+                <span class="mono-num">
+                  <span id="busuanzi_page_pv">加载中...</span> 次浏览
                 </span>
               </span>
             </div>

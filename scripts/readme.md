@@ -1,6 +1,6 @@
 # `post` CLI · FilePress Blog 内容管理工具
 
-> 一套面向 **FilePress Blog (`filepress-blog` v2.5.0)** 项目的 Node.js 命令行工具，覆盖**文章创建、元数据更新、草稿发布、一键部署、查询、开发服务器启动与缓存清理**全流程。
+> 一套面向 **FilePress Blog (`filepress-blog` v2.6.0)** 项目的 Node.js 命令行工具，覆盖**文章创建、元数据更新、草稿发布、一键部署、查询、开发服务器启动与缓存清理**全流程。
 > 与项目既有的 slug 规则、frontmatter 顺序、gray-matter 解析保持完全一致，写入即被 VitePress HMR 捕获，**无需重启 dev server**。
 >
 > 命令设计灵感来自 Hexo 常用指令体系，支持**短选项**（`-T` / `-t` / `-m` / `-y`）与**命令简写**（`n` / `u` / `p` / `d` / `l` / `r` / `s` / `c`）。
@@ -589,4 +589,4 @@ CLI 落盘后，VitePress dev server 会通过 `chokidar` 自动重新加载该 
 
 ---
 
-**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.6.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

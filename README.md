@@ -7,14 +7,14 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6.3_strict-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Tailwind](https://img.shields.io/badge/TailwindCSS-3.4.17-38bdf8&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Node](https://img.shields.io/badge/Node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
-[![Version](https://img.shields.io/badge/version-2.5.0-22c55e)](#changelog)
+[![Version](https://img.shields.io/badge/version-2.6.0-22c55e)](#changelog)
 [![License](https://img.shields.io/badge/license-MIT-22c55e)](#license)
 
 **FilePress Blog (`filepress-blog`)** 是一款以"**文件即数据**"为核心理念的现代化静态技术博客引擎。所有内容以 Markdown 文件存放于 `content/posts/`，VitePress 在**构建期**扫描并生成静态 HTML，运行时无任何 IO 与数据库依赖，最终产物是一组可托管在任意 CDN / Nginx / Pages 上的纯静态文件。
 
 - **作者**：窦长友
 - **邮箱**：dcyyd_kcug@yeah.net
-- **当前版本**：2.5.0
+- **当前版本**：2.6.0
 - **部署站点**：[https://dcyyd.github.io](https://dcyyd.github.io)
 
 ---
@@ -31,8 +31,11 @@
 - [GUI 管理后台](#gui-管理后台)
 - [评论系统](#评论系统)
 - [sitemap](#sitemap)
+- [SEO 优化](#seo-优化)
+- [访问量统计](#访问量统计)
+- [UI/UX 设计](#uiux-设计)
 - [构建与部署](#构建与部署)
-- [v2.5 新增与变更](#v25-新增与变更)
+- [v2.6 新增与变更](#v26-新增与变更)
 - [安全模型](#安全模型)
 - [文档与日志](#文档与日志)
 - [License](#license)
@@ -44,7 +47,7 @@
 - 📝 **纯文件驱动** — Markdown 是唯一数据源，无需数据库、Headless CMS、GraphQL。
 - ⚡ **极致构建性能** — Vite 5 + 手动 chunk 拆分（katex / lucide-vue-next），首屏 LCP 可控。
 - 🛡️ **默认安全** — 关闭 `v-html`，统一走 `unified → remark → rehype → rehype-sanitize` 安全 AST 管线。
-- 🎨 **现代视觉** — Tailwind v3 + `class` 暗色模式 + Inter / JetBrains Mono 字体族。
+- 🎨 **现代视觉** — Tailwind v3 + `class` 暗色模式 + Inter / JetBrains Mono 字体族（v2.6 字体 self-host 优化）。
 - 🧩 **完整站点能力** — 首页 / 博客列表 / 分类 / 标签 / 归档 / 友链 / 关于 / 更新日志 / RSS 全部内置。
 - 💬 **Giscus 评论** — 基于 GitHub Discussions，零后端、零数据库，5 步接入。
 - 🗺️ **sitemap 自动生成** — 扫描全部文章与页面，构建期输出 `sitemap.xml`。
@@ -52,8 +55,13 @@
 - 🛠️ **零依赖 CLI** — `pnpm post new|update|publish|deploy|list|read|serve|clean` 一条命令管全部内容。
 - 🚀 **一键部署** — `pnpm post d` 自动完成预检 → 构建 → 推送 `gh-pages` → 清理，跨平台。
 - 🖥️ **GUI 管理后台** — 纯 Web SPA（Vue 3 + Pinia + Tailwind），工作台 / Markdown 编辑器 / 文件管理 / 一键部署 / 本地预览，对小白友好。
-- 📊 **站点访问量统计** — 前端 localStorage 持久化（每篇文章 +1，session 去重），SiteFooter 实时显示总访问量，GUI 工作台定时轮询同步。
-- 🖼️ **图片优化管线** — `pnpm images` 一键生成 WebP + LQIP 模糊占位。
+- 📊 **访问量统计** — v2.6 主统计切换为**不蒜子**（busuanzi，云持久化 PV/UV，全平台共享），localStorage 作为降级方案。
+- 🖼️ **图片优化管线** — `pnpm images` 一键生成 WebP + LQIP 模糊占位；v2.6 ArticleCard 全面使用 `OptimizedImage` 组件（懒加载 + 优先级 + aspect-ratio 防 CLS）。
+- 🔤 **字体加载优化** — v2.6 引入 `@fontsource/inter` + `@fontsource/jetbrains-mono`，self-host 字体，`font-display: swap` 消除 FOIT。
+- 🌐 **SEO 全方位** — v2.6 robots.txt 详细指令 + Schema.org 结构化数据 + Open Graph / Twitter Card 静态 + 动态双层 meta。
+- ✨ **动画与微交互** — v2.6 列表项交错渐入动画（stagger 80ms）+ spring 缓动函数 + 统一 hover 微交互。
+- 🍞 **面包屑导航** — v2.6 新增 `Breadcrumbs` 组件，内容页显示完整导航路径。
+- 🎨 **视觉层次** — v2.6 统一间距系统（8 阶）+ 阴影层级（4 阶）+ 导航链接底部高亮条。
 - 📦 **强类型** — `tsc strict + noUncheckedIndexedAccess + exactOptionalPropertyTypes`。
 
 ---
@@ -71,10 +79,13 @@
 | 数学公式     | KaTeX                     | 0.16.11    | 行内 / 块级公式                   |
 | 图表渲染     | Mermaid                   | 11.15.0    | Markdown 代码块图表（SSG 预渲染） |
 | 工具集       | @vueuse/core              | 11.3.0     | 组合式 API 工具                   |
+| 字体（v2.6） | @fontsource/inter         | ^5.2.8     | 主字体 self-host                  |
+|              | @fontsource/jetbrains-mono| ^5.2.8     | 等宽字体 self-host                |
 | Markdown     | unified / remark / rehype | 11.x       | 安全 Markdown 解析                |
 | Frontmatter  | gray-matter               | 4.0.3      | YAML 头解析与序列化               |
 | 图片处理     | sharp                     | 0.33.5     | WebP / LQIP 生成                  |
 | 代码检查     | ESLint + Prettier         | 8.57 / 3.4 | 统一风格                          |
+| 统计（v2.6） | busuanzi                  | 3.6.9      | 不蒜子 PV/UV 云持久化统计         |
 
 ---
 

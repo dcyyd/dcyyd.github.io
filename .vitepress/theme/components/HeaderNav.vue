@@ -132,6 +132,26 @@ watch(() => route.path, () => { open.value = false })
   background: var(--muted);
 }
 
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transform: translateX(-50%);
+  transition: width 0.25s var(--ease-out-soft);
+}
+
+.nav-link:hover::after {
+  width: 60%;
+}
+
+.nav-link.is-active::after {
+  width: 80%;
+}
+
 /* 移动端抽屉过渡 */
 .mobile-drawer-enter-active {
   transition: opacity 0.2s ease, transform 0.2s ease;

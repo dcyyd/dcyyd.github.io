@@ -4,18 +4,23 @@ import { Clock, ArrowUpRight, CalendarDays, Hash } from 'lucide-vue-next'
 import type { PostMeta } from '../types/blog'
 import { tagToSlug } from '../utils/slug'
 import { formatWordCount } from '../utils/viewCount'
+import OptimizedImage from './OptimizedImage.vue'
 
 const props = defineProps<{
   post: PostMeta
   index?: number
 }>()
 
+const animationDelay = computed(() => {
+  const idx = props.index ?? 0
+  return `${(idx - 1) * 80}ms`
+})
+
 const articleNo = computed(() => {
   const n = props.index ?? 0
   return String(n).padStart(2, '0')
 })
 
-// 格式化日期为"2026 · 06 · 22"风格
 const formattedDate = computed(() => {
   const d = props.post.date
   if (!d) return ''
@@ -25,23 +30,25 @@ const formattedDate = computed(() => {
   }
   return d
 })
+
+const coverWidth = computed(() => props.post.coverWidth ?? 1200)
+const coverHeight = computed(() => props.post.coverHeight ?? 675)
 </script>
 
 <template>
-  <article class="article-card group border" style="border-color: var(--ink-200); background: var(--paper);">
-    <!-- 封面图 -->
+  <article class="article-card group border animate-fade-up-stagger" 
+    style="border-color: var(--ink-200); background: var(--paper); animation-delay: {{ animationDelay }};">
     <div v-if="post.cover" class="article-cover overflow-hidden">
-      <img
+      <OptimizedImage
         :src="post.cover"
         :alt="`${post.title} 封面图`"
-        class="article-cover-img"
-        loading="lazy"
-        decoding="async"
+        :width="coverWidth"
+        :height="coverHeight"
+        :priority="index !== undefined && index < 3"
       />
     </div>
 
     <div class="article-card-body">
-      <!-- Meta: 编号 + 分类 -->
       <div class="article-meta">
         <span class="mono-num text-[10.5px] font-medium tracking-[0.16em]" style="color: var(--text-tertiary);">
           № {{ articleNo }}
@@ -53,23 +60,19 @@ const formattedDate = computed(() => {
         </span>
       </div>
 
-      <!-- Title -->
       <h2 class="article-title mt-3">
         <a :href="post.url" class="article-title-link">{{ post.title }}</a>
       </h2>
 
-      <!-- Description -->
       <p v-if="post.description" class="article-desc mt-3 text-[14px] leading-[1.7]" style="color: var(--text-secondary);">
         {{ post.description }}
       </p>
 
-      <!-- Tags -->
       <div v-if="post.tags && post.tags.length > 0" class="article-tags mt-3">
         <a v-for="tag in post.tags" :key="tag" :href="`/tags/${tagToSlug(tag)}`"
           class="article-tag" @click.stop>#{{ tag }}</a>
       </div>
 
-      <!-- Footer -->
       <div class="article-footer flex items-center justify-between gap-3 pt-4 mt-auto border-t" style="border-color: var(--ink-200);">
         <div class="flex flex-wrap items-center gap-3 text-[11.5px]" style="color: var(--text-tertiary);">
           <time :datetime="post.isoDate" class="inline-flex items-center gap-1.5 font-medium">
@@ -99,13 +102,17 @@ const formattedDate = computed(() => {
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: transform 0.3s ease, border-color 0.25s ease, box-shadow 0.3s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform var(--duration-base) var(--ease-spring), 
+              border-color var(--duration-fast) var(--ease-out-soft), 
+              box-shadow var(--duration-base) var(--ease-spring);
 }
 
 .article-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--accent)/30;
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.06);
+  transform: translateY(-6px);
+  border-color: var(--accent)/40;
+  box-shadow: var(--shadow-xl);
 }
 
 .article-cover {
@@ -113,15 +120,8 @@ const formattedDate = computed(() => {
   border-bottom: 1px solid var(--ink-200);
 }
 
-.article-cover-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.article-card:hover .article-cover-img {
-  transform: scale(1.03);
+.article-card:hover .article-cover img {
+  transform: scale(1.04);
 }
 
 .article-card-body {
@@ -131,7 +131,6 @@ const formattedDate = computed(() => {
   padding: 1.25rem 1.25rem 1.25rem;
 }
 
-/* 无封面时增加顶部间距 */
 .article-card:not(:has(.article-cover)) .article-card-body {
   padding-top: 1.5rem;
 }
@@ -157,7 +156,8 @@ const formattedDate = computed(() => {
   background-size: 0% 1px;
   background-repeat: no-repeat;
   background-position: 0 100%;
-  transition: background-size 0.3s ease, color 0.2s ease;
+  transition: background-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              color 0.25s ease;
 }
 
 .article-title-link:hover {
@@ -187,12 +187,15 @@ const formattedDate = computed(() => {
   font-size: 10px;
   font-weight: 500;
   line-height: 1.5;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  transition: border-color 0.25s ease, 
+              color 0.25s ease,
+              background-color 0.25s ease;
 }
 
 .article-tag:hover {
   border-color: var(--accent);
   color: var(--accent);
+  background: var(--vp-c-brand-soft);
 }
 
 .article-read {
@@ -200,7 +203,8 @@ const formattedDate = computed(() => {
   align-items: center;
   gap: 0.25rem;
   color: var(--text-tertiary);
-  transition: color 0.2s ease, gap 0.2s ease;
+  transition: color 0.25s ease, 
+              gap 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   flex-shrink: 0;
 }
 

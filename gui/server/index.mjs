@@ -292,7 +292,7 @@ const routes = {
   'GET /api/health': async (_req, res) => {
     send(res, 200, {
       ok: true,
-      version: '0.4.0',
+      version: '0.5.0',
       postsDir: POSTS_DIR,
       running: [...runningProcesses.keys()]
     })

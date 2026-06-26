@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { ArrowUpDown, Eye, Hash, Trash2, Square, CheckSquare, RotateCcw, Search } from 'lucide-vue-next'
 import { usePostsStore, useToastStore } from '../stores'
 import type { PostSummary } from '../api'
-import { getViewCount, getWordCount, getTotalViewCount } from '../utils/wordAndView'
+import { getViewCount, getWordCount } from '../utils/wordAndView'
 
 const postsStore = usePostsStore()
 const router = useRouter()
@@ -177,9 +177,8 @@ function fmtNum(n: number) {
 const totalSize = computed(() => postsStore.posts.reduce((s, p) => s + p.size, 0))
 const totalWords = computed(() => postsStore.posts.reduce((s, p) => s + getWordCount(p.body ?? ''), 0))
 const totalViews = computed(() => {
-  // 引用 viewVersion 触发重算
   void viewVersion.value
-  return getTotalViewCount()
+  return postsStore.posts.reduce((s, p) => s + getViewCount(p.slug), 0)
 })
 
 // 监听 localStorage 变化（其它页面增加访问量时同步过来）

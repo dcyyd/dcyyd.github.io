@@ -2,45 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://dcyyd.github.io/</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/blog</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/archives</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/changelog</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/friends</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/about</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://dcyyd.github.io/posts/在-vitepress-静态博客中集成不蒜子统计优雅实现站点-pvuv-计数</loc>
+    <lastmod>2026-06-26T00:00:00.000Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/posts/springboot-kafka-integration</loc>
@@ -127,320 +133,350 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://dcyyd.github.io/categories/后端技术</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <loc>https://dcyyd.github.io/categories/前端工程</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://dcyyd.github.io/categories/前端工程</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <loc>https://dcyyd.github.io/categories/后端技术</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories/技术文档</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories/ai-与大模型</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories/前端可视化</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories/skill</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories/aigc</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/categories/前端框架</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://dcyyd.github.io/tags/不蒜子</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dcyyd.github.io/tags/busuanzi</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dcyyd.github.io/tags/访问量统计</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dcyyd.github.io/tags/pv</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://dcyyd.github.io/tags/uv</loc>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://dcyyd.github.io/tags/springboot</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/kafka</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/消息队列</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/分布式系统</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/astro</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/静态博客</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/git</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/版本控制</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/开发工具</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/命令行</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/deepseek</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/v4</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/api对接</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/python</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/大模型调用</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/流式输出</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/echarts</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/数据可视化</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/大屏图表</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/性能优化</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/typescript</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/linux</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/运维</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/系统管理</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/vitepress</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/giscus</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/评论系统</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/github-discussions</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/agent</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/skill</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/文档工程</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/ai</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/llm</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/架构设计</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/rag</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/向量检索</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/transformer</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/moe</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/类型系统</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/进阶</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/vue3</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/响应式</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/源码分析</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/tags/静态站点</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://dcyyd.github.io/feed.xml</loc>
-    <lastmod>2026-06-25T01:17:38.047Z</lastmod>
+    <lastmod>2026-06-26T02:08:39.828Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.4</priority>
   </url>

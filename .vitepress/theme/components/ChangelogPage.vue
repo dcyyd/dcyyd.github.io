@@ -18,6 +18,49 @@ interface ChangelogEntry {
 
 const changelog: ChangelogEntry[] = [
   {
+    version: 'v2.6.0',
+    date: '2026-06-26',
+    type: 'minor',
+    highlights: [
+      '🌐 SEO 全方位优化：robots.txt 详细爬虫指令 + sitemap.xml 增强 + Schema.org 结构化数据（Blog 类型）',
+      '📊 访问量统计重构：主统计切换为不蒜子（busuanzi，PV/UV 全云持久化），localStorage 作为降级方案',
+      '🔤 字体加载优化：引入 @fontsource/inter + @fontsource/jetbrains-mono，font-display: swap 消除 FOIT',
+      '🖼️ 图片资源优化：ArticleCard 全面使用 OptimizedImage 组件，WebP 格式 + 懒加载 + aspect-ratio 16:9 防 CLS',
+      '✨ 动画效果增强：列表项交错渐入动画（stagger 80ms）、spring 缓动函数、统一 hover 微交互',
+      '🍞 面包屑导航：新增 Breadcrumbs 组件，内容页显示完整导航路径',
+      '🎨 视觉层次优化：统一间距系统（--space-*）+ 阴影层级（--shadow-*）+ 导航链接底部高亮条'
+    ],
+    changes: [
+      { type: 'feat',     text: '`.vitepress/config.mts` SEO 全面增强：title/description 长度优化融入高搜索量关键词，新增 Schema.org Blog 结构化数据 JSON-LD，head 数组补充 robots / canonical / author 等 meta 标签' },
+      { type: 'feat',     text: '新增 `public/robots.txt`：明确允许/禁止目录、User-agent 分类、Host、Sitemap 入口' },
+      { type: 'feat',     text: '`.vitepress/theme/components/SiteFooter.vue` 重构：移除本地站点访问量统计，改用不蒜子（busuanzi）标签 `busuanzi_site_pv` / `busuanzi_site_uv` 显示站点总 PV/UV，添加 `mounted` 状态避免 Hydration Mismatch' },
+      { type: 'feat',     text: '`.vitepress/theme/components/PostPage.vue` 改造：移除本地文章浏览量统计，改用不蒜子标签 `busuanzi_page_pv` 显示页面 PV' },
+      { type: 'feat',     text: '`.vitepress/theme/utils/viewCount.ts` 重构：主统计切换为 busuanzi（云持久化，PV/UV 全平台共享），降级方案保留 localStorage（每篇文章 +1，session 去重），新增 `isBusuanziLoaded()` / `waitBusuanzi()` 检测函数' },
+      { type: 'feat',     text: '`.vitepress/config.mts` 注入不蒜子脚本：`<script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" async>`' },
+      { type: 'feat',     text: '`.vitepress/theme/styles/fonts.css` 引入 `@fontsource/inter` + `@fontsource/jetbrains-mono`：self-host 字体，配置 `font-display: swap` 消除字体加载期间的 FOIT（不可见文字闪烁），多字重（300/500/600/700/800）' },
+      { type: 'feat',     text: '`.vitepress/theme/components/ArticleCard.vue` 全面优化：原生 `img` 标签替换为 `OptimizedImage` 组件，支持 WebP 格式、懒加载、priority 优先级（首页前 3 篇）、16:9 比例容器、hover 缩放（1.04）' },
+      { type: 'feat',     text: '`.vitepress/theme/types/blog.ts` + `utils/posts.ts` 新增 `coverWidth` / `coverHeight` 字段：文章 frontmatter 支持自定义封面图宽高，避免图片加载时布局偏移（CLS）' },
+      { type: 'feat',     text: '`.vitepress/theme/components/Breadcrumbs.vue` 新增：面包屑导航组件，Home 图标 + 路径解析 + 当前页高亮，集成到 `AppLayout.vue` 内容页' },
+      { type: 'feat',     text: '`.vitepress/theme/components/AppLayout.vue` 集成面包屑：非宽页面（文章/分类/标签/归档）自动显示，宽页面（首页/博客列表/友链等）不显示' },
+      { type: 'feat',     text: '`.vitepress/theme/styles/index.css` 添加设计令牌：统一间距系统（`--space-xs` 到 `--space-3xl`，8 阶）+ 阴影层级（`--shadow-sm` 到 `--shadow-xl`，4 阶）' },
+      { type: 'feat',     text: '`.vitepress/theme/styles/index.css` 新增 `fade-up-stagger` 动画：列表项按 80ms 索引延迟依次渐入，配合 `animation-delay` 实现交错效果' },
+      { type: 'feat',     text: '`.vitepress/theme/components/HeaderNav.vue` 增强：导航链接添加底部高亮条（`::after` 伪元素），hover 60% 宽度、激活 80% 宽度，使用 `--ease-out-soft` 缓动' },
+      { type: 'fix',      text: 'B014：Hydration mismatch — 不蒜子标签在 SSR 阶段无值，客户端注入后产生 SSR/CSR 内容不一致 → 通过 `v-if="mounted"` 控制客户端渲染' },
+      { type: 'fix',      text: 'B015：api.countapi.xyz 域名 DNS 解析失败导致访问量统计请求报错 → 移除 countapi.xyz 依赖，迁移至不蒜子（云持久化）+ localStorage 降级' },
+      { type: 'fix',      text: 'B016：Schema.org 脚本标签将 innerHTML 作为属性传入导致 JSON 未正确嵌入 → 改为 VitePress 标准 HeadConfig 三元组格式 `["script", { type: "application/ld+json" }, JSON.stringify(...)]`' },
+      { type: 'fix',      text: 'B017：`pnpm add @fontsource/*` 在工作区根目录添加依赖提示 ERR_PNPM_ADDING_TO_ROOT → 使用 `-w` 标志明确工作区根安装' },
+      { type: 'fix',      text: 'B018：字体包版本 5.x 不提供 `variable-full.css` 路径 → 改用标准导入 `@import "@fontsource/inter"` + 字重子 CSS 文件（300/500/600/700/800）' },
+      { type: 'refactor', text: '`.vitepress/theme/utils/viewCount.ts` 注释完整化：清晰区分主统计（busuanzi）与降级统计（localStorage）职责，列出所有存储键命名空间' },
+      { type: 'refactor', text: '`.vitepress/theme/components/ArticleCard.vue` 使用统一设计令牌：所有 `transition` 改用 `--duration-base` + `--ease-spring`，hover 上移距离从 4px 提升至 6px，新增 8px 圆角' },
+      { type: 'refactor', text: '`gui/src/utils/wordAndView.ts` 移除 `getTotalViewCount()` 函数，更新注释说明 busuanzi 主统计逻辑；`DashboardView` / `FilesView` 浏览量改用文章浏览量累加' },
+      { type: 'chore',    text: '新增依赖：`@fontsource/inter@^5.2.8`、`@fontsource/jetbrains-mono@^5.2.8`' },
+      { type: 'chore',    text: '项目版本号升级 2.5.0 → 2.6.0（package.json），GUI 子包 0.4.0 → 0.5.0' },
+      { type: 'docs',     text: 'README 全面更新至 v2.6 视角：核心特性新增 SEO / 不蒜子 / 字体 / 图片 / 动画 / 面包屑 / 视觉层次 7 大模块，技术栈新增 @fontsource，目录结构新增 Breadcrumbs' },
+      { type: 'docs',     text: '更新 `docs/DEPLOYMENT.md` / `docs/DIRECTORY_STRUCTURE.md` / `docs/FAQ.md` / `docs/COMMENTS.md` / `docs/发布全流程指南.md` 至 v2.6' },
+      { type: 'docs',     text: '更新 `logs/PROJECT_ITERATION_SUMMARY.md`：新增 v2.6 变更总览、SEO 优化详解、访问量重构详解、UI/UX 优化详解' }
+    ]
+  },
+  {
     version: 'v2.5.0',
     date: '2026-06-26',
     type: 'minor',

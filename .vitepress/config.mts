@@ -34,8 +34,8 @@ const base = process.env.BASE || '/'
 export default defineConfig({
   base,
   lang: 'zh-CN',
-  title: '极致文件驱动技术博客',
-  description: 'VitePress 1.4 重构的零数据库、零CMS、纯 Markdown 文件驱动技术博客。',
+  title: 'FilePress Blog - 极致文件驱动技术博客 | VuePress/VitePress 静态博客搭建指南',
+  description: '基于 VitePress 1.4 构建的纯文件驱动技术博客，零数据库、零 CMS，支持 GitHub Pages 免费部署、Markdown 写作、全文搜索、评论系统集成。提供 VuePress/VitePress 静态博客搭建教程、前端工程实践、AI 大模型应用等技术文章。',
   cleanUrls: true,
   srcExclude: ['content/**/*.md'],
   appearance: true,
@@ -47,27 +47,58 @@ export default defineConfig({
     ['meta', { name: 'color-scheme', content: 'light dark' }],
     ['link', { rel: 'icon', href: `${base}favicon.svg`, type: 'image/svg+xml' }],
     ['link', { rel: 'alternate', type: 'application/rss+xml', title: 'RSS Feed', href: `${base}feed.xml` }],
-    // ============== SEO: Open Graph + Twitter Card ==============
+    ['link', { rel: 'sitemap', type: 'application/xml', href: `${base}sitemap.xml` }],
+    ['meta', { name: 'keywords', content: 'VitePress, VuePress, 静态博客, GitHub Pages, Markdown, 文件驱动, 前端工程, AI大模型, 技术博客, 个人网站' }],
+    ['meta', { property: 'article:author', content: 'dcyyd' }],
+    ['meta', { property: 'article:publisher', content: 'https://dcyyd.github.io' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'FilePress Blog' }],
     ['meta', { property: 'og:locale', content: 'zh_CN' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:site', content: '@dcyyd' }],
+    ['script', { src: '//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js', async: '' }],
+    ['meta', { name: 'twitter:creator', content: '@dcyyd' }],
   ],
-  // ============== 动态 SEO：每页独立 OG 标签 ==============
   transformHead(context) {
-    const title = context.title || 'FilePress Blog'
-    const description = context.description || '极致文件驱动技术博客 — VitePress 1.4 重构的零数据库、零CMS、纯 Markdown 文件驱动。'
-    const url = `https://dcyyd.github.io${context.page}`
+    const siteTitle = 'FilePress Blog'
+    const defaultTitle = 'FilePress Blog - 极致文件驱动技术博客 | VuePress/VitePress 静态博客搭建指南'
+    const defaultDescription = '基于 VitePress 1.4 构建的纯文件驱动技术博客，零数据库、零 CMS，支持 GitHub Pages 免费部署、Markdown 写作、全文搜索、评论系统集成。提供 VuePress/VitePress 静态博客搭建教程、前端工程实践、AI 大模型应用等技术文章。'
+    
+    let title = context.title || defaultTitle
+    if (title !== siteTitle && !title.includes(siteTitle)) {
+      title = `${title} - ${siteTitle}`
+    }
+    
+    const description = context.description || defaultDescription
+    const url = `https://dcyyd.github.io/${context.page.replace(/^\//, '')}`
     const ogImage = `${base}og-image.png`
+    
+    const schemaOrg = {
+      '@context': 'https://schema.org',
+      '@type': 'Blog',
+      'name': siteTitle,
+      'description': defaultDescription,
+      'url': url,
+      'publisher': {
+        '@type': 'Organization',
+        'name': siteTitle,
+        'url': 'https://dcyyd.github.io'
+      }
+    }
+    
     return [
       ['meta', { property: 'og:title', content: title }],
       ['meta', { property: 'og:description', content: description }],
       ['meta', { property: 'og:url', content: url }],
       ['meta', { property: 'og:image', content: ogImage }],
+      ['meta', { property: 'og:image:width', content: '1200' }],
+      ['meta', { property: 'og:image:height', content: '630' }],
+      ['meta', { property: 'og:image:alt', content: title }],
       ['meta', { name: 'twitter:title', content: title }],
       ['meta', { name: 'twitter:description', content: description }],
       ['meta', { name: 'twitter:image', content: ogImage }],
+      ['meta', { name: 'twitter:image:alt', content: title }],
+      ['script', { type: 'application/ld+json' }, JSON.stringify(schemaOrg)],
     ]
   },
   markdown: {

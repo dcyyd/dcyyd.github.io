@@ -1,15 +1,14 @@
 /**
- * 访问量统计 · 全局实时计数 + 本地文章计数
+ * 访问量统计工具
  *
- * 全局计数：countapi.xyz（免费、无需注册、全局唯一累加器）
- *   - 每会话首次进入任意页面 hit 一次（sessionStorage 去重）
- *   - 定时轮询读取全局值，维持实时显示
- *   - API 不可用时降级为 localStorage 本地计数
+ * 主统计：busuanzi（云持久化）
+ *   - 站点 PV：busuanzi_site_pv（单用户每访问一次 +1）
+ *   - 站点 UV：busuanzi_site_uv（单用户每天只计 1 次）
+ *   - 页面 PV：busuanzi_page_pv（单用户每访问一次本页面 +1）
  *
- * 文章计数：localStorage（按 slug 累计 +1）
- *   - 同一设备同一文章每次进入详情页 +1
- *   - 容量安全：仅缓存最近 500 条，旧的会被淘汰
- *   - 同一会话内标签切换/前进后退不重复计数（sessionStorage 去重）
+ * 降级统计：localStorage（busuanzi 不可用时兜底）
+ *   - 文章计数：按 slug 累计 +1（sessionStorage 去重）
+ *   - 容量安全：最多 500 条，旧条目自动淘汰
  *
  * SSR 安全：所有 DOM / 存储访问通过 typeof window 保护
  */
@@ -17,12 +16,6 @@
 const STORAGE_KEY = 'fpb:view-counts:v1'
 const MAX_ENTRIES = 500
 const SESSION_DEDUPE_KEY = 'fpb:article-session:v1'
-const GLOBAL_HIT_SESSION_KEY = 'fpb:global-hit:v1'
-
-// countapi.xyz 全局计数器配置
-const GLOBAL_NS = 'dcyyd-github-io'
-const GLOBAL_KEY = 'site-visits'
-const COUNTAPI_BASE = 'https://api.countapi.xyz'
 
 interface ViewCounts {
   updatedAt: number
@@ -76,85 +69,45 @@ export function getAllViewCounts(): Record<string, number> {
   return { ...load().entries }
 }
 
-/** 站点累计总访问量（localStorage 本地兜底值） */
-export function getTotalViewCount(): number {
-  return Object.values(load().entries).reduce((sum, v) => sum + (Number.isFinite(v) ? v : 0), 0)
+// ========== busuanzi 检测 ==========
+
+/** 检测 busuanzi 是否已加载成功 */
+export function isBusuanziLoaded(): boolean {
+  if (!isBrowser()) return false
+  return typeof (window as unknown as { busuanzi?: unknown }).busuanzi !== 'undefined'
 }
 
-// ========== 全局实时计数（countapi.xyz） ==========
-
-/** 当前会话是否已 hit 全局计数器 */
-function globalHitInThisSession(): boolean {
-  if (!isBrowser()) return true
-  try {
-    return window.sessionStorage.getItem(GLOBAL_HIT_SESSION_KEY) === '1'
-  } catch {
-    return false
-  }
+/** 等待 busuanzi 加载（最多 5 秒） */
+export function waitBusuanzi(timeout: number = 5000): Promise<boolean> {
+  if (!isBrowser()) return Promise.resolve(false)
+  if (isBusuanziLoaded()) return Promise.resolve(true)
+  return new Promise((resolve) => {
+    const startTime = Date.now()
+    const check = () => {
+      if (isBusuanziLoaded()) {
+        resolve(true)
+        return
+      }
+      if (Date.now() - startTime >= timeout) {
+        resolve(false)
+        return
+      }
+      setTimeout(check, 100)
+    }
+    check()
+  })
 }
 
-function markGlobalHitSession(): void {
-  if (!isBrowser()) return
-  try {
-    window.sessionStorage.setItem(GLOBAL_HIT_SESSION_KEY, '1')
-  } catch {
-    // 静默
-  }
-}
-
-/**
- * 向全局计数器 hit +1，返回最新值
- * - 同一会话（浏览器标签页组）内只 hit 一次
- * - 返回当前全局累计值；失败时返回 0
- */
-export async function hitGlobalViewCount(): Promise<number> {
-  if (globalHitInThisSession()) {
-    // 已 hit 过本会话，直接读取当前值
-    return fetchGlobalViewCount()
-  }
-  if (!isBrowser()) return 0
-  try {
-    const url = `${COUNTAPI_BASE}/hit/${GLOBAL_NS}/${GLOBAL_KEY}`
-    const res = await fetch(url, { cache: 'no-store' })
-    if (!res.ok) return 0
-    const data = (await res.json()) as { value?: number }
-    markGlobalHitSession()
-    return typeof data.value === 'number' ? data.value : 0
-  } catch {
-    return 0
-  }
-}
-
-/**
- * 读取全局计数器当前值（不 +1）
- * - countapi.xyz 不可用时降级为 localStorage 本地累计
- */
-export async function fetchGlobalViewCount(): Promise<number> {
-  if (!isBrowser()) return 0
-  try {
-    const url = `${COUNTAPI_BASE}/get/${GLOBAL_NS}/${GLOBAL_KEY}`
-    const res = await fetch(url, { cache: 'no-store' })
-    if (!res.ok) return getTotalViewCount()
-    const data = (await res.json()) as { value?: number }
-    return typeof data.value === 'number' ? data.value : getTotalViewCount()
-  } catch {
-    return getTotalViewCount()
-  }
-}
-
-// ========== 文章计数（本地 localStorage） ==========
+// ========== 文章计数（本地 localStorage 降级） ==========
 
 /**
  * 给指定 slug 累计 +1（本地计数）
  * - 通过 sessionStorage 防止同一会话内重复计数
- * - 同时异步 hit 全局计数器（首次访问时）
+ * - busuanzi 不可用时作为降级方案
  */
 export function incrementViewCount(slug: string): number {
   if (!slug) return 0
   if (!isBrowser()) return 0
-
-  // 异步 hit 全局计数器（不阻塞返回值）
-  hitGlobalViewCount()
 
   try {
     const sessionRaw = window.sessionStorage.getItem(SESSION_DEDUPE_KEY)

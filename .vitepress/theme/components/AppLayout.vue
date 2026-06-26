@@ -4,6 +4,7 @@ import HeaderNav from './HeaderNav.vue'
 import SiteFooter from './SiteFooter.vue'
 import NotFoundPage from './NotFoundPage.vue'
 import SearchModal from './SearchModal.vue'
+import Breadcrumbs from './Breadcrumbs.vue'
 
 // 路由感知：内容页 / 文章页使用紧凑宽度
 // Hero 页（首页 / blog）允许更宽
@@ -43,7 +44,10 @@ const isWidePage = computed(() => {
         404.md 仅为静态 404.html 服务，运行时 SPA 走这里。
       -->
       <NotFoundPage v-if="isNotFound" />
-      <Content v-else />
+      <template v-else>
+        <Breadcrumbs v-if="!isWidePage" />
+        <Content />
+      </template>
     </main>
     <SiteFooter />
     <SearchModal v-model="showSearch" />

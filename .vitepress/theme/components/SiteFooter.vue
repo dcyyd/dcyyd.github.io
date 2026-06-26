@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { ArrowUp, Heart, Clock, Eye } from 'lucide-vue-next'
-import { fetchGlobalViewCount, hitGlobalViewCount, formatViewCount, getTotalViewCount } from '../utils/viewCount'
+import { ArrowUp, Heart, Clock, Eye, Users } from 'lucide-vue-next'
 
 const visible = ref(false)
 const now = ref('')
-const totalViews = ref(0)
+const mounted = ref(false)
 
 function handleScroll() {
   visible.value = window.scrollY > 320
@@ -21,32 +20,19 @@ function updateTime() {
   now.value = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
 
-/** 刷新全局实时访问量 */
-async function refreshViews() {
-  // 优先使用全局实时计数器；API 不可用时降级为 localStorage 本地值
-  const global = await fetchGlobalViewCount()
-  totalViews.value = global > 0 ? global : getTotalViewCount()
-}
-
 let timer: ReturnType<typeof setInterval> | null = null
-let viewTimer: ReturnType<typeof setInterval> | null = null
 
-onMounted(async () => {
+onMounted(() => {
+  mounted.value = true
   handleScroll()
   window.addEventListener('scroll', handleScroll, { passive: true })
   updateTime()
   timer = setInterval(updateTime, 60_000)
-
-  // 初始化：hit 全局计数器（首次访问），然后定时刷新显示
-  const hitResult = await hitGlobalViewCount()
-  totalViews.value = hitResult > 0 ? hitResult : getTotalViewCount()
-  viewTimer = setInterval(refreshViews, 30_000)
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll)
   if (timer) clearInterval(timer)
-  if (viewTimer) clearInterval(viewTimer)
 })
 
 const footerLinks = [
@@ -88,12 +74,19 @@ const footerLinks = [
             {{ now }}
           </span>
 
-          <!-- 站点总访问量（全局实时） -->
-          <span class="mono-num inline-flex items-center gap-1"
-            style="color: var(--text-tertiary);">
-            <Eye class="h-3 w-3" aria-hidden="true" />
-            {{ formatViewCount(totalViews) }} 次访问
-          </span>
+          <!-- 站点总访问量（PV）与访客数（UV）- busuanzi 统计 -->
+          <template v-if="mounted">
+            <span class="mono-num inline-flex items-center gap-1"
+              style="color: var(--text-tertiary);">
+              <Eye class="h-3 w-3" aria-hidden="true" />
+              <span id="busuanzi_site_pv">加载中...</span> 次访问
+            </span>
+            <span class="mono-num inline-flex items-center gap-1"
+              style="color: var(--text-tertiary);">
+              <Users class="h-3 w-3" aria-hidden="true" />
+              <span id="busuanzi_site_uv">加载中...</span> 人
+            </span>
+          </template>
 
           <!-- 回到顶部 -->
           <button v-show="visible" type="button"

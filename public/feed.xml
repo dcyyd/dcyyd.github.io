@@ -6,9 +6,22 @@
     <description><![CDATA[零数据库 · 零 CMS · 纯 Markdown 文件驱动 · VitePress 技术博客。]]></description>
     <language>zh-CN</language>
     <copyright>© 2026 窦长友</copyright>
-    <lastBuildDate>Thu, 25 Jun 2026 01:17:37 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 26 Jun 2026 02:08:38 GMT</lastBuildDate>
     <atom:link href="https://dcyyd.github.io/feed.xml" rel="self" type="application/rss+xml" />
     <generator>filepress-blog rss generator</generator>
+    <item>
+      <title><![CDATA[在 VitePress 静态博客中集成不蒜子统计：优雅实现站点 PV/UV 计数]]></title>
+      <link>https://dcyyd.github.io/posts/在-vitepress-静态博客中集成不蒜子统计优雅实现站点-pvuv-计数</link>
+      <guid isPermaLink="true">https://dcyyd.github.io/posts/在-vitepress-静态博客中集成不蒜子统计优雅实现站点-pvuv-计数</guid>
+      <pubDate>Fri, 26 Jun 2026 00:00:00 GMT</pubDate>
+      <author>dcyyd_kcug@yeah.net (窦长友)</author>
+      <description><![CDATA[详细介绍如何在 VitePress 静态站点中集成不蒜子（busuanzi）统计工具，实现站点总 PV/UV 和单页面 PV 的云端统计。涵盖脚本引入、标签部署、Hydration Mismatch 修复、样式定制与常见问题排查。]]></description>
+      <category>不蒜子</category>
+      <category>busuanzi</category>
+      <category>访问量统计</category>
+      <category>PV</category>
+      <category>UV</category>
+    </item>
     <item>
       <title><![CDATA[Spring Boot 集成 Kafka 实战指南：从入门到生产调优]]></title>
       <link>https://dcyyd.github.io/posts/springboot-kafka-integration</link>

@@ -1,10 +1,10 @@
 # 目录结构
 
-> **FilePress Blog** (`filepress-blog` v2.5.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
+> **FilePress Blog** (`filepress-blog` v2.6.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
 >
 > 按"职责分层"组织。`node_modules/`、`.vitepress/cache/`、`.vitepress/dist/` 已省略。所有路径相对工程根。
 >
-> **最近更新**：2026-06-26 发布 v2.5.0，全局全文搜索（Cmd+K）、SEO Open Graph / Twitter Card 全站 meta 标签。
+> **最近更新**：2026-06-26 发布 v2.6.0：🌐 SEO 全方位增强（robots.txt / Schema.org / Meta 优化） · 📊 访问量统计重构（不蒜子 busuanzi 主统计 + localStorage 降级） · 🔤 字体加载优化（@fontsource self-host 消除 FOIT） · 🖼️ OptimizedImage 全站接入（WebP + aspect-ratio 防 CLS） · ✨ 动画与视觉层次增强（stagger / spring / 设计令牌） · 🍞 Breadcrumbs 面包屑导航。
 
 ---
 
@@ -235,7 +235,8 @@ filepress-blog/
 ```
 AppLayout
 ├── HeaderNav          # 顶栏 + 移动端汉堡菜单 + 🔍 搜索入口
-├── SearchModal        # 🆕 v2.5 全局搜索弹窗（Cmd+K/Ctrl+K）
+├── SearchModal        # v2.5 全局搜索弹窗（Cmd+K/Ctrl+K）
+├── Breadcrumbs        # 🆕 v2.6 面包屑导航（内容页显示 Home > 分类 > 标题）
 ├── <RouterView />     # 各页面组件由路由决定
 │   ├── HomePage → ArticleCard
 │   ├── BlogPage → TagFilter + ArticleCard
@@ -247,7 +248,7 @@ AppLayout
 │   ├── ChangelogPage
 │   ├── FriendsPage
 │   └── AboutPage
-├── SiteFooter         # 页脚（含站点总访问量）
+├── SiteFooter         # 页脚（含不蒜子 busuanzi_site_pv / busuanzi_site_uv 站点总 PV/UV）
 └── ThemeToggle        # 明暗切换（全局浮动）
 ```
 
@@ -283,10 +284,25 @@ Markdown → remark → rehype → rehype-sanitize → VNode
 
 ---
 
-## v2.0–v2.5 累计新增 / 变更节点
+## v2.0–v2.6 累计新增 / 变更节点
 
 | 版本 | 路径 | 变更类型 | 说明 |
 | --- | --- | --- | --- |
+| **v2.6** | `public/robots.txt` | 🆕 新增 | SEO 详细爬虫指令（User-agent / Allow / Disallow / Host / Sitemap） |
+| **v2.6** | `.vitepress/config.mts` | ✏️ 修改 | 注入不蒜子 `busuanzi.abbr.min.js` 脚本 + Schema.org Blog JSON-LD + robots/canonical/author meta |
+| **v2.6** | `.vitepress/theme/utils/viewCount.ts` | ✏️ 重构 | 主统计切换为不蒜子（busuanzi），localStorage 降级；新增 `isBusuanziLoaded()` / `waitBusuanzi()` |
+| **v2.6** | `.vitepress/theme/components/SiteFooter.vue` | ✏️ 重构 | 移除本地站点访问量统计，改用不蒜子标签 `busuanzi_site_pv` / `busuanzi_site_uv` + `v-if="mounted"` 避免 Hydration Mismatch |
+| **v2.6** | `.vitepress/theme/components/PostPage.vue` | ✏️ 改造 | 移除本地文章浏览量统计，改用不蒜子标签 `busuanzi_page_pv` |
+| **v2.6** | `.vitepress/theme/styles/fonts.css` | ✏️ 重构 | 引入 `@fontsource/inter` + `@fontsource/jetbrains-mono` self-host，`font-display: swap` 消除 FOIT |
+| **v2.6** | `.vitepress/theme/components/ArticleCard.vue` | ✏️ 优化 | 全面使用 `OptimizedImage` 组件（WebP + 懒加载 + 优先级 + 16:9 aspect-ratio），hover 缩放 1.04 + 8px 圆角 |
+| **v2.6** | `.vitepress/theme/types/blog.ts` + `utils/posts.ts` | ✏️ 修改 | 新增 `coverWidth` / `coverHeight` 字段，frontmatter 支持自定义封面图宽高防 CLS |
+| **v2.6** | `.vitepress/theme/components/Breadcrumbs.vue` | 🆕 新增 | 面包屑导航组件（Home 图标 + 路径解析 + 当前页高亮） |
+| **v2.6** | `.vitepress/theme/components/AppLayout.vue` | ✏️ 修改 | 集成 Breadcrumbs（内容页自动显示） |
+| **v2.6** | `.vitepress/theme/styles/index.css` | ✏️ 重构 | 新增设计令牌（统一间距 `--space-xs` 到 `--space-3xl` + 阴影 `--shadow-sm` 到 `--shadow-xl` + `fade-up-stagger` 动画） |
+| **v2.6** | `.vitepress/theme/components/HeaderNav.vue` | ✏️ 增强 | 导航链接添加底部高亮条（hover 60% / 激活 80%） |
+| **v2.6** | `gui/src/utils/wordAndView.ts` | ✏️ 重构 | 移除 `getTotalViewCount()`，浏览量改用文章浏览量累加 |
+| **v2.6** | `package.json` | ✏️ 修改 | 升级至 2.6.0；新增依赖 `@fontsource/inter` / `@fontsource/jetbrains-mono` |
+| **v2.6** | `gui/package.json` | ✏️ 修改 | 升级至 0.5.0 |
 | **v2.5** | `.vitepress/theme/components/SearchModal.vue` | 🆕 新增 | 全局全文搜索弹窗（Cmd+K/Ctrl+K） |
 | **v2.5** | `.vitepress/config.mts` | ✏️ 修改 | 新增 `head[]` 静态 OG meta + `transformHead` 动态 SEO 标签 |
 | **v2.5** | `.vitepress/theme/components/HeaderNav.vue` | ✏️ 修改 | 桌面 + 移动端新增 Search 搜索按钮 |
@@ -315,4 +331,4 @@ Markdown → remark → rehype → rehype-sanitize → VNode
 
 ---
 
-**FilePress Blog** · v2.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.6.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

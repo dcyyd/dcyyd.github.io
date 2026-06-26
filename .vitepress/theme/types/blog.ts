@@ -6,6 +6,8 @@ export interface PostFrontmatter {
   category?: string | undefined
   draft?: boolean | undefined
   cover?: string | undefined
+  coverWidth?: number | undefined
+  coverHeight?: number | undefined
 }
 
 export interface PostLink {
@@ -47,6 +49,8 @@ export interface PostMeta {
   excerpt: string
   hasFrontmatter: boolean
   cover?: string | undefined
+  coverWidth?: number | undefined
+  coverHeight?: number | undefined
   previous?: PostLink | undefined
   next?: PostLink | undefined
 }

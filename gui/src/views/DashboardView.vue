@@ -5,7 +5,7 @@ import { FileText, Type, Eye, Plus, Rocket, History, Activity, Folder, Hash, Clo
 import { usePostsStore } from '../stores'
 import { api } from '../api'
 import type { PostSummary } from '../api'
-import { getViewCount, getWordCount, getTotalViewCount, formatViewCount } from '../utils/wordAndView'
+import { getViewCount, getWordCount, formatViewCount } from '../utils/wordAndView'
 
 const postsStore = usePostsStore()
 const router = useRouter()
@@ -80,7 +80,7 @@ const publishedCount = computed(() => postsStore.posts.filter((p) => !isDraft(p)
 const totalWords = computed(() => postsStore.posts.reduce((s, p) => s + getWordCount(p.body ?? ''), 0))
 const totalViews = computed(() => {
   void viewVersion.value
-  return getTotalViewCount()
+  return postsStore.posts.reduce((s, p) => s + getViewCount(p.slug), 0)
 })
 
 const monthStart = (() => { const d = new Date(); d.setDate(1); d.setHours(0, 0, 0, 0); return d.getTime() })()

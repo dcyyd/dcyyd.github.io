@@ -1,0 +1,294 @@
+<section class="module" id="module-5" style="background: var(--paper);">
+  <div class="module-content">
+    <header class="module-header animate-in">
+      <span class="module-number">Module 05 · GUI 与一键部署</span>
+      <h1 class="module-title">可视化后台 + 一键发布到 GitHub Pages</h1>
+      <p class="module-subtitle">
+        GUI 是一个 Vue 3 + Pinia + Tailwind 的 Web SPA 子包（<code>gui/</code>），把 CLI 的能力搬到浏览器。部署则是一条命令走完"预检 → 构建 → 推送 → 清理"。
+      </p>
+    </header>
+
+    <div class="module-body">
+
+      <!-- Screen 1: GUI 五大模块 -->
+      <section class="screen animate-in">
+        <span class="eyebrow">GUI Admin</span>
+        <h2 class="screen-heading">五个模块，把日常写作搬到浏览器</h2>
+        <p>启动 GUI 只需一条命令：<code>pnpm gui:dev</code>。它会在 3000 端口打开一个 Web SPA，并把 API 通过 Vite
+          中间件挂在同一个端口，<strong>不需要再开第二个窗口</strong>。</p>
+
+        <div class="pattern-cards animate-in">
+          <div class="pattern-card">
+            <div class="pattern-icon">📊</div>
+            <div class="pattern-title">工作台</div>
+            <p class="pattern-desc">站点统计（文章数、总字数、本月新增、累计访问）、分类分布、最近活动时间线、快捷入口。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">✏️</div>
+            <div class="pattern-title">Markdown 编辑器</div>
+            <p class="pattern-desc">左右分栏编辑/预览、字数/行数/阅读时长实时统计、目录大纲、Mermaid 图表渲染、30s 自动保存草稿、Ctrl+S 保存。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">📁</div>
+            <div class="pattern-title">文件管理</div>
+            <p class="pattern-desc">列表 + 字数/浏览量列、搜索、多维筛选（分类 / 标签 / 状态）、多列排序、批量多选（发布 / 标草稿 / 删除）。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">🚀</div>
+            <div class="pattern-title">一键部署</div>
+            <p class="pattern-desc">调用 <code>post d</code> 推送 gh-pages，SSE 实时日志、心跳动画、停止按钮、日志搜索+级别过滤+自动滚屏。</p>
+          </div>
+          <div class="pattern-card">
+            <div class="pattern-icon">👀</div>
+            <div class="pattern-title">本地预览</div>
+            <p class="pattern-desc">启动/停止 VitePress dev、实时日志、端口冲突提示、状态查询、与部署互不干扰。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 2: GUI 架构图 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">GUI 的技术架构：一图看懂</h2>
+        <p>GUI 是一个独立的子包，目录 <code>gui/</code>，有自己的 <code>package.json</code>。它不替代 CLI —— 它是 CLI 的可视化封装。所有写入最终都落到
+          <code>content/posts/</code>，与 <code>pnpm post n/u</code> 完全等价。
+        </p>
+
+        <div class="arch-diagram animate-in">
+          <div class="arch-zone">
+            <div class="arch-zone-label">前端（Vue 3 SPA · port 3000）</div>
+            <div class="arch-component" data-desc="App.vue 根布局，hash 模式路由（5 个路由），整体深色模式与 vitepress 主题一致。">
+              <div class="arch-icon">VU</div>
+              <span>Vue 3 + Vite 5</span>
+            </div>
+            <div class="arch-component" data-desc="5 个状态：posts（日志列表）、logs（部署/预览日志）、toast（全局通知）、deploy（部署状态机）、sse（实时流）。">
+              <div class="arch-icon">P</div>
+              <span>Pinia Stores</span>
+            </div>
+            <div class="arch-component"
+              data-desc="5 个视图：DashboardView / EditorView / FilesView / DeployView / HelpView。CSS 与 vitepress 主题统一：moss 苔藓深绿 + Inter + 衬线标题。">
+              <div class="arch-icon">V</div>
+              <span>5 个视图</span>
+            </div>
+          </div>
+          <div class="arch-zone">
+            <div class="arch-zone-label">通信层</div>
+            <div class="arch-component" data-desc="fetch 封装：getPosts / createPost / updatePost / deletePost / getLogs。">
+              <div class="arch-icon">F</div>
+              <span>fetch (CRUD)</span>
+            </div>
+            <div class="arch-component"
+              data-desc="EventSource (SSE) 处理部署 / 预览实时日志流。状态机四态：running / success / error / stopped，主动停止不污染 failure 语义。">
+              <div class="arch-icon">S</div>
+              <span>EventSource (SSE)</span>
+            </div>
+          </div>
+          <div class="arch-zone">
+            <div class="arch-zone-label">后端（纯 Node http server · port 5174 / 复用 3000）</div>
+            <div class="arch-component"
+              data-desc="gui/server/index.mjs（约 504 行）。零外部依赖，仅用 node:http / node:child_process / node:fs/promises。">
+              <div class="arch-icon">N</div>
+              <span>Node http server</span>
+            </div>
+            <div class="arch-component" data-desc="开发模式下通过 Vite 中间件 filePressApiPlugin 挂载在 3000 端口；生产模式独立运行在 5174。">
+              <div class="arch-icon">M</div>
+              <span>Vite plugin mount</span>
+            </div>
+          </div>
+          <div class="arch-description" id="arch-desc">点击任意组件，看它在前/后端的位置。</div>
+        </div>
+      </section>
+
+      <!-- Screen 3: 一键部署流程 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading"><code>pnpm post d</code> 一键部署：完整时间线</h2>
+        <p>当你执行这条命令时，<code>scripts/post-cli/deploy.mjs</code> 会按顺序执行以下 5 个阶段。任何阶段失败立即停止并报错码：</p>
+
+        <div class="flow-animation animate-in" data-steps='[
+          {"highlight":"flow-actor-1","label":"🔍 阶段 1 · 预检：检查 git 仓库、当前分支、未提交变更、远程 gh-pages 分支是否存在"},
+          {"highlight":"flow-actor-2","label":"🧪 阶段 2 · 类型检查 + 构建：pnpm typecheck → pnpm rss → pnpm sitemap → vitepress build ."},
+          {"highlight":"flow-actor-3","label":"📦 阶段 3 · 准备产物：复制 .vitepress/dist/ 到临时目录（.deploy-tmp/），添加 .nojekyll 防 GitHub Pages 忽略 _ 开头的文件"},
+          {"highlight":"flow-actor-4","label":"📤 阶段 4 · 推送：git checkout gh-pages → git add → git commit → git push origin gh-pages --force"},
+          {"highlight":"flow-actor-5","label":"🧹 阶段 5 · 清理：删除临时目录、删除 .nojekyll、切回原分支，等待 1-2 分钟 GitHub Pages CDN 生效"}
+        ]'>
+          <div class="flow-actors">
+            <div class="flow-actor" id="flow-actor-1">
+              <div class="flow-actor-icon">P1</div>
+              <span>预检</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-2">
+              <div class="flow-actor-icon">P2</div>
+              <span>构建</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-3">
+              <div class="flow-actor-icon">P3</div>
+              <span>准备产物</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-4">
+              <div class="flow-actor-icon">P4</div>
+              <span>推送</span>
+            </div>
+            <div class="flow-actor" id="flow-actor-5">
+              <div class="flow-actor-icon">P5</div>
+              <span>清理</span>
+            </div>
+          </div>
+
+          <div class="flow-packet" id="flow-packet"></div>
+          <div class="flow-step-label" id="flow-label">点"下一步"追踪部署的 5 个阶段</div>
+
+          <div class="flow-controls">
+            <button class="btn btn-primary flow-next-btn">下一步</button>
+            <button class="btn flow-reset-btn">重置</button>
+            <span class="flow-progress"></span>
+          </div>
+        </div>
+
+        <div class="callout callout-warning animate-in">
+          <div class="callout-icon">⚠</div>
+          <div class="callout-content">
+            <span class="callout-title">小心 gh-pages 分支</span>
+            <p>deploy 阶段会用 <code>--force</code> 推送到 gh-pages 分支（这与 main 是两个独立的分支）。如果团队里有其他人也在操作这个分支，请先沟通；个人项目则无此顾虑。</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 4: 部署平台矩阵 -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">不一定要用 GitHub Pages——五种部署方式</h2>
+        <p>FilePress Blog 的构建产物 <code>.vitepress/dist/</code> 是纯静态文件，可以托管到任何静态服务。下面是常见平台的对比：</p>
+
+        <div class="stat-grid stat-grid-3 animate-in">
+          <div class="stat-cell">
+            <div class="stat-num stat-num-accent">GitHub Pages</div>
+            <span class="stat-label">最省心 · 适合个人项目</span>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num stat-num-accent">Vercel</div>
+            <span class="stat-label">自动 HTTPS · 全球 CDN</span>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num stat-num-accent">Netlify</div>
+            <span class="stat-label">表单 + Functions · 适合带交互的站点</span>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num stat-num-accent">Cloudflare Pages</div>
+            <span class="stat-label">边缘渲染 · 免费额度大</span>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num stat-num-accent">Nginx</div>
+            <span class="stat-label">完全自主 · 国内访问友好</span>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-num stat-num-accent">OSS / COS</div>
+            <span class="stat-label">阿里云 / 腾讯云对象存储</span>
+          </div>
+        </div>
+
+        <div class="translation-block animate-in">
+          <div class="translation-code">
+            <span class="translation-label">nginx.conf 片段</span>
+            <pre><code>
+<span class="code-line">server {</span>
+<span class="code-line">  <span class="code-property">listen</span> 80;</span>
+<span class="code-line">  <span class="code-property">server_name</span> blog.example.com;</span>
+<span class="code-line">  <span class="code-property">root</span> /var/www/filepress-blog/.vitepress/dist;</span>
+<span class="code-line">  <span class="code-property">index</span> index.html;</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-property">location</span> / {</span>
+<span class="code-line">    <span class="code-property">try_files</span> $uri $uri/ =404;</span>
+<span class="code-line">  }</span>
+<span class="code-line"></span>
+<span class="code-line">  <span class="code-comment"># 启用 Gzip 压缩</span></span>
+<span class="code-line">  <span class="code-property">gzip</span> on;</span>
+<span class="code-line">  <span class="code-property">gzip_types</span> text/plain text/css application/json application/javascript;</span>
+<span class="code-line">}</span>
+            </code></pre>
+          </div>
+          <div class="translation-english">
+            <span class="translation-label">PLAIN ENGLISH</span>
+            <div class="translation-lines">
+              <p class="tl">监听 80 端口，绑定域名。</p>
+              <p class="tl">站点根目录指向 <code>.vitepress/dist/</code>。</p>
+              <p class="tl"><code>try_files</code> 先按路径找文件，找不到再 fallback 到 404（VitePress 自带 404.md 友好页）。</p>
+              <p class="tl">开启 Gzip 让 JS / CSS 资源体积更小。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Screen 5: Quiz -->
+      <section class="screen animate-in">
+        <h2 class="screen-heading">GUI 与部署自测</h2>
+
+        <div class="quiz-container" id="quiz-module5">
+          <div class="quiz-question-block" data-correct="option-b"
+            data-explanation-right="对。GUI 是 CLI 的可视化封装，所有写入最终落到 content/posts/，与 pnpm post n/u 完全等价。"
+            data-explanation-wrong="GUI 不替代 CLI —— 它是 CLI 的可视化封装。可以随时 git diff 校验。">
+            <h3 class="quiz-question">Q1 · GUI 后台写文章时，文件实际存在哪里？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>GUI 自己的数据库（SQLite）</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span><code>content/posts/&lt;slug&gt;.md</code> —— 与 CLI 写入完全一致的位置</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>浏览器 IndexedDB</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block" data-correct="option-c"
+            data-explanation-right="对。VitePress 默认会把下划线开头的文件视为私有，GitHub Pages 的 Jekyll 引擎会忽略它们。.nojekyll 文件就是告诉 GH Pages 关闭 Jekyll 处理。"
+            data-explanation-wrong=".nojekyll 文件就是用来关闭 GitHub Pages 的 Jekyll 引擎，避免 _ 前缀文件被错误忽略。">
+            <h3 class="quiz-question">Q2 · 部署时为什么要创建 <code>.nojekyll</code> 文件？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>让 GitHub Pages 支持 PHP</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>告诉搜索引擎不要索引</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>关闭 GitHub Pages 的 Jekyll 引擎，避免 <code>_</code> 前缀文件被错误忽略</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <div class="quiz-question-block" data-correct="option-a"
+            data-explanation-right="对。gui/server/index.mjs 是一个 ~504 行的纯 Node http server，不依赖 Express / Koa。"
+            data-explanation-wrong="FilePress Blog 的 GUI 后端刻意保持极简：用 node:http 手写，避免引入 Express / Koa。">
+            <h3 class="quiz-question">Q3 · GUI 的后端用了什么框架？</h3>
+            <div class="quiz-options">
+              <button class="quiz-option" data-value="option-a" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>零依赖的纯 <code>node:http</code> server，~504 行手写</span>
+              </button>
+              <button class="quiz-option" data-value="option-b" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Express 4.x</span>
+              </button>
+              <button class="quiz-option" data-value="option-c" onclick="selectOption(this)">
+                <div class="quiz-option-radio"></div>
+                <span>Fastify</span>
+              </button>
+            </div>
+            <div class="quiz-feedback"></div>
+          </div>
+
+          <button class="quiz-check-btn" onclick="checkQuiz('quiz-module5')">检查答案</button>
+          <button class="quiz-reset-btn" onclick="resetQuiz('quiz-module5')">重新作答</button>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</section>

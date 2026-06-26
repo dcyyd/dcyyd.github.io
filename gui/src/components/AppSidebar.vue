@@ -53,7 +53,7 @@ function go(to: string) { router.push(to) }
         <span class="mono-num">{{ postsStore.posts.length }}</span>
         <span>篇文章</span>
       </div>
-      <div class="eyebrow mt-2" style="opacity: 0.6;">v0.4.0</div>
+      <div class="eyebrow mt-2" style="opacity: 0.6;">v0.5.0</div>
     </div>
   </aside>
 </template>

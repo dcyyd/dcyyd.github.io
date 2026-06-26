@@ -199,7 +199,15 @@ GUI 不替代 CLI —— 它是 CLI 的可视化封装，CLI 适合批量与自�
 
 ## 📋 版本历史
 
-### v0.4.0 (2026-06-26)
+### v0.5.0 (2026-06-26) — 🆕 同步主项目 v2.6.0
+
+- **依赖降级**：移除 `getTotalViewCount()` 工具函数；`DashboardView` / `FilesView` 总浏览量改用**文章浏览量累加**（主统计走不蒜子云端，GUI 端不展示数字但与主站保持算法一致）
+- **同步**：浏览量存储键命名空间保持与 `.vitepress/theme/utils/viewCount.ts` 一致（`fpb:article-view-counts:v1` / `fpb:article-session:v1`）
+- **说明**：v0.5.0 起，**站点级 PV/UV 不在 GUI 展示**，因主站 v2.6 已统一使用不蒜子（busuanzi）云持久化方案，跨平台共享，GUI 端本地 localStorage 数字仅作降级参考
+- **修复**：与主项目保持 Hydration Mismatch 处理约定一致（GUI 是 SPA 无此问题，但统计 UI 渲染逻辑已对齐）
+- 版本号同步主项目 2.5.0 → 2.6.0
+
+### v0..0 (2026-06-26)
 
 - 版本号同步主项目 v2.5.0（搜索 + SEO）
 
@@ -227,4 +235,4 @@ GUI 不替代 CLI —— 它是 CLI 的可视化封装，CLI 适合批量与自�
 
 ---
 
-**FilePress Blog GUI** · v0.4.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog GUI** · v0.5.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)

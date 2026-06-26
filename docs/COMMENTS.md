@@ -2,7 +2,7 @@
 
 > 本项目使用 [Giscus](https://giscus.app/zh-CN) 作为评论系统，基于 **GitHub Discussions**，**零后端、零数据库、零成本**，与项目"纯文件驱动"理念完全契合。
 >
-> **FilePress Blog** v2.5.0 · v2.1 新增
+> **FilePress Blog** v2.6.0 · v2.1 新增
 
 ---
 

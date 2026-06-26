@@ -1,28 +1,32 @@
-# 项目迭代总结 · v1.0 → v2.5
+# 项目迭代总结 · v1.0 → v2.6
 
-> **FilePress Blog** (`filepress-blog` v2.5.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
+> **FilePress Blog** (`filepress-blog` v2.6.0) · 作者：窦长友 &lt;dcyyd_kcug@yeah.net&gt;
 >
-> 本文是 v1.0 → v2.5 的完整变更记录与技术决策文档，覆盖新功能、BUG 修复、UI / 输出优化、文档体系与未来规划。
+> 本文是 v1.0 → v2.6 的完整变更记录与技术决策文档，覆盖新功能、BUG 修复、UI / 输出优化、文档体系与未来规划。
 >
-> **最近更新**：2026-06-26 发布 v2.5.0，全局全文搜索（Cmd+K）、SEO Open Graph / Twitter Card 全站 meta 标签。
+> **最近更新**：2026-06-26 发布 v2.6.0：🌐 SEO 全方位增强（robots.txt / Schema.org / Meta 优化） · 📊 访问量统计重构（不蒜子 busuanzi 主统计 + localStorage 降级） · 🔤 字体加载优化（@fontsource self-host 消除 FOIT） · 🖼️ OptimizedImage 全站接入（WebP + aspect-ratio 防 CLS） · ✨ 动画与视觉层次增强（stagger / spring / 设计令牌） · 🍞 Breadcrumbs 面包屑导航。
 
 ---
 
 ## 目录
 
 - [项目概览](#项目概览)
+- [v2.6 变更总览](#v26-变更总览)
+- [v2.6 SEO 优化详解](#v26-seo-优化详解)
+- [v2.6 访问量重构详解](#v26-访问量重构详解)
+- [v2.6 UI/UX 优化详解](#v26-uiux-优化详解)
 - [v2.5 变更总览](#v25-变更总览)
 - [v2.0 重大变更总览](#v20-重大变更总览)
 - [v2.1 技术决策](#v21-技术决策)
 - [v2.0 技术决策](#v20-技术决策)
 - [v2.1 新增功能详解](#v21-新增功能详解)
 - [v2.0 新增功能详解](#v20-新增功能详解)
-- [BUG 修复记录（B001–B013）](#bug-修复记录b001b010)
+- [BUG 修复记录（B001–B018）](#bug-修复记录b001b018)
 - [UI / 输出优化](#ui--输出优化)
 - [文档体系更新](#文档体系更新)
 - [构建产物分析](#构建产物分析)
 - [部署方案选型](#部署方案选型)
-- [更新日志（v1.0 → v2.1）](#更新日志v10--v21)
+- [更新日志（v1.0 → v2.6）](#更新日志v10--v26)
 - [后续路线图](#后续路线图)
 
 ---
@@ -32,7 +36,7 @@
 | 项目                 | 值                                                                           |
 | -------------------- | ---------------------------------------------------------------------------- |
 | **项目名称**   | **FilePress Blog** (`filepress-blog`)                                |
-| **当前版本** | **v2.5.0**                                                             |
+| **当前版本** | **v2.6.0**                                                             |
 | **类型**       | 纯静态技术博客                                                               |
 | **核心理念**   | 文件即数据，零数据库，零 CMS                                                 |
 | **技术栈**     | VitePress 1.4.5 + Vue 3.5.13 + TypeScript 5.6.3 Strict + Tailwind CSS 3.4.17 |
@@ -40,6 +44,139 @@
 | **包管理**     | pnpm ≥ 9                                                                    |
 | **运行时要求** | Node.js ≥ 20 · npm ≥ 10                                                   |
 | **作者**       | 窦长友&lt;dcyyd_kcug@yeah.net&gt;                                            |
+
+---
+
+## v2.6 变更总览
+
+v2.6 是继 v2.5（搜索 + SEO 基础）之后的**全栈打磨**版本。核心围绕"性能 + 体验 + SEO"三大主题展开，共完成 22+ 项变更。
+
+| 类别 | 数量 | 主要内容 |
+| --- | --- | --- |
+| **🆕 新增组件** | 1 | `Breadcrumbs.vue` 面包屑导航（内容页自动显示） |
+| **🆕 新增文件** | 1 | `public/robots.txt` SEO 详细爬虫指令 |
+| **📊 统计重构** | 3 | `SiteFooter.vue` / `PostPage.vue` / `viewCount.ts` 全面切至不蒜子 + localStorage 降级 |
+| **🎨 UI 优化** | 4 | `ArticleCard` / `HeaderNav` / `AppLayout` / `index.css` 设计令牌 + 动画 + 面包屑 |
+| **🔤 字体** | 1 | `fonts.css` 改用 `@fontsource/inter` + `@fontsource/jetbrains-mono` self-host |
+| **🖼️ 图片** | 2 | `types/blog.ts` + `utils/posts.ts` 新增 `coverWidth/Height`；`ArticleCard` 全量切到 `OptimizedImage` |
+| **🌐 SEO** | 2 | `config.mts` Schema.org JSON-LD + head 标签补全 |
+| **🐛 BUG 修复** | 5 | B014（Hydration Mismatch） / B015（countapi.xyz DNS） / B016（JSON-LD 格式） / B017（pnpm add -w） / B018（@fontsource 5.x 路径） |
+| **📝 文档同步** | 7 | README / DEPLOYMENT / DIRECTORY_STRUCTURE / FAQ / COMMENTS / 发布全流程指南 / PROJECT_ITERATION_SUMMARY |
+
+---
+
+## v2.6 SEO 优化详解
+
+### robots.txt 详细爬虫指令
+
+```text
+# 允许所有爬虫访问核心目录
+User-agent: *
+Allow: /posts/
+Allow: /categories/
+Allow: /tags/
+Allow: /archives/
+
+# 禁止抓取构建/依赖/日志目录
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /gui/
+Disallow: /scripts/
+Disallow: /logs/
+
+# 主站点 + 站点地图
+Host: https://dcyyd.github.io
+Sitemap: https://dcyyd.github.io/sitemap.xml
+```
+
+### Schema.org Blog 结构化数据
+
+`config.mts` 的 `head[]` 注入 JSON-LD（采用 VitePress 标准三元组格式 `['script', { type: 'application/ld+json' }, JSON.stringify(...)]`）：
+
+- `@type`: `Blog`
+- `name`: FilePress Blog
+- `description`: 包含 VitePress / VuePress / 静态博客 / GitHub Pages / Markdown / 文件驱动等高搜索量关键词
+- `author` / `publisher` / `inLanguage`: zh-CN
+
+### Meta 标签补全
+
+- `robots`: `index, follow`
+- `canonical`: 规范化 URL 防重复
+- `author`: 窦长友
+- `keywords`: 10 个核心长尾关键词
+
+---
+
+## v2.6 访问量重构详解
+
+### 主统计：busuanzi（云持久化）
+
+| 指标 | 标签 ID | 说明 |
+| --- | --- | --- |
+| 站点总 PV | `busuanzi_site_pv` | 所有页面刷新次数累计（云端） |
+| 站点总 UV | `busuanzi_site_uv` | 独立访客数（每日去重，云端） |
+| 文章页 PV | `busuanzi_page_pv` | 单篇文章访问次数累计（云端） |
+
+### 降级：localStorage
+
+`viewCount.ts` 中保留 localStorage 降级路径：
+
+- `fpb:article-view-counts:v1`：每篇文章的本地浏览量
+- `fpb:article-session:v1`：sessionStorage 内同会话去重
+- `fpb:site-visits:v1`：站点访问计数器（仅兼容老逻辑，不再用于主展示）
+
+### Hydration Mismatch 修复
+
+`SiteFooter.vue` / `PostPage.vue` 使用 `v-if="mounted"` 控制标签仅在客户端渲染：
+
+```vue
+<span v-if="mounted" id="busuanzi_site_pv">0</span>
+```
+
+`mounted` 在 `onMounted` 钩子中置为 `true`，确保 SSR 阶段输出为空、客户端注入数字后显示。
+
+### countapi.xyz 彻底下线
+
+v2.4 引入的 `api.countapi.xyz` 全局计数在 v2.6 **彻底移除**（B015：DNS 解析失败）。所有 PV/UV 改用不蒜子云端持久化，不受单点服务可用性影响。
+
+---
+
+## v2.6 UI/UX 优化详解
+
+### 字体加载
+
+| 维度 | v2.5 | v2.6 |
+| --- | --- | --- |
+| 加载方式 | Google Fonts 外链 | `@fontsource` self-host |
+| 关键 CSS | 默认 | `font-display: swap` |
+| FOIT | 严重 | **消除** |
+| 国内访问 | 慢 / 偶尔超时 | **毫秒级** |
+
+### 统一设计令牌
+
+`styles/index.css` 新增：
+
+- **间距系统**：`--space-xs` (4) → `--space-3xl` (96)
+- **阴影层级**：`--shadow-sm` → `--shadow-xl`
+- **缓动函数**：`--ease-spring`（cubic-bezier(0.34, 1.56, 0.64, 1)）
+- **动画**：`fade-up-stagger`（80ms 错峰渐入）
+
+### 面包屑导航
+
+- **组件**：`Breadcrumbs.vue`
+- **挂载**：`AppLayout.vue` 内 `<Breadcrumbs />` 条件渲染
+- **可见页面**：文章 / 分类 / 标签 / 归档
+- **不可见页面**：首页 / 博客列表 / 友链 / 关于（避免视觉冗余）
+
+### ArticleCard 视觉升级
+
+- 圆角 4px → 8px
+- hover 上移 4px → 6px
+- hover 缩放 1.0 → 1.04
+- 阴影 `--shadow-sm` → `--shadow-md`
+- 缓动 `ease` → `--ease-spring`
+- 封面图：`OptimizedImage` 组件，16:9 aspect-ratio，WebP + LQIP + 懒加载
 
 ---
 
@@ -282,6 +419,14 @@ pnpm post c
 | **B008** | 本地`pnpm dev` 时 Giscus 配置丢失                                                       | VitePress 不会自动加载`.env`                                           | `config.mts` 增加轻量级 .env 解析器，注入 `process.env` 后再走 `vite.define`            | `.vitepress/config.mts`          |
 | **B009** | 404 页面未生效，仍显示 VitePress 默认页                                                   | `404.md` 设置了 `layout: page` 覆盖了内置 `not-found` 布局         | 移除`layout: page` / `sidebar` / `aside` / `outline` 等冲突配置                       | `404.md`                         |
 | **B010** | sitemap URL 默认值`https://example.com` 与生产不符                                      | `generate-sitemap.mjs` 硬编码了示例域名                                | 默认 URL 改为`https://dcyyd.github.io`，并支持 `SITE_URL` 环境变量覆盖                    | `scripts/generate-sitemap.mjs`   |
+| **B011** | 文章页底部 PV 与站点 PV 数值混乱                                                         | 站点 PV 简单累加文章 PV，无法反映"独立访客"语义                       | v2.3 引入 `fpb:site-visits:v1` 独立计数器，session 内只计 1 次                            | `.vitepress/theme/utils/viewCount.ts` |
+| **B012** | `SiteFooter` 站点总访问量刷新导致页面抖动                                                 | `setInterval` 触发整个组件 re-render                                   | v2.3 改为局部 `<span>` 数字单独更新                                                        | `.vitepress/theme/components/SiteFooter.vue` |
+| **B013** | GUI 仪表盘显示访问量与服务端不一致                                                         | GUI 端 `getTotalViewCount()` 与主站存储键命名空间不一致              | v2.3 统一为 `fpb:*` 命名空间，GUI 复用同一 `wordAndView.ts`                              | `gui/src/utils/wordAndView.ts` |
+| **B014** | 控制台 `Hydration completed but contains mismatches`                                  | 不蒜子 `<span>` 在 SSR 阶段无值，客户端注入后 SSR/CSR 不一致        | v2.6 引入 `v-if="mounted"` 仅在客户端渲染标签                                              | `.vitepress/theme/components/SiteFooter.vue` / `PostPage.vue` |
+| **B015** | `net::ERR_NAME_NOT_RESOLVED · api.countapi.xyz`                                       | countapi.xyz 域名 DNS 解析失败（已停服 / 被墙）                      | v2.6 移除 countapi.xyz 依赖，迁移至不蒜子（云持久化）+ localStorage 降级                    | `.vitepress/theme/utils/viewCount.ts` |
+| **B016** | Schema.org JSON-LD 未出现在 `<head>` 中                                                | `transformHead` 中将 `innerHTML` 作为属性传入导致 JSON 未嵌入        | v2.6 改为 VitePress 标准三元组 `['script', { type: 'application/ld+json' }, JSON.stringify(...)]` | `.vitepress/config.mts` |
+| **B017** | `pnpm add @fontsource/*` 提示 `ERR_PNPM_ADDING_TO_ROOT`                                | pnpm 9+ 在工作区根添加依赖需显式 `-w`                                  | v2.6 改用 `pnpm add -w @fontsource/inter @fontsource/jetbrains-mono`                       | `package.json` |
+| **B018** | `@import "@fontsource/inter/variable-full.css"` 报"文件不存在"                          | @fontsource 5.x 版本不提供 `variable-full.css` 路径                   | v2.6 改用标准导入 `@import "@fontsource/inter"` + 字重子 CSS（300/500/600/700/800）         | `.vitepress/theme/styles/fonts.css` |
 
 ---
 
@@ -355,6 +500,21 @@ SSH 认证失败时**给出警告**而非硬中断，可由 `DEPLOY_REPO` 切换
 
 ## 文档体系更新
 
+### v2.6 同步（2026-06-26）
+
+| 文件                                  | 状态    | 主要内容                                                                                             |
+| ------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| `README.md`                         | ✏️ 更新 | 全面 v2.6 视角：核心特性 7 大模块、@fontsource 技术栈、SEO / 不蒜子 / 字体 / 图片 / 动画 / 面包屑    |
+| `docs/DEPLOYMENT.md`                | ✏️ 更新 | 顶部版本号与"最近更新"同步至 v2.6；页脚 v2.6.0                                                       |
+| `docs/DIRECTORY_STRUCTURE.md`       | ✏️ 更新 | 组件依赖图新增 `Breadcrumbs`；变更节点表新增 16 行 v2.6 记录；页脚 v2.6.0                            |
+| `docs/FAQ.md`                       | ✏️ 更新 | 新增 4 大 v2.6 章节：访问量统计 / 字体加载 / 图片优化 / UI/UX 视觉层次（共 12 个新 Q&A）；页脚 v2.6.0 |
+| `docs/COMMENTS.md`                  | ✏️ 更新 | 顶部版本号 v2.5.0 → v2.6.0                                                                            |
+| `docs/发布全流程指南.md`            | ✏️ 更新 | 顶部版本号与"最近更新"同步至 v2.6；页脚 v2.6.0                                                       |
+| `logs/PROJECT_ITERATION_SUMMARY.md` | ✏️ 更新 | 标题 v2.5 → v2.6；新增 v2.6 变更总览 / SEO 详解 / 访问量重构详解 / UI/UX 详解 4 章；BUG 表追加 B011-B018；更新日志新增 v2.4 / v2.5 / v2.6 三行；后续路线图重排；页脚 v2.6.0 |
+| `.vitepress/theme/components/ChangelogPage.vue` | ✏️ 更新 | 新增 v2.6.0 完整 changelog 条目（7 条 highlights + 27 条 changes）                              |
+
+### 历史重写
+
 | 文件                                  | 状态    | 主要内容                                                   |
 | ------------------------------------- | ------- | ---------------------------------------------------------- |
 | `README.md`                         | 🆕 重写 | v2.0 变更、BUG 修复、UI 优化、安全模型、文档索引           |
@@ -407,10 +567,15 @@ SSH 认证失败时**给出警告**而非硬中断，可由 `DEPLOY_REPO` 切换
 
 ---
 
-## 更新日志（v1.0 → v2.1）
+## 更新日志（v1.0 → v2.6）
 
 | 版本             | 主要变更                                                                                                                                                                  |
 | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **v2.6.0** | 🆕 Breadcrumbs 面包屑导航 · 🆕 `public/robots.txt` · 🌐 SEO 增强（Schema.org / Meta / 关键词）· 📊 访问量重构（不蒜子 + localStorage 降级）· 🔤 字体 self-host（@fontsource）· 🖼️ OptimizedImage 全站接入（WebP / aspect-ratio）· ✨ 设计令牌 + stagger 动画 · 🍞 HeaderNav 底部高亮条 · 🐛 B014-B018 修复 |
+| **v2.5.0** | 🆕 全局全文搜索（Cmd+K）· 🌐 SEO Open Graph + Twitter Card 全站 meta 标签                                                                                                  |
+| **v2.4.0** | 🆕 访问量统计（countapi.xyz）· 🆕 CC BY-NC-ND 4.0 版权声明 · 🆕 Blog 12 篇/页分页 · 🆕 标签筛选折叠（>12）                                                                  |
+| **v2.3.0** | 📊 站点总访问量统一管理 · 🎨 SiteFooter Eye 图标 + 10s 刷新 · 🔧 GUI 存储键与主站对齐                                                                                       |
+| **v2.2.0** | 🆕 GUI 子包（Vue 3 SPA）· 🆕 Mermaid 图表 SSG 预渲染 · 🆕 frontmatter 迁移工具 · 🆕 交互式 HTML 课程 · 🆕 浏览量统计（localStorage + sessionStorage）                        |
 | **v2.1.0** | 🆕 Giscus 评论系统 · 🆕 自定义 404 错误页 · 🆕 sitemap.xml 自动生成器 · 🐛 B007-B010 修复 · 🎨 CommentSection 极简化（-59%）· 📝 README + COMMENTS 文档              |
 | v2.0.0           | 🆕`pnpm post d` 一键部署 · 🆕 `pnpm post c` 独立清理 · 🆕 `-m` / `-p` / `-h` 短选项 · 🐛 B001-B006 修复 · 📝 文档体系重写 · 🎨 UI / 输出优化 · 跨平台执行 |
 | v1.5.0           | 完善部署文档，修复 Git SSH 认证问题，建立 gh-pages 分支                                                                                                                   |
@@ -424,22 +589,34 @@ SSH 认证失败时**给出警告**而非硬中断，可由 `DEPLOY_REPO` 切换
 
 ## 后续路线图
 
-### v2.2 候选
+> 以下为**已完成**（✅）与**待开发**（☐）的清单。v2.6 版本集中完成了 ✅ 标记的优化项。
 
-- [ ] `pnpm post s` 支持浏览器热重载开关
-- [ ] `pnpm post d` 集成 git tag 自动打版本号
+### v2.6 已落地（✅）
+
+- [x] 站点搜索（基于 `posts.data` 客户端索引，零外部依赖）
+- [x] SEO 增强（Open Graph / Twitter Card / Schema.org / robots.txt / canonical / keywords）
+- [x] 字体 self-host（`@fontsource` + `font-display: swap`）
+- [x] 访问量统计云持久化（不蒜子 busuanzi + localStorage 降级）
+- [x] 图片优化（WebP + LQIP + 懒加载 + aspect-ratio）
+- [x] 设计令牌 + 动画 + 面包屑
+
+### v2.7 候选（☐）
+
 - [ ] `OptimizedImage` 支持 AVIF 格式
 - [ ] `PostPage` 支持目录大纲折叠 / 展开
-- [ ] 国际化（i18n）支持
+- [ ] 国际化（i18n）支持（中 / 英 双语切换）
+- [ ] `pnpm post d` 集成 git tag 自动打版本号
+- [ ] `pnpm post s` 支持浏览器热重载开关
 
-### v2.3+ 候选
+### v3.0 候选（☐）
 
-- [ ] 站点搜索（`pagefind` 或 FlexSearch）
 - [ ] `pnpm post stats` 文章统计仪表板
 - [ ] `pnpm post backup` 一键备份 `content/posts/`
 - [ ] VS Code 扩展：snippet + frontmatter 模板
 - [ ] 评论通知集成（GitHub Discussions Webhook → 邮件 / 钉钉）
+- [ ] RSS / Atom 全文输出（当前仅摘要）
+- [ ] 暗色模式跟随系统（`prefers-color-scheme` 自动切换）
 
 ---
 
-**FilePress Blog** · v2.1.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
+**FilePress Blog** · v2.6.0 · 作者 [窦长友](mailto:dcyyd_kcug@yeah.net)
