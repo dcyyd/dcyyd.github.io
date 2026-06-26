@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>DeepSeek V4 API完整接入实战手册 | FilePress Blog - 极致文件驱动技术博客</title>
+    <meta name="description" content="本文完整讲解DeepSeek V4大模型API从账号注册、密钥创建、余额充值、Python代码调用、参数说明、故障排查全流程，同时提供免代码开箱工具EasyClaw对比方案，覆盖普通对话、流式实时输出、多轮上下文对话三类开发场景。">
+    <meta name="generator" content="VitePress v1.4.5">
+    <link rel="preload stylesheet" href="/assets/style.DOaU_6MJ.css" as="style">
+    <script type="module" src="/assets/chunks/metadata.fade99af.js"></script>
+    <script type="module" src="/assets/app.B8LI0Ux7.js"></script>
+    <link rel="modulepreload" href="/assets/chunks/icons.B06OPOny.js">
+    <link rel="modulepreload" href="/assets/chunks/plugin-vue_export-helper.DlAUqK2U.js">
+    <link rel="modulepreload" href="/assets/chunks/math.C5jXJg4s.js">
+    <link rel="modulepreload" href="/assets/chunks/dagre-BM42HDAG.DFKPxUeW.js">
+    <link rel="modulepreload" href="/assets/chunks/cose-bilkent-S5V4N54A.CF0Q0vbq.js">
+    <link rel="modulepreload" href="/assets/chunks/c4Diagram-AAUBKEIU.CKvTctJp.js">
+    <link rel="modulepreload" href="/assets/chunks/flowDiagram-I6XJVG4X.CAn1OyxF.js">
+    <link rel="modulepreload" href="/assets/chunks/erDiagram-TEJ5UH35.BaauLoI1.js">
+    <link rel="modulepreload" href="/assets/chunks/gitGraphDiagram-PVQCEYII.D3iSVrTL.js">
+    <link rel="modulepreload" href="/assets/chunks/ganttDiagram-6RSMTGT7.BYIx5Lp1.js">
+    <link rel="modulepreload" href="/assets/chunks/infoDiagram-5YYISTIA.B6YTVhM9.js">
+    <link rel="modulepreload" href="/assets/chunks/pieDiagram-4H26LBE5.D5WIJxha.js">
+    <link rel="modulepreload" href="/assets/chunks/quadrantDiagram-W4KKPZXB.BeoxAT6P.js">
+    <link rel="modulepreload" href="/assets/chunks/xychartDiagram-2RQKCTM6.DZ9DKocQ.js">
+    <link rel="modulepreload" href="/assets/chunks/requirementDiagram-4Y6WPE33.DkTuTqHj.js">
+    <link rel="modulepreload" href="/assets/chunks/sequenceDiagram-3UESZ5HK.cFcmd4ud.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-4FO5ZUOK.DvRERw89.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-v2-Q7XG4LA2.DvRERw89.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-AJRCARHV.BIz_221x.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-v2-BHNVJYJU.DBnRDZwz.js">
+    <link rel="modulepreload" href="/assets/chunks/journeyDiagram-JHISSGLW.BkTbGYLh.js">
+    <link rel="modulepreload" href="/assets/chunks/timeline-definition-PNZ67QCA.DJEtSogJ.js">
+    <link rel="modulepreload" href="/assets/chunks/mindmap-definition-RKZ34NQL.BkVJ1SWD.js">
+    <link rel="modulepreload" href="/assets/chunks/kanban-definition-UN3LZRKU.CSx9nSR8.js">
+    <link rel="modulepreload" href="/assets/chunks/sankeyDiagram-5OEKKPKP.CpxHHU_-.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-LMA3HP47.BOyQolFW.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-2AECGRRQ.BFZorpBB.js">
+    <link rel="modulepreload" href="/assets/chunks/blockDiagram-GPEHLZMM.eSxjnMrS.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-5GNKFQAL.DtHz6By9.js">
+    <link rel="modulepreload" href="/assets/chunks/architectureDiagram-3BPJPVTR.CQClnpIt.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-KO2AKTUF.vTbNZSqm.js">
+    <link rel="modulepreload" href="/assets/chunks/ishikawaDiagram-YF4QCWOH.6W6HZS3g.js">
+    <link rel="modulepreload" href="/assets/chunks/vennDiagram-CIIHVFJN.B19Vt-ZX.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-OG6HWLK6.3LGSuRju.js">
+    <link rel="modulepreload" href="/assets/chunks/wardleyDiagram-YWT4CUSO.B2LM76GI.js">
+    <link rel="modulepreload" href="/assets/posts_deepseek-v4-api完整接入实战手册.md.zBfCIjzm.lean.js">
+    <meta name="theme-color" content="#1a4d3a">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <meta name="keywords" content="VitePress, VuePress, 静态博客, GitHub Pages, Markdown, 文件驱动, 前端工程, AI大模型, 技术博客, 个人网站">
+    <meta property="article:author" content="dcyyd">
+    <meta property="article:publisher" content="https://dcyyd.github.io">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FilePress Blog">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dcyyd">
+    <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" async></script>
+    <meta name="twitter:creator" content="@dcyyd">
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+    <meta property="og:title" content="DeepSeek V4 API完整接入实战手册 | FilePress Blog - 极致文件驱动技术博客">
+    <meta property="og:description" content="本文完整讲解DeepSeek V4大模型API从账号注册、密钥创建、余额充值、Python代码调用、参数说明、故障排查全流程，同时提供免代码开箱工具EasyClaw对比方案，覆盖普通对话、流式实时输出、多轮上下文对话三类开发场景。">
+    <meta property="og:url" content="https://dcyyd.github.io/posts/deepseek-v4-api完整接入实战手册.md">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="DeepSeek V4 API完整接入实战手册 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:title" content="DeepSeek V4 API完整接入实战手册 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:description" content="本文完整讲解DeepSeek V4大模型API从账号注册、密钥创建、余额充值、Python代码调用、参数说明、故障排查全流程，同时提供免代码开箱工具EasyClaw对比方案，覆盖普通对话、流式实时输出、多轮上下文对话三类开发场景。">
+    <meta name="twitter:image" content="/og-image.png">
+    <meta name="twitter:image:alt" content="DeepSeek V4 API完整接入实战手册 | FilePress Blog - 极致文件驱动技术博客">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"FilePress Blog","description":"基于 VitePress 1.4 构建的纯文件驱动技术博客，零数据库、零 CMS，支持 GitHub Pages 免费部署、Markdown 写作、全文搜索、评论系统集成。提供 VuePress/VitePress 静态博客搭建教程、前端工程实践、AI 大模型应用等技术文章。","url":"https://dcyyd.github.io/posts/deepseek-v4-api完整接入实战手册.md","publisher":{"@type":"Organization","name":"FilePress Blog","url":"https://dcyyd.github.io"}}</script>
+  </head>
+  <body><!--teleport start anchor--><!----><!--teleport anchor--><!--teleport start anchor--><!----><!--teleport anchor-->
+    <div id="app"><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b backdrop-blur-sm" style="border-color:var(--ink-200);background:var(--paper);" data-v-8b063484><nav class="mx-auto flex h-14 sm:h-16 max-w-[1240px] items-center justify-between px-6 sm:px-8" aria-label="主导航" data-v-8b063484><a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="返回首页" data-v-8b063484><span class="mono-num inline-flex h-8 w-8 items-center justify-center text-[13px] font-semibold rounded-sm" style="background:var(--ink-900);color:var(--paper);" data-v-8b063484> F </span><span class="flex flex-col leading-none hidden sm:flex" data-v-8b063484><span class="serif-title text-[15px] leading-none" style="color:var(--text-primary);" data-v-8b063484>FilePress · Blog</span><span class="eyebrow mt-0.5 leading-none" style="font-size:8.5px;" data-v-8b063484>Est. 2026</span></span></a><div class="hidden md:flex items-center gap-0.5" data-v-8b063484><!--[--><a href="/" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>首页</a><a href="/blog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>博客</a><a href="/categories" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>分类</a><a href="/archives" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>归档</a><a href="/friends" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>友链</a><a href="/about" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>关于</a><a href="/changelog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>更新日志</a><!--]--><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="inline-flex items-center justify-center p-1.5 rounded-sm hover:bg-[var(--muted)] transition-colors" aria-label="搜索 (Ctrl+K)" title="搜索 (Ctrl+K)" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon h-4 w-4" style="color:var(--text-secondary);" aria-hidden="true" data-v-8b063484><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="theme-toggle group inline-flex items-center gap-1.5 border px-2.5 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] rounded-sm transition-all duration-200" style="color:var(--text-tertiary);border-color:var(--ink-200);" aria-label="切换到深色模式" aria-pressed="false" data-v-8b063484 data-v-f5d60c34><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon h-3.5 w-3.5" aria-hidden="true" data-v-f5d60c34><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg><span class="hidden sm:inline" data-v-f5d60c34>Dark</span></button></div><button type="button" class="inline-flex items-center justify-center p-2 md:hidden rounded-sm -mr-2" style="color:var(--text-primary);" aria-label="切换菜单" aria-expanded="false" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon h-5 w-5" aria-hidden="true" data-v-8b063484><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button></nav><!----></header><main class="max-w-6xl mx-auto w-full flex-1 px-4 py-8 sm:px-6 lg:px-8"><!--[--><nav class="breadcrumbs" aria-label="面包屑导航" data-v-047f921d><ol class="breadcrumbs-list flex items-center gap-1" data-v-047f921d><!--[--><li class="breadcrumbs-item" data-v-047f921d><a href="/" class="breadcrumbs-link" aria-label="返回首页" data-v-047f921d><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon h-3 w-3" aria-hidden="true" data-v-047f921d><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="sr-only" data-v-047f921d>首页</span></a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><a href="/posts" class="breadcrumbs-link" data-v-047f921d>文章</a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><span class="breadcrumbs-current" aria-current="page" data-v-047f921d>deepseek-v4-api完整接入实战手册</span><!----></li><!--]--></ol></nav><div style="position:relative;"><div><article class="relative mx-auto max-w-[90rem]" data-v-7cac6a61><div class="reading-progress fixed top-0 left-0 z-50 h-[3px] pointer-events-none" style="width:0%;background:var(--accent, #10b981);" aria-hidden="true" data-v-7cac6a61></div><div class="flex justify-center" data-v-7cac6a61><div class="w-full max-w-3xl px-4 sm:px-6" data-v-7cac6a61><header class="animate-fade-up pt-16 pb-10 sm:pt-20 sm:pb-12 border-b" style="border-color:var(--ink-200);" data-v-7cac6a61><!----><div class="flex items-center gap-2 mb-5 text-[11px] font-medium" style="color:var(--text-tertiary);" data-v-7cac6a61><a href="/blog" class="inline-flex items-center gap-1.5 transition-colors hover:text-[var(--accent)]" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 博客 </a><span aria-hidden="true" class="opacity-40" data-v-7cac6a61>/</span><a href="/categories/ai-与大模型" class="transition-colors hover:text-[var(--accent)]" data-v-7cac6a61>AI 与大模型</a></div><h1 class="serif-title text-balance text-[2.25rem] leading-[1.06] tracking-tight sm:text-[3rem] lg:text-[3.5rem]" style="color:var(--text-primary);" data-v-7cac6a61>DeepSeek V4 API完整接入实战手册</h1><p class="mt-5 text-[16px] leading-[1.8] max-w-[60ch]" style="color:var(--text-secondary);" data-v-7cac6a61>本文完整讲解DeepSeek V4大模型API从账号注册、密钥创建、余额充值、Python代码调用、参数说明、故障排查全流程，同时提供免代码开箱工具EasyClaw对比方案，覆盖普通对话、流式实时输出、多轮上下文对话三类开发场景。</p><div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-7" data-v-7cac6a61><div class="flex items-center gap-4 text-[12.5px]" style="color:var(--text-tertiary);" data-v-7cac6a61><time datetime="2026-06-23T00:00:00.000Z" class="inline-flex items-center gap-1.5 font-medium" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg> 2026/06/23</time><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="mono-num" data-v-7cac6a61>13 分钟阅读</span></span><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><line x1="4" x2="20" y1="9" y2="9"></line><line x1="4" x2="20" y1="15" y2="15"></line><line x1="10" x2="8" y1="3" y2="21"></line><line x1="16" x2="14" y1="3" y2="21"></line></svg><span class="mono-num" data-v-7cac6a61>2.6k 字</span></span><!----></div><!----></div><div class="flex flex-wrap items-center gap-2 mt-6" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon h-3.5 w-3.5 opacity-50" style="color:var(--text-tertiary);" aria-hidden="true" data-v-7cac6a61><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle></svg><!--[--><a href="/tags/deepseek" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>DeepSeek</a><a href="/tags/v4" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>V4</a><a href="/tags/api对接" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>API对接</a><a href="/tags/python" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>Python</a><a href="/tags/大模型调用" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>大模型调用</a><a href="/tags/流式输出" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>流式输出</a><!--]--></div></header><div class="blog-prose pt-10 pb-10" data-v-7cac6a61><!--[--><div data-v-8e23877e><!--[--><h2 data-v-8e23877e>前言</h2>
+<p data-v-8e23877e>DeepSeek V4作为深度求索公司最新一代大语言模型，在推理能力、代码生成、长文本处理等方面均有显著提升。本文档旨在为开发者提供从零到一的完整接入指南，涵盖API申请、代码实现、参数调优、异常处理及替代方案，帮助您快速将DeepSeek V4集成至实际项目中。</p>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>一、官方API申请全流程</h2>
+<h3 data-v-8e23877e>1.1 账号注册与实名认证</h3>
+<p data-v-8e23877e><strong>前置条件：</strong> 实名认证为强制性要求，未完成认证将无法调用API。</p>
+<ol data-v-8e23877e>
+<li><strong>访问平台</strong>：浏览器打开 <a href="https://platform.deepseek.com" target="_blank" rel="noreferrer noopener">https://platform.deepseek.com</a></li>
+<li><strong>注册账号</strong>：支持中国大陆手机号或常用邮箱注册，建议使用企业邮箱便于后续团队管理</li>
+<li><strong>实名认证</strong>：
+<ul>
+<li>个人用户：上传身份证正反面照片，完成人脸识别验证</li>
+<li>企业用户：提交营业执照及法人身份信息，审核时效约1-2个工作日</li>
+<li><strong>注意</strong>：认证信息需与注册手机号实名一致，否则审核不通过</li>
+</ul>
+</li>
+</ol>
+<h3 data-v-8e23877e>1.2 创建并安全保存API Key</h3>
+<div class="mermaid-block my-6" data-v-8e23877e data-v-a31823b9><!----><div style="" class="mermaid-container" data-mermaid-source="flowchart LR
+    A[登录控制台] --&gt; B[进入API Keys页面]
+    B --&gt; C[点击创建API Key]
+    C --&gt; D[自定义密钥名称]
+    D --&gt; E[生成密钥]
+    E --&gt; F[立即复制保存]
+    F --&gt; G{是否妥善保存?}
+    G --&gt;|是| H[开始使用]
+    G --&gt;|否| I[重新生成新密钥]
+" data-v-a31823b9></div><!----></div>
+<p data-v-8e23877e><strong>操作步骤：</strong></p>
+<ol data-v-8e23877e>
+<li>登录后左侧导航栏点击 <strong>API Keys</strong></li>
+<li>点击右上角 <strong>「创建API Key」</strong>，输入标识名称（如<code>production-backend</code>、<code>dev-test</code>）</li>
+<li>点击确认后，密钥将 <strong>仅显示一次</strong>，务必立即复制到本地安全存储（如密码管理器）</li>
+<li>若未及时保存，需删除旧密钥并重新创建</li>
+</ol>
+<p data-v-8e23877e><strong>安全规范（必须遵守）：</strong></p>
+<ul data-v-8e23877e>
+<li>❌ 禁止将API Key硬编码在代码文件中</li>
+<li>❌ 禁止提交至GitHub公开仓库或任何版本控制系统</li>
+<li>❌ 禁止通过邮件、即时通讯工具明文传输</li>
+<li>✅ 推荐使用环境变量（<code>.env</code>文件）或密钥管理服务（如AWS Secrets Manager、HashiCorp Vault）</li>
+<li>✅ 定期轮换密钥（建议每90天更换一次）</li>
+<li>✅ 为不同环境（开发/测试/生产）分配独立密钥，便于权限隔离</li>
+</ul>
+<h3 data-v-8e23877e>1.3 账户用量与余额管理</h3>
+<p data-v-8e23877e><strong>用量查询：</strong></p>
+<ol data-v-8e23877e>
+<li>导航至 <strong>「用量信息」</strong> 仪表盘</li>
+<li>可查看：当前余额、今日/本月消费、各模型调用次数及Token消耗</li>
+<li>支持按时间维度导出月度用量报表（CSV格式），便于财务对账</li>
+</ol>
+<p data-v-8e23877e><strong>充值机制：</strong></p>
+<ul data-v-8e23877e>
+<li>余额不足时，接口返回<code>Insufficient balance</code>错误</li>
+<li>支持支付宝/微信支付/对公转账三种充值方式</li>
+<li>充值金额实时到账，最小充值单位为1元</li>
+<li>可设置 <strong>余额预警</strong>（低于阈值时邮件通知）</li>
+</ul>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>二、Python调用完整代码示例</h2>
+<h3 data-v-8e23877e>2.1 基础单次对话调用（同步请求）</h3>
+<p data-v-8e23877e>适用于一次性问答、内容生成、文本摘要等场景。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3572A5;border-color:#3572A540;background:#3572A514;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3572A5;" aria-hidden="true" data-v-3bcbc953></span> Python</span><span class="code-block__meta" data-v-3bcbc953>69 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><span class="code-block__line-num" data-v-3bcbc953>38</span><span class="code-block__line-num" data-v-3bcbc953>39</span><span class="code-block__line-num" data-v-3bcbc953>40</span><span class="code-block__line-num" data-v-3bcbc953>41</span><span class="code-block__line-num" data-v-3bcbc953>42</span><span class="code-block__line-num" data-v-3bcbc953>43</span><span class="code-block__line-num" data-v-3bcbc953>44</span><span class="code-block__line-num" data-v-3bcbc953>45</span><span class="code-block__line-num" data-v-3bcbc953>46</span><span class="code-block__line-num" data-v-3bcbc953>47</span><span class="code-block__line-num" data-v-3bcbc953>48</span><span class="code-block__line-num" data-v-3bcbc953>49</span><span class="code-block__line-num" data-v-3bcbc953>50</span><span class="code-block__line-num" data-v-3bcbc953>51</span><span class="code-block__line-num" data-v-3bcbc953>52</span><span class="code-block__line-num" data-v-3bcbc953>53</span><span class="code-block__line-num" data-v-3bcbc953>54</span><span class="code-block__line-num" data-v-3bcbc953>55</span><span class="code-block__line-num" data-v-3bcbc953>56</span><span class="code-block__line-num" data-v-3bcbc953>57</span><span class="code-block__line-num" data-v-3bcbc953>58</span><span class="code-block__line-num" data-v-3bcbc953>59</span><span class="code-block__line-num" data-v-3bcbc953>60</span><span class="code-block__line-num" data-v-3bcbc953>61</span><span class="code-block__line-num" data-v-3bcbc953>62</span><span class="code-block__line-num" data-v-3bcbc953>63</span><span class="code-block__line-num" data-v-3bcbc953>64</span><span class="code-block__line-num" data-v-3bcbc953>65</span><span class="code-block__line-num" data-v-3bcbc953>66</span><span class="code-block__line-num" data-v-3bcbc953>67</span><span class="code-block__line-num" data-v-3bcbc953>68</span><span class="code-block__line-num" data-v-3bcbc953>69</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-python" data-v-3bcbc953><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">Optional</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">DeepSeekClient</span>:
+    <span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, api_key: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">str</span>] = <span class="hljs-literal">None</span></span>):
+        <span class="hljs-variable">self</span>.api_key = api_key <span class="hljs-keyword">or</span> os.getenv(<span class="hljs-string">&quot;DEEPSEEK_API_KEY&quot;</span>)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-variable">self</span>.api_key:
+            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;API Key未设置，请通过参数或环境变量提供&quot;</span>)
+        <span class="hljs-variable">self</span>.api_url = <span class="hljs-string">&quot;https://api.deepseek.com/v1/chat/completions&quot;</span>
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title">chat_completion</span>(<span class="hljs-params">
+        self, 
+        prompt: <span class="hljs-built_in">str</span>, 
+        system_prompt: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;你是专业靠谱的AI开发助手&quot;</span>,
+        temperature: <span class="hljs-built_in">float</span> = <span class="hljs-number">0.7</span>,
+        max_tokens: <span class="hljs-built_in">int</span> = <span class="hljs-number">2000</span>
+    </span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-string">&quot;&quot;&quot;
+        单次对话请求（非流式）
+        
+        Args:
+            prompt: 用户提问内容
+            system_prompt: 系统提示词
+            temperature: 随机性参数（0~2）
+            max_tokens: 最大输出Token数
+        
+        Returns:
+            str: 模型回复内容
+        &quot;&quot;&quot;</span>
+        headers = {
+            <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>,
+            <span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">{self.api_key}</span>&quot;</span>
+        }
+        payload = {
+            <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;deepseek-chat&quot;</span>,
+            <span class="hljs-string">&quot;messages&quot;</span>: [
+                {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: system_prompt},
+                {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt}
+            ],
+            <span class="hljs-string">&quot;temperature&quot;</span>: temperature,
+            <span class="hljs-string">&quot;max_tokens&quot;</span>: max_tokens
+        }
+        
+        <span class="hljs-keyword">try</span>:
+            response = requests.post(
+                <span class="hljs-variable">self</span>.api_url, 
+                headers=headers, 
+                json=payload,
+                timeout=<span class="hljs-number">60</span>  <span class="hljs-comment"># 超时控制</span>
+            )
+            response.raise_for_status()
+            result = response.json()
+            <span class="hljs-keyword">return</span> result[<span class="hljs-string">&quot;choices&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;message&quot;</span>][<span class="hljs-string">&quot;content&quot;</span>]
+            
+        <span class="hljs-keyword">except</span> requests.exceptions.Timeout:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;请求超时，请检查网络或减少max_tokens数值&quot;</span>
+        <span class="hljs-keyword">except</span> requests.exceptions.HTTPError <span class="hljs-keyword">as</span> e:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;HTTP错误：<span class="hljs-subst">{e.response.status_code}</span> - <span class="hljs-subst">{e.response.text}</span>&quot;</span>
+        <span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;请求异常：<span class="hljs-subst">{<span class="hljs-built_in">str</span>(e)}</span>&quot;</span>
+
+<span class="hljs-comment"># 使用示例</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    client = DeepSeekClient()
+    response = client.chat_completion(<span class="hljs-string">&quot;用动态规划实现斐波那契数列的Python代码&quot;</span>)
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;AI返回结果：\n&quot;</span>, response)
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 53 行</span></button></div></div>
+<h3 data-v-8e23877e>2.2 流式实时输出（打字机效果）</h3>
+<p data-v-8e23877e>适用于聊天应用、实时交互场景，可显著提升用户体验。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3572A5;border-color:#3572A540;background:#3572A514;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3572A5;" aria-hidden="true" data-v-3bcbc953></span> Python</span><span class="code-block__meta" data-v-3bcbc953>57 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><span class="code-block__line-num" data-v-3bcbc953>38</span><span class="code-block__line-num" data-v-3bcbc953>39</span><span class="code-block__line-num" data-v-3bcbc953>40</span><span class="code-block__line-num" data-v-3bcbc953>41</span><span class="code-block__line-num" data-v-3bcbc953>42</span><span class="code-block__line-num" data-v-3bcbc953>43</span><span class="code-block__line-num" data-v-3bcbc953>44</span><span class="code-block__line-num" data-v-3bcbc953>45</span><span class="code-block__line-num" data-v-3bcbc953>46</span><span class="code-block__line-num" data-v-3bcbc953>47</span><span class="code-block__line-num" data-v-3bcbc953>48</span><span class="code-block__line-num" data-v-3bcbc953>49</span><span class="code-block__line-num" data-v-3bcbc953>50</span><span class="code-block__line-num" data-v-3bcbc953>51</span><span class="code-block__line-num" data-v-3bcbc953>52</span><span class="code-block__line-num" data-v-3bcbc953>53</span><span class="code-block__line-num" data-v-3bcbc953>54</span><span class="code-block__line-num" data-v-3bcbc953>55</span><span class="code-block__line-num" data-v-3bcbc953>56</span><span class="code-block__line-num" data-v-3bcbc953>57</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-python" data-v-3bcbc953><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> Generator
+
+<span class="hljs-keyword">def</span> <span class="hljs-title">stream_chat</span>(<span class="hljs-params">prompt: <span class="hljs-built_in">str</span></span>) -&gt; Generator[<span class="hljs-built_in">str</span>, <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>]:
+    <span class="hljs-string">&quot;&quot;&quot;
+    流式对话生成器
+    
+    Yields:
+        str: 逐步返回的文本片段
+    &quot;&quot;&quot;</span>
+    api_key = os.getenv(<span class="hljs-string">&quot;DEEPSEEK_API_KEY&quot;</span>)
+    headers = {
+        <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>,
+        <span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">{api_key}</span>&quot;</span>
+    }
+    payload = {
+        <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;deepseek-chat&quot;</span>,
+        <span class="hljs-string">&quot;messages&quot;</span>: [{<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: prompt}],
+        <span class="hljs-string">&quot;stream&quot;</span>: <span class="hljs-literal">True</span>,
+        <span class="hljs-string">&quot;temperature&quot;</span>: <span class="hljs-number">0.7</span>
+    }
+    
+    <span class="hljs-keyword">with</span> requests.post(
+        <span class="hljs-string">&quot;https://api.deepseek.com/v1/chat/completions&quot;</span>,
+        headers=headers,
+        json=payload,
+        stream=<span class="hljs-literal">True</span>,
+        timeout=<span class="hljs-number">30</span>
+    ) <span class="hljs-keyword">as</span> response:
+        response.raise_for_status()
+        <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> response.iter_lines(decode_unicode=<span class="hljs-literal">True</span>):
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> line:
+                <span class="hljs-keyword">continue</span>
+            <span class="hljs-comment"># 解析SSE格式数据</span>
+            <span class="hljs-keyword">if</span> line.startswith(<span class="hljs-string">&quot;data: &quot;</span>):
+                data_str = line[<span class="hljs-number">6</span>:]  <span class="hljs-comment"># 去除&quot;data: &quot;前缀</span>
+                <span class="hljs-keyword">if</span> data_str == <span class="hljs-string">&quot;[DONE]&quot;</span>:
+                    <span class="hljs-keyword">break</span>
+                <span class="hljs-keyword">try</span>:
+                    chunk = json.loads(data_str)
+                    delta = chunk[<span class="hljs-string">&quot;choices&quot;</span>][<span class="hljs-number">0</span>].get(<span class="hljs-string">&quot;delta&quot;</span>, {})
+                    content = delta.get(<span class="hljs-string">&quot;content&quot;</span>, <span class="hljs-string">&quot;&quot;</span>)
+                    <span class="hljs-keyword">if</span> content:
+                        <span class="hljs-keyword">yield</span> content
+                <span class="hljs-keyword">except</span> json.JSONDecodeError:
+                    <span class="hljs-keyword">continue</span>
+
+<span class="hljs-comment"># 使用示例</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;AI：&quot;</span>, end=<span class="hljs-string">&quot;&quot;</span>, flush=<span class="hljs-literal">True</span>)
+    <span class="hljs-keyword">for</span> text <span class="hljs-keyword">in</span> stream_chat(<span class="hljs-string">&quot;写一首关于编程的短诗&quot;</span>):
+        <span class="hljs-built_in">print</span>(text, end=<span class="hljs-string">&quot;&quot;</span>, flush=<span class="hljs-literal">True</span>)
+        sys.stdout.flush()
+    <span class="hljs-built_in">print</span>()  <span class="hljs-comment"># 换行</span>
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 41 行</span></button></div></div>
+<h3 data-v-8e23877e>2.3 多轮上下文连续对话（记忆管理）</h3>
+<p data-v-8e23877e>封装对话管理类，自动维护历史消息，支持上下文记忆。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3572A5;border-color:#3572A540;background:#3572A514;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3572A5;" aria-hidden="true" data-v-3bcbc953></span> Python</span><span class="code-block__meta" data-v-3bcbc953>71 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><span class="code-block__line-num" data-v-3bcbc953>38</span><span class="code-block__line-num" data-v-3bcbc953>39</span><span class="code-block__line-num" data-v-3bcbc953>40</span><span class="code-block__line-num" data-v-3bcbc953>41</span><span class="code-block__line-num" data-v-3bcbc953>42</span><span class="code-block__line-num" data-v-3bcbc953>43</span><span class="code-block__line-num" data-v-3bcbc953>44</span><span class="code-block__line-num" data-v-3bcbc953>45</span><span class="code-block__line-num" data-v-3bcbc953>46</span><span class="code-block__line-num" data-v-3bcbc953>47</span><span class="code-block__line-num" data-v-3bcbc953>48</span><span class="code-block__line-num" data-v-3bcbc953>49</span><span class="code-block__line-num" data-v-3bcbc953>50</span><span class="code-block__line-num" data-v-3bcbc953>51</span><span class="code-block__line-num" data-v-3bcbc953>52</span><span class="code-block__line-num" data-v-3bcbc953>53</span><span class="code-block__line-num" data-v-3bcbc953>54</span><span class="code-block__line-num" data-v-3bcbc953>55</span><span class="code-block__line-num" data-v-3bcbc953>56</span><span class="code-block__line-num" data-v-3bcbc953>57</span><span class="code-block__line-num" data-v-3bcbc953>58</span><span class="code-block__line-num" data-v-3bcbc953>59</span><span class="code-block__line-num" data-v-3bcbc953>60</span><span class="code-block__line-num" data-v-3bcbc953>61</span><span class="code-block__line-num" data-v-3bcbc953>62</span><span class="code-block__line-num" data-v-3bcbc953>63</span><span class="code-block__line-num" data-v-3bcbc953>64</span><span class="code-block__line-num" data-v-3bcbc953>65</span><span class="code-block__line-num" data-v-3bcbc953>66</span><span class="code-block__line-num" data-v-3bcbc953>67</span><span class="code-block__line-num" data-v-3bcbc953>68</span><span class="code-block__line-num" data-v-3bcbc953>69</span><span class="code-block__line-num" data-v-3bcbc953>70</span><span class="code-block__line-num" data-v-3bcbc953>71</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-python" data-v-3bcbc953><span class="hljs-keyword">import</span> requests
+<span class="hljs-keyword">import</span> json
+<span class="hljs-keyword">import</span> os
+<span class="hljs-keyword">from</span> typing <span class="hljs-keyword">import</span> <span class="hljs-type">List</span>, <span class="hljs-type">Dict</span>
+
+<span class="hljs-keyword">class</span> <span class="hljs-title">ConversationBot</span>:
+    <span class="hljs-string">&quot;&quot;&quot;支持上下文记忆的对话机器人&quot;&quot;&quot;</span>
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span>(<span class="hljs-params">self, system_prompt: <span class="hljs-built_in">str</span> = <span class="hljs-string">&quot;你是一个智能助手&quot;</span></span>):
+        <span class="hljs-variable">self</span>.api_key = os.getenv(<span class="hljs-string">&quot;DEEPSEEK_API_KEY&quot;</span>)
+        <span class="hljs-variable">self</span>.api_url = <span class="hljs-string">&quot;https://api.deepseek.com/v1/chat/completions&quot;</span>
+        <span class="hljs-variable">self</span>.messages: <span class="hljs-type">List</span>[<span class="hljs-type">Dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">str</span>]] = [
+            {<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: system_prompt}
+        ]
+        <span class="hljs-variable">self</span>.max_history = <span class="hljs-number">20</span>  <span class="hljs-comment"># 最大保留历史轮次</span>
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title">chat</span>(<span class="hljs-params">self, user_input: <span class="hljs-built_in">str</span></span>) -&gt; <span class="hljs-built_in">str</span>:
+        <span class="hljs-string">&quot;&quot;&quot;发送消息并获取回复&quot;&quot;&quot;</span>
+        <span class="hljs-comment"># 添加用户消息</span>
+        <span class="hljs-variable">self</span>.messages.append({<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: user_input})
+        
+        headers = {
+            <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>,
+            <span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">f&quot;Bearer <span class="hljs-subst">{self.api_key}</span>&quot;</span>
+        }
+        payload = {
+            <span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;deepseek-chat&quot;</span>,
+            <span class="hljs-string">&quot;messages&quot;</span>: <span class="hljs-variable">self</span>.messages,
+            <span class="hljs-string">&quot;temperature&quot;</span>: <span class="hljs-number">0.7</span>,
+            <span class="hljs-string">&quot;max_tokens&quot;</span>: <span class="hljs-number">2000</span>
+        }
+        
+        <span class="hljs-keyword">try</span>:
+            response = requests.post(<span class="hljs-variable">self</span>.api_url, headers=headers, json=payload, timeout=<span class="hljs-number">60</span>)
+            response.raise_for_status()
+            result = response.json()
+            reply = result[<span class="hljs-string">&quot;choices&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;message&quot;</span>][<span class="hljs-string">&quot;content&quot;</span>]
+            
+            <span class="hljs-comment"># 保存助手回复</span>
+            <span class="hljs-variable">self</span>.messages.append({<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;assistant&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: reply})
+            
+            <span class="hljs-comment"># 控制历史长度，防止超出上下文窗口</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(<span class="hljs-variable">self</span>.messages) &gt; <span class="hljs-variable">self</span>.max_history * <span class="hljs-number">2</span>:
+                <span class="hljs-comment"># 保留system提示 + 最近N轮对话</span>
+                <span class="hljs-variable">self</span>.messages = [<span class="hljs-variable">self</span>.messages[<span class="hljs-number">0</span>]] + <span class="hljs-variable">self</span>.messages[-(<span class="hljs-variable">self</span>.max_history * <span class="hljs-number">2</span>):]
+            
+            <span class="hljs-keyword">return</span> reply
+            
+        <span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:
+            <span class="hljs-keyword">return</span> <span class="hljs-string">f&quot;请求失败：<span class="hljs-subst">{<span class="hljs-built_in">str</span>(e)}</span>&quot;</span>
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title">clear_history</span>(<span class="hljs-params">self</span>):
+        <span class="hljs-string">&quot;&quot;&quot;清空对话历史（保留系统提示）&quot;&quot;&quot;</span>
+        system_prompt = <span class="hljs-variable">self</span>.messages[<span class="hljs-number">0</span>][<span class="hljs-string">&quot;content&quot;</span>]
+        <span class="hljs-variable">self</span>.messages = [{<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;system&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: system_prompt}]
+    
+    <span class="hljs-keyword">def</span> <span class="hljs-title">get_history</span>(<span class="hljs-params">self</span>) -&gt; <span class="hljs-type">List</span>[<span class="hljs-type">Dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-built_in">str</span>]]:
+        <span class="hljs-string">&quot;&quot;&quot;获取完整对话历史&quot;&quot;&quot;</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-variable">self</span>.messages.copy()
+
+<span class="hljs-comment"># 使用示例</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:
+    bot = ConversationBot(system_prompt=<span class="hljs-string">&quot;你是Python编程专家&quot;</span>)
+    
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;AI：&quot;</span>, bot.chat(<span class="hljs-string">&quot;Python是什么类型的语言？&quot;</span>))
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;AI：&quot;</span>, bot.chat(<span class="hljs-string">&quot;它的核心优势有哪些？&quot;</span>))
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;AI：&quot;</span>, bot.chat(<span class="hljs-string">&quot;请用一段Hello World代码演示基础语法&quot;</span>))
+    
+    <span class="hljs-comment"># 查看历史</span>
+    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;\n当前对话共 <span class="hljs-subst">{<span class="hljs-built_in">len</span>(bot.get_history())}</span> 条消息&quot;</span>)
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 55 行</span></button></div></div>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>三、API请求参数详解</h2>
+<h3 data-v-8e23877e>3.1 核心参数对照表</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+<th>取值范围</th>
+<th>推荐值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model</code></td>
+<td>string</td>
+<td>✅</td>
+<td>模型版本标识</td>
+<td><code>deepseek-chat</code>（V4最新版）</td>
+<td><code>deepseek-chat</code></td>
+</tr>
+<tr>
+<td><code>messages</code></td>
+<td>array</td>
+<td>✅</td>
+<td>对话消息数组，按时间顺序排列</td>
+<td>角色：system/user/assistant</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>temperature</code></td>
+<td>float</td>
+<td>❌</td>
+<td>控制回复随机性，值越高创造性越强</td>
+<td>0~2</td>
+<td>0.7（平衡）</td>
+</tr>
+<tr>
+<td><code>max_tokens</code></td>
+<td>int</td>
+<td>❌</td>
+<td>单次生成最大Token数</td>
+<td>1~8192</td>
+<td>2000（常规）</td>
+</tr>
+<tr>
+<td><code>stream</code></td>
+<td>bool</td>
+<td>❌</td>
+<td>是否启用流式输出</td>
+<td>true/false</td>
+<td>false（同步）/true（实时）</td>
+</tr>
+<tr>
+<td><code>top_p</code></td>
+<td>float</td>
+<td>❌</td>
+<td>核采样概率阈值，动态调整候选词集</td>
+<td>0~1</td>
+<td>1.0（不限制）</td>
+</tr>
+<tr>
+<td><code>frequency_penalty</code></td>
+<td>float</td>
+<td>❌</td>
+<td>降低重复词频，值越大越避免重复</td>
+<td>-2~2</td>
+<td>0（不干预）</td>
+</tr>
+<tr>
+<td><code>presence_penalty</code></td>
+<td>float</td>
+<td>❌</td>
+<td>鼓励话题多样性，值越高越倾向新话题</td>
+<td>-2~2</td>
+<td>0（不干预）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>3.2 消息角色（role）语义说明</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>角色</th>
+<th>用途</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>system</code></td>
+<td>设定AI身份、回复风格、输出格式、行为约束</td>
+<td><em>&quot;你是严谨的科研助手，回答需引用权威来源&quot;</em></td>
+</tr>
+<tr>
+<td><code>user</code></td>
+<td>用户提出的问题或指令</td>
+<td><em>&quot;解释量子纠缠的原理&quot;</em></td>
+</tr>
+<tr>
+<td><code>assistant</code></td>
+<td>模型的历史回复（用于构建上下文）</td>
+<td>自动由API返回添加，也可手动注入示例</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>3.3 参数调优建议</h3>
+<p data-v-8e23877e><strong>Temperature调优策略：</strong></p>
+<ul data-v-8e23877e>
+<li><strong>0.0~0.3</strong>：确定性任务（代码生成、数据提取、翻译） → 输出稳定、可复现</li>
+<li><strong>0.5~0.8</strong>：日常对话、问答、内容创作 → 平衡准确性与多样性（<strong>推荐0.7</strong>）</li>
+<li><strong>0.9~1.5</strong>：创意写作、头脑风暴、故事生成 → 高随机性，输出更具想象力</li>
+<li><strong>1.5~2.0</strong>：极富探索性，可能出现逻辑跳跃 → 谨慎使用</li>
+</ul>
+<p data-v-8e23877e><strong>Top_P配合建议：</strong></p>
+<ul data-v-8e23877e>
+<li><code>top_p=1.0</code>：不截断词汇集，与temperature协同作用</li>
+<li><code>top_p=0.9</code> + <code>temperature=0.8</code>：兼顾多样性同时过滤低概率词汇</li>
+<li>优先调整temperature，top_p作为辅助控制参数</li>
+</ul>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>四、常见接口错误与解决方案</h2>
+<h3 data-v-8e23877e>4.1 错误码速查表</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>HTTP状态码</th>
+<th>错误信息</th>
+<th>根因分析</th>
+<th>解决方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>401</strong></td>
+<td><code>Unauthorized</code> / <code>Invalid API Key</code></td>
+<td>API Key填写错误、格式不正确、已删除</td>
+<td>1. 检查密钥是否完整复制（含前缀<code>sk-</code>）2. 重新创建密钥并更新环境变量3. 确认未在代码中引入多余空格</td>
+</tr>
+<tr>
+<td><strong>429</strong></td>
+<td><code>Too Many Requests</code></td>
+<td>调用频率超过账户限额（默认约60次/分钟）</td>
+<td>1. 实现指数退避重试机制2. 使用队列削峰，控制并发数3. 联系客服升级企业套餐提高限额</td>
+</tr>
+<tr>
+<td><strong>402</strong></td>
+<td><code>Insufficient balance</code></td>
+<td>账户余额为负或免费额度耗尽</td>
+<td>1. 登录控制台充值2. 检查是否有未支付账单3. 开启余额预警功能</td>
+</tr>
+<tr>
+<td><strong>400</strong></td>
+<td><code>Bad Request</code></td>
+<td>请求参数错误（如模型名错误、messages格式有误）</td>
+<td>1. 验证JSON格式合法性2. 检查messages是否包含空内容3. 确认max_tokens未超过8192上限</td>
+</tr>
+<tr>
+<td><strong>504</strong></td>
+<td><code>Gateway Timeout</code></td>
+<td>请求处理超时</td>
+<td>1. 减小max_tokens值2. 检查网络延迟3. 缩短输入prompt长度</td>
+</tr>
+<tr>
+<td><strong>500</strong></td>
+<td><code>Internal Server Error</code></td>
+<td>服务端内部异常</td>
+<td>通常为瞬时问题，建议重试（可延迟1~5秒后重试）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>4.2 高级错误处理策略</h3>
+<p data-v-8e23877e><strong>带退避的重试装饰器实现：</strong></p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3572A5;border-color:#3572A540;background:#3572A514;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3572A5;" aria-hidden="true" data-v-3bcbc953></span> Python</span><span class="code-block__meta" data-v-3bcbc953>28 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-python" data-v-3bcbc953><span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> wraps
+
+<span class="hljs-keyword">def</span> <span class="hljs-title">retry_on_failure</span>(<span class="hljs-params">max_retries=<span class="hljs-number">3</span>, base_delay=<span class="hljs-number">1</span>, backoff_factor=<span class="hljs-number">2</span></span>):
+    <span class="hljs-string">&quot;&quot;&quot;指数退避重试装饰器&quot;&quot;&quot;</span>
+    <span class="hljs-keyword">def</span> <span class="hljs-title">decorator</span>(<span class="hljs-params">func</span>):
+<span class="hljs-meta">        @wraps(<span class="hljs-params">func</span>)</span>
+        <span class="hljs-keyword">def</span> <span class="hljs-title">wrapper</span>(<span class="hljs-params">*args, **kwargs</span>):
+            delay = base_delay
+            <span class="hljs-keyword">for</span> attempt <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(max_retries):
+                <span class="hljs-keyword">try</span>:
+                    <span class="hljs-keyword">return</span> func(*args, **kwargs)
+                <span class="hljs-keyword">except</span> requests.exceptions.RequestException <span class="hljs-keyword">as</span> e:
+                    <span class="hljs-keyword">if</span> attempt == max_retries - <span class="hljs-number">1</span>:
+                        <span class="hljs-keyword">raise</span> e
+                    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;请求失败，<span class="hljs-subst">{delay}</span>秒后重试（<span class="hljs-subst">{attempt+<span class="hljs-number">1</span>}</span>/<span class="hljs-subst">{max_retries}</span>）&quot;</span>)
+                    time.sleep(delay)
+                    delay *= backoff_factor
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+        <span class="hljs-keyword">return</span> wrapper
+    <span class="hljs-keyword">return</span> decorator
+
+<span class="hljs-comment"># 使用示例</span>
+<span class="hljs-meta">@retry_on_failure(<span class="hljs-params">max_retries=<span class="hljs-number">3</span></span>)</span>
+<span class="hljs-keyword">def</span> <span class="hljs-title">robust_api_call</span>(<span class="hljs-params">prompt</span>):
+    <span class="hljs-comment"># 调用DeepSeek API的代码</span>
+    <span class="hljs-keyword">pass</span>
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 12 行</span></button></div></div>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>五、免代码替代方案：EasyClaw工具</h2>
+<h3 data-v-8e23877e>5.1 工具简介</h3>
+<p data-v-8e23877e>EasyClaw是一款内置DeepSeek V4大模型能力的跨平台客户端工具，专为以下场景设计：</p>
+<ul data-v-8e23877e>
+<li>无需申请API Key、无需编写代码、无需配置Python环境</li>
+<li>开箱即用，下载安装后即可通过可视化界面与DeepSeek V4对话</li>
+</ul>
+<p data-v-8e23877e><strong>下载地址</strong>：<a href="https://easyclaw.ai" target="_blank" rel="noreferrer noopener">https://easyclaw.ai</a> （支持Windows/macOS/Linux）</p>
+<h3 data-v-8e23877e>5.2 核心功能特性</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>功能模块</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>💬 <strong>可视化对话</strong></td>
+<td>类ChatGPT的聊天界面，支持多轮对话与历史记录保存</td>
+</tr>
+<tr>
+<td>📋 <strong>代码一键复制</strong></td>
+<td>模型输出的代码块，鼠标悬停即可复制</td>
+</tr>
+<tr>
+<td>📄 <strong>文档分析</strong></td>
+<td>支持上传PDF/Word/TXT文件，提取内容后提问</td>
+</tr>
+<tr>
+<td>🔗 <strong>团队协作</strong></td>
+<td>对接飞书/钉钉机器人，实现团队共享问答能力</td>
+</tr>
+<tr>
+<td>📊 <strong>用量统计</strong></td>
+<td>实时展示当前会话的Token消耗</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>5.3 适用人群与场景</h3>
+<ul data-v-8e23877e>
+<li><strong>产品经理/业务人员</strong>：快速验证AI能力，无需技术依赖</li>
+<li><strong>学生/研究者</strong>：无编程基础，即时体验大模型效果</li>
+<li><strong>临时使用场景</strong>：出差、演示、短期项目，无需维护API密钥和计费流程</li>
+<li><strong>团队轻量化协作</strong>：通过飞书机器人接入，非技术人员可共用AI能力</li>
+</ul>
+<h3 data-v-8e23877e>5.4 方案对比与选型建议</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>对比维度</th>
+<th>官方API接入</th>
+<th>EasyClaw客户端</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API Key申请</strong></td>
+<td>✅ 需要注册+实名认证</td>
+<td>❌ 无需</td>
+</tr>
+<tr>
+<td><strong>编程能力</strong></td>
+<td>✅ 需要Python/其他语言基础</td>
+<td>❌ 零代码</td>
+</tr>
+<tr>
+<td><strong>环境配置</strong></td>
+<td>✅ 需安装Python及依赖库</td>
+<td>❌ 下载即用</td>
+</tr>
+<tr>
+<td><strong>费用模式</strong></td>
+<td>✅ 按Token计费，需预充值</td>
+<td>❌ 免费（部分高阶功能需订阅）</td>
+</tr>
+<tr>
+<td><strong>自定义能力</strong></td>
+<td>✅ 完全可编程控制</td>
+<td>⚠️ 仅限界面配置</td>
+</tr>
+<tr>
+<td><strong>批处理/自动化</strong></td>
+<td>✅ 支持大规模批量任务</td>
+<td>❌ 不支持</td>
+</tr>
+<tr>
+<td><strong>私有化部署</strong></td>
+<td>✅ 可二次封装集成至企业系统</td>
+<td>❌ 仅限客户端</td>
+</tr>
+<tr>
+<td><strong>流式输出</strong></td>
+<td>✅ 支持SSE流式</td>
+<td>✅ 界面原生支持</td>
+</tr>
+<tr>
+<td><strong>上下文窗口</strong></td>
+<td>✅ 32K~128K（模型原生）</td>
+<td>✅ 同模型能力</td>
+</tr>
+<tr>
+<td><strong>数据隐私</strong></td>
+<td>⚠️ 需自行保障密钥安全</td>
+<td>✅ 无需暴露密钥</td>
+</tr>
+</tbody>
+</table></div>
+<p data-v-8e23877e><strong>选型决策树：</strong></p>
+<div class="mermaid-block my-6" data-v-8e23877e data-v-a31823b9><!----><div style="" class="mermaid-container" data-mermaid-source="flowchart TD
+    Start[开始] --&gt; Q1{是否需要编程集成?}
+    Q1 --&gt;|是| Q2{是否批量自动化?}
+    Q1 --&gt;|否| EasyClaw[选用EasyClaw客户端]
+    
+    Q2 --&gt;|是| OfficialAPI[选用官方API接入]
+    Q2 --&gt;|否| Q3{是否有API Key?}
+    
+    Q3 --&gt;|有| OfficialAPI
+    Q3 --&gt;|无| Q4{能否完成实名认证?}
+    
+    Q4 --&gt;|能| OfficialAPI
+    Q4 --&gt;|否| EasyClaw
+" data-v-a31823b9></div><!----></div>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>六、实战最佳实践与总结</h2>
+<h3 data-v-8e23877e>6.1 开发环境配置建议</h3>
+<p data-v-8e23877e><strong>环境变量管理（推荐方式）：</strong></p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># .env文件</span>
+DEEPSEEK_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DEEPSEEK_BASE_URL=https://api.deepseek.com/v1
+DEEPSEEK_DEFAULT_MODEL=deepseek-chat
+</code></pre></div><!----></div>
+<p data-v-8e23877e><strong>Python依赖管理：</strong></p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># requirements.txt</span>
+requests&gt;=2.31.0
+python-dotenv&gt;=1.0.0
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>6.2 性能优化要点</h3>
+<ol data-v-8e23877e>
+<li><strong>连接池复用</strong>：使用<code>requests.Session()</code>保持HTTP连接，减少握手开销</li>
+<li><strong>异步调用</strong>：高并发场景下使用<code>asyncio</code> + <code>aiohttp</code>提升吞吐量</li>
+<li><strong>缓存策略</strong>：对频繁请求的固定问题（如系统提示词）启用本地缓存</li>
+<li><strong>Token预算管理</strong>：监控每次调用的<code>usage.total_tokens</code>，避免超额消费</li>
+</ol>
+<h3 data-v-8e23877e>6.3 安全合规清单</h3>
+<ul class="contains-task-list" data-v-8e23877e>
+<li class="task-list-item"><input type="checkbox" disabled> API Key使用环境变量存储，禁止写入代码仓库</li>
+<li class="task-list-item"><input type="checkbox" disabled> 生产环境与测试环境使用不同API Key</li>
+<li class="task-list-item"><input type="checkbox" disabled> 定期审计API调用日志，排查异常访问</li>
+<li class="task-list-item"><input type="checkbox" disabled> 用户输入进行过滤（XSS、注入防护）</li>
+<li class="task-list-item"><input type="checkbox" disabled> 遵循数据隐私法规，敏感数据脱敏后发送</li>
+</ul>
+<h3 data-v-8e23877e>6.4 总结与路线图</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>官方API集成</th>
+<th>EasyClaw工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>适合场景</strong></td>
+<td>企业级应用、自动化流程、产品集成、二次开发</td>
+<td>个人体验、临时使用、非技术团队、快速原型</td>
+</tr>
+<tr>
+<td><strong>技能要求</strong></td>
+<td>Python编程、HTTP协议、环境运维</td>
+<td>基本计算机操作</td>
+</tr>
+<tr>
+<td><strong>长期成本</strong></td>
+<td>按量付费，规模越大单位成本越低</td>
+<td>免费/轻量订阅</td>
+</tr>
+<tr>
+<td><strong>可扩展性</strong></td>
+<td>高（支持插件、微服务、K8s部署）</td>
+<td>低（仅限客户端功能）</td>
+</tr>
+<tr>
+<td><strong>推荐用户</strong></td>
+<td>开发者、技术团队、SaaS服务商</td>
+<td>产品经理、学生、业务运营</td>
+</tr>
+</tbody>
+</table></div>
+<p data-v-8e23877e><strong>最终建议：</strong></p>
+<ul data-v-8e23877e>
+<li>若您具备开发能力且需要深度集成，<strong>首选官方API</strong>，本文提供的完整代码可直接复用；</li>
+<li>若您希望快速验证DeepSeek V4的AI能力，或尚无开发资源，<strong>直接下载EasyClaw</strong>，5分钟内即可上手体验；</li>
+<li>两者可同时使用：开发阶段用EasyClaw快速测试，生产环境用API构建正式服务。</li>
+</ul>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>附录：快速参考卡</h2>
+<h3 data-v-8e23877e>A. 常用代码片段速查</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3572A5;border-color:#3572A540;background:#3572A514;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3572A5;" aria-hidden="true" data-v-3bcbc953></span> Python</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-python" data-v-3bcbc953><span class="hljs-comment"># 1. 最小调用示例</span>
+<span class="hljs-keyword">import</span> requests
+response = requests.post(
+    <span class="hljs-string">&quot;https://api.deepseek.com/v1/chat/completions&quot;</span>,
+    headers={<span class="hljs-string">&quot;Authorization&quot;</span>: <span class="hljs-string">&quot;Bearer sk-xxx&quot;</span>, <span class="hljs-string">&quot;Content-Type&quot;</span>: <span class="hljs-string">&quot;application/json&quot;</span>},
+    json={<span class="hljs-string">&quot;model&quot;</span>: <span class="hljs-string">&quot;deepseek-chat&quot;</span>, <span class="hljs-string">&quot;messages&quot;</span>: [{<span class="hljs-string">&quot;role&quot;</span>: <span class="hljs-string">&quot;user&quot;</span>, <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-string">&quot;你好&quot;</span>}]}
+)
+<span class="hljs-built_in">print</span>(response.json()[<span class="hljs-string">&quot;choices&quot;</span>][<span class="hljs-number">0</span>][<span class="hljs-string">&quot;message&quot;</span>][<span class="hljs-string">&quot;content&quot;</span>])
+
+<span class="hljs-comment"># 2. 环境变量加载</span>
+<span class="hljs-keyword">from</span> dotenv <span class="hljs-keyword">import</span> load_dotenv
+<span class="hljs-keyword">import</span> os
+load_dotenv()
+api_key = os.getenv(<span class="hljs-string">&quot;DEEPSEEK_API_KEY&quot;</span>)
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>B. 官方资源链接</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>资源</th>
+<th>地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DeepSeek平台</td>
+<td><a href="https://platform.deepseek.com" target="_blank" rel="noreferrer noopener">https://platform.deepseek.com</a></td>
+</tr>
+<tr>
+<td>API文档</td>
+<td><a href="https://platform.deepseek.com/api-docs" target="_blank" rel="noreferrer noopener">https://platform.deepseek.com/api-docs</a></td>
+</tr>
+<tr>
+<td>状态监控</td>
+<td><a href="https://status.deepseek.com" target="_blank" rel="noreferrer noopener">https://status.deepseek.com</a></td>
+</tr>
+<tr>
+<td>EasyClaw下载</td>
+<td><a href="https://easyclaw.ai" target="_blank" rel="noreferrer noopener">https://easyclaw.ai</a></td>
+</tr>
+</tbody>
+</table></div><!--]--></div><!--teleport start--><!--teleport end--><!--]--></div><section class="license-block mb-10 overflow-hidden rounded-xl border border-solid" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><div class="flex items-center gap-3 px-6 py-4 border-b border-solid" style="border-color:var(--ink-150);background:linear-gradient(135deg, var(--muted) 0%, var(--paper) 100%);" data-v-7cac6a61><div class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style="background:var(--accent);color:#fff;" data-v-7cac6a61><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10" data-v-7cac6a61></circle><path d="M14.83 14.83a4 4 0 1 1 0-5.66" data-v-7cac6a61></path></svg></div><div data-v-7cac6a61><h4 class="text-[13px] font-semibold leading-snug" style="color:var(--text-primary);" data-v-7cac6a61> 版权声明 · CC BY-NC-ND 4.0 </h4><p class="text-[11px] mt-0.5" style="color:var(--text-tertiary);" data-v-7cac6a61> 署名-非商业性使用-禁止演绎 4.0 国际 </p></div></div><div class="px-6 py-5 space-y-4 text-[13px] leading-relaxed" data-v-7cac6a61><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>1</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>版权归属</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 本作品著作权归 <strong style="color:var(--text-primary);" data-v-7cac6a61>窦长友</strong> 所有， 首次发布于 <a href="" class="break-all transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;" rel="bookmark" data-v-7cac6a61></a> ，受相关知识产权法律法规保护。 </p></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>2</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>授权范围</span><ul class="mt-1.5 space-y-1" style="color:var(--text-secondary);list-style:none;padding:0;" data-v-7cac6a61><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:var(--accent);font-weight:600;" aria-hidden="true" data-v-7cac6a61>✓</span><span data-v-7cac6a61>可自由<strong style="color:var(--text-primary);" data-v-7cac6a61>分享</strong> — 在任何媒介以任何形式复制、转载本文</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>不得用于<strong style="color:var(--text-primary);" data-v-7cac6a61>商业目的</strong> — 未经书面授权禁止商用</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>禁止<strong style="color:var(--text-primary);" data-v-7cac6a61>演绎修改</strong> — 不得改编、转换或以本文为基础再创作</span></li></ul></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>3</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>署名要求</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 转载或引用时须<strong style="color:var(--text-primary);" data-v-7cac6a61>明确标注作者姓名</strong>、<strong style="color:var(--text-primary);" data-v-7cac6a61>原文出处</strong>及本许可协议链接。 不得以任何方式暗示或声称作者为您的使用背书。 </p></div></div><div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-dashed" style="border-color:var(--ink-150);" data-v-7cac6a61><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" data-v-7cac6a61></path><polyline points="15 3 21 3 21 9" data-v-7cac6a61></polyline><line x1="10" x2="21" y1="14" y2="3" data-v-7cac6a61></line></svg> 查看完整许可证 </a><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.zh-Hans" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><rect width="14" height="14" x="3" y="3" rx="2" ry="2" data-v-7cac6a61></rect><line x1="8" x2="16" y1="12" y2="12" data-v-7cac6a61></line><line x1="12" x2="12" y1="8" y2="16" data-v-7cac6a61></line></svg> 法律文本（英文） </a></div></div></section><section class="comments comments-section" aria-label="评论区" data-v-7cac6a61 data-v-ecb3c01b><header class="comments__header" data-v-ecb3c01b><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-messages-square-icon h-5 w-5" style="color:var(--accent);" aria-hidden="true" data-v-ecb3c01b><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg><h2 class="comments__title" data-v-ecb3c01b>评论</h2><span class="comments__hint" data-v-ecb3c01b>由 GitHub Discussions 驱动</span></header><div class="comments__giscus" data-v-ecb3c01b></div></section><nav class="pb-20 grid gap-4 sm:grid-cols-2" aria-label="上下篇文章导航" data-v-7cac6a61><a href="/posts/echarts-professional-dev-guide" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 上一篇 </span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>ECharts 专业化数据可视化开发完整学习文档（从基础到企业级实战）</strong></a><a href="/posts/如何集成giscus评论系统" style="border-color:var(--ink-200);background:var(--paper);" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg text-right" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 justify-end w-full text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61> 下一篇 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon h-3 w-3 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>如何在 VitePress 站点集成 Giscus 评论系统</strong></a></nav></div><!----></div></article></div></div><!--]--></main><footer class="mt-12 border-t" style="border-color:var(--ink-200);background:var(--paper);" data-v-5bbe2dad><div class="mx-auto max-w-[1240px] px-6 sm:px-8" data-v-5bbe2dad><div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-y-3 gap-x-8 py-5 text-[11.5px]" data-v-5bbe2dad><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-center sm:text-left" style="color:var(--text-tertiary);" data-v-5bbe2dad><span style="color:var(--text-primary);font-weight:500;" data-v-5bbe2dad>© 2026 FilePress · Blog</span><span aria-hidden="true" data-v-5bbe2dad>—</span><span class="inline-flex items-center gap-1" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span data-v-5bbe2dad>Powered by <a href="https://vitepress.dev" class="text-[var(--accent)]" data-v-5bbe2dad>VitePress</a></span></span></div><div class="flex items-center gap-4" data-v-5bbe2dad><!--[--><a href="https://github.com/dcyyd/dcyyd.github.io" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>GitHub</a><a href="mailto:dcyyd_kcug@yeah.net" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>Email</a><a href="/feed.xml" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>RSS</a><!--]--><!----><!----><button style="display:none;" type="button" class="footer-top-btn" aria-label="回到顶部" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg><span data-v-5bbe2dad>TOP</span></button></div></div></div></footer><!--teleport start--><!--teleport end--></div></div>
+    
+    
+  </body>
+</html>

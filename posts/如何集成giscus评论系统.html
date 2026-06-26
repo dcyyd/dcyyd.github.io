@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>如何在 VitePress 站点集成 Giscus 评论系统 | FilePress Blog - 极致文件驱动技术博客</title>
+    <meta name="description" content="基于 GitHub Discussions 的零后端评论系统，5 步接入 VitePress：仓库配置、环境变量、CI 注入、组件封装、SPA 路由适配。">
+    <meta name="generator" content="VitePress v1.4.5">
+    <link rel="preload stylesheet" href="/assets/style.DOaU_6MJ.css" as="style">
+    <script type="module" src="/assets/chunks/metadata.fade99af.js"></script>
+    <script type="module" src="/assets/app.B8LI0Ux7.js"></script>
+    <link rel="modulepreload" href="/assets/chunks/icons.B06OPOny.js">
+    <link rel="modulepreload" href="/assets/chunks/plugin-vue_export-helper.DlAUqK2U.js">
+    <link rel="modulepreload" href="/assets/chunks/math.C5jXJg4s.js">
+    <link rel="modulepreload" href="/assets/chunks/dagre-BM42HDAG.DFKPxUeW.js">
+    <link rel="modulepreload" href="/assets/chunks/cose-bilkent-S5V4N54A.CF0Q0vbq.js">
+    <link rel="modulepreload" href="/assets/chunks/c4Diagram-AAUBKEIU.CKvTctJp.js">
+    <link rel="modulepreload" href="/assets/chunks/flowDiagram-I6XJVG4X.CAn1OyxF.js">
+    <link rel="modulepreload" href="/assets/chunks/erDiagram-TEJ5UH35.BaauLoI1.js">
+    <link rel="modulepreload" href="/assets/chunks/gitGraphDiagram-PVQCEYII.D3iSVrTL.js">
+    <link rel="modulepreload" href="/assets/chunks/ganttDiagram-6RSMTGT7.BYIx5Lp1.js">
+    <link rel="modulepreload" href="/assets/chunks/infoDiagram-5YYISTIA.B6YTVhM9.js">
+    <link rel="modulepreload" href="/assets/chunks/pieDiagram-4H26LBE5.D5WIJxha.js">
+    <link rel="modulepreload" href="/assets/chunks/quadrantDiagram-W4KKPZXB.BeoxAT6P.js">
+    <link rel="modulepreload" href="/assets/chunks/xychartDiagram-2RQKCTM6.DZ9DKocQ.js">
+    <link rel="modulepreload" href="/assets/chunks/requirementDiagram-4Y6WPE33.DkTuTqHj.js">
+    <link rel="modulepreload" href="/assets/chunks/sequenceDiagram-3UESZ5HK.cFcmd4ud.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-4FO5ZUOK.DvRERw89.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-v2-Q7XG4LA2.DvRERw89.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-AJRCARHV.BIz_221x.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-v2-BHNVJYJU.DBnRDZwz.js">
+    <link rel="modulepreload" href="/assets/chunks/journeyDiagram-JHISSGLW.BkTbGYLh.js">
+    <link rel="modulepreload" href="/assets/chunks/timeline-definition-PNZ67QCA.DJEtSogJ.js">
+    <link rel="modulepreload" href="/assets/chunks/mindmap-definition-RKZ34NQL.BkVJ1SWD.js">
+    <link rel="modulepreload" href="/assets/chunks/kanban-definition-UN3LZRKU.CSx9nSR8.js">
+    <link rel="modulepreload" href="/assets/chunks/sankeyDiagram-5OEKKPKP.CpxHHU_-.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-LMA3HP47.BOyQolFW.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-2AECGRRQ.BFZorpBB.js">
+    <link rel="modulepreload" href="/assets/chunks/blockDiagram-GPEHLZMM.eSxjnMrS.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-5GNKFQAL.DtHz6By9.js">
+    <link rel="modulepreload" href="/assets/chunks/architectureDiagram-3BPJPVTR.CQClnpIt.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-KO2AKTUF.vTbNZSqm.js">
+    <link rel="modulepreload" href="/assets/chunks/ishikawaDiagram-YF4QCWOH.6W6HZS3g.js">
+    <link rel="modulepreload" href="/assets/chunks/vennDiagram-CIIHVFJN.B19Vt-ZX.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-OG6HWLK6.3LGSuRju.js">
+    <link rel="modulepreload" href="/assets/chunks/wardleyDiagram-YWT4CUSO.B2LM76GI.js">
+    <link rel="modulepreload" href="/assets/posts_如何集成giscus评论系统.md.BFeyADsw.lean.js">
+    <meta name="theme-color" content="#1a4d3a">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <meta name="keywords" content="VitePress, VuePress, 静态博客, GitHub Pages, Markdown, 文件驱动, 前端工程, AI大模型, 技术博客, 个人网站">
+    <meta property="article:author" content="dcyyd">
+    <meta property="article:publisher" content="https://dcyyd.github.io">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FilePress Blog">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dcyyd">
+    <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" async></script>
+    <meta name="twitter:creator" content="@dcyyd">
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+    <meta property="og:title" content="如何在 VitePress 站点集成 Giscus 评论系统 | FilePress Blog - 极致文件驱动技术博客">
+    <meta property="og:description" content="基于 GitHub Discussions 的零后端评论系统，5 步接入 VitePress：仓库配置、环境变量、CI 注入、组件封装、SPA 路由适配。">
+    <meta property="og:url" content="https://dcyyd.github.io/posts/如何集成giscus评论系统.md">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="如何在 VitePress 站点集成 Giscus 评论系统 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:title" content="如何在 VitePress 站点集成 Giscus 评论系统 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:description" content="基于 GitHub Discussions 的零后端评论系统，5 步接入 VitePress：仓库配置、环境变量、CI 注入、组件封装、SPA 路由适配。">
+    <meta name="twitter:image" content="/og-image.png">
+    <meta name="twitter:image:alt" content="如何在 VitePress 站点集成 Giscus 评论系统 | FilePress Blog - 极致文件驱动技术博客">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"FilePress Blog","description":"基于 VitePress 1.4 构建的纯文件驱动技术博客，零数据库、零 CMS，支持 GitHub Pages 免费部署、Markdown 写作、全文搜索、评论系统集成。提供 VuePress/VitePress 静态博客搭建教程、前端工程实践、AI 大模型应用等技术文章。","url":"https://dcyyd.github.io/posts/如何集成giscus评论系统.md","publisher":{"@type":"Organization","name":"FilePress Blog","url":"https://dcyyd.github.io"}}</script>
+  </head>
+  <body><!--teleport start anchor--><!----><!--teleport anchor--><!--teleport start anchor--><!----><!--teleport anchor-->
+    <div id="app"><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b backdrop-blur-sm" style="border-color:var(--ink-200);background:var(--paper);" data-v-8b063484><nav class="mx-auto flex h-14 sm:h-16 max-w-[1240px] items-center justify-between px-6 sm:px-8" aria-label="主导航" data-v-8b063484><a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="返回首页" data-v-8b063484><span class="mono-num inline-flex h-8 w-8 items-center justify-center text-[13px] font-semibold rounded-sm" style="background:var(--ink-900);color:var(--paper);" data-v-8b063484> F </span><span class="flex flex-col leading-none hidden sm:flex" data-v-8b063484><span class="serif-title text-[15px] leading-none" style="color:var(--text-primary);" data-v-8b063484>FilePress · Blog</span><span class="eyebrow mt-0.5 leading-none" style="font-size:8.5px;" data-v-8b063484>Est. 2026</span></span></a><div class="hidden md:flex items-center gap-0.5" data-v-8b063484><!--[--><a href="/" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>首页</a><a href="/blog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>博客</a><a href="/categories" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>分类</a><a href="/archives" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>归档</a><a href="/friends" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>友链</a><a href="/about" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>关于</a><a href="/changelog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>更新日志</a><!--]--><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="inline-flex items-center justify-center p-1.5 rounded-sm hover:bg-[var(--muted)] transition-colors" aria-label="搜索 (Ctrl+K)" title="搜索 (Ctrl+K)" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon h-4 w-4" style="color:var(--text-secondary);" aria-hidden="true" data-v-8b063484><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="theme-toggle group inline-flex items-center gap-1.5 border px-2.5 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] rounded-sm transition-all duration-200" style="color:var(--text-tertiary);border-color:var(--ink-200);" aria-label="切换到深色模式" aria-pressed="false" data-v-8b063484 data-v-f5d60c34><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon h-3.5 w-3.5" aria-hidden="true" data-v-f5d60c34><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg><span class="hidden sm:inline" data-v-f5d60c34>Dark</span></button></div><button type="button" class="inline-flex items-center justify-center p-2 md:hidden rounded-sm -mr-2" style="color:var(--text-primary);" aria-label="切换菜单" aria-expanded="false" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon h-5 w-5" aria-hidden="true" data-v-8b063484><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button></nav><!----></header><main class="max-w-6xl mx-auto w-full flex-1 px-4 py-8 sm:px-6 lg:px-8"><!--[--><nav class="breadcrumbs" aria-label="面包屑导航" data-v-047f921d><ol class="breadcrumbs-list flex items-center gap-1" data-v-047f921d><!--[--><li class="breadcrumbs-item" data-v-047f921d><a href="/" class="breadcrumbs-link" aria-label="返回首页" data-v-047f921d><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon h-3 w-3" aria-hidden="true" data-v-047f921d><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="sr-only" data-v-047f921d>首页</span></a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><a href="/posts" class="breadcrumbs-link" data-v-047f921d>文章</a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><span class="breadcrumbs-current" aria-current="page" data-v-047f921d>如何集成giscus评论系统</span><!----></li><!--]--></ol></nav><div style="position:relative;"><div><article class="relative mx-auto max-w-[90rem]" data-v-7cac6a61><div class="reading-progress fixed top-0 left-0 z-50 h-[3px] pointer-events-none" style="width:0%;background:var(--accent, #10b981);" aria-hidden="true" data-v-7cac6a61></div><div class="flex justify-center" data-v-7cac6a61><div class="w-full max-w-3xl px-4 sm:px-6" data-v-7cac6a61><header class="animate-fade-up pt-16 pb-10 sm:pt-20 sm:pb-12 border-b" style="border-color:var(--ink-200);" data-v-7cac6a61><!----><div class="flex items-center gap-2 mb-5 text-[11px] font-medium" style="color:var(--text-tertiary);" data-v-7cac6a61><a href="/blog" class="inline-flex items-center gap-1.5 transition-colors hover:text-[var(--accent)]" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 博客 </a><span aria-hidden="true" class="opacity-40" data-v-7cac6a61>/</span><a href="/categories/前端工程" class="transition-colors hover:text-[var(--accent)]" data-v-7cac6a61>前端工程</a></div><h1 class="serif-title text-balance text-[2.25rem] leading-[1.06] tracking-tight sm:text-[3rem] lg:text-[3.5rem]" style="color:var(--text-primary);" data-v-7cac6a61>如何在 VitePress 站点集成 Giscus 评论系统</h1><p class="mt-5 text-[16px] leading-[1.8] max-w-[60ch]" style="color:var(--text-secondary);" data-v-7cac6a61>基于 GitHub Discussions 的零后端评论系统，5 步接入 VitePress：仓库配置、环境变量、CI 注入、组件封装、SPA 路由适配。</p><div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-7" data-v-7cac6a61><div class="flex items-center gap-4 text-[12.5px]" style="color:var(--text-tertiary);" data-v-7cac6a61><time datetime="2026-06-23T00:00:00.000Z" class="inline-flex items-center gap-1.5 font-medium" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg> 2026/06/23</time><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="mono-num" data-v-7cac6a61>8 分钟阅读</span></span><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><line x1="4" x2="20" y1="9" y2="9"></line><line x1="4" x2="20" y1="15" y2="15"></line><line x1="10" x2="8" y1="3" y2="21"></line><line x1="16" x2="14" y1="3" y2="21"></line></svg><span class="mono-num" data-v-7cac6a61>1.5k 字</span></span><!----></div><!----></div><div class="flex flex-wrap items-center gap-2 mt-6" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon h-3.5 w-3.5 opacity-50" style="color:var(--text-tertiary);" aria-hidden="true" data-v-7cac6a61><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle></svg><!--[--><a href="/tags/vitepress" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>VitePress</a><a href="/tags/giscus" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>Giscus</a><a href="/tags/评论系统" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>评论系统</a><a href="/tags/github-discussions" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>GitHub Discussions</a><!--]--></div></header><div class="blog-prose pt-10 pb-10" data-v-7cac6a61><!--[--><div data-v-8e23877e><!--[--><h2 data-v-8e23877e>一、概述</h2>
+<p data-v-8e23877e>对于一个&quot;纯静态、零后端&quot;的 VitePress 博客来说，传统评论系统（Disqus、自建 Twikoo / Waline）都意味着引入额外服务、数据库或运维成本。<strong><a href="https://giscus.app/zh-CN" target="_blank" rel="noreferrer noopener">Giscus</a></strong> 基于 GitHub Discussions 实现评论存储，<strong>零后端、零数据库、零成本</strong>，且天然具备 GitHub 登录鉴权与嵌套回复能力。本文以 <code>filepress-blog v2.1.0</code> 为例，拆解从仓库配置到 SPA 路由适配的完整接入流程。</p>
+<h2 data-v-8e23877e>二、背景</h2>
+<h3 data-v-8e23877e>2.1 选型对比</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Giscus</th>
+<th>Twikoo</th>
+<th>Waline</th>
+<th>Utterances</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据存储</td>
+<td>GitHub Discussions</td>
+<td>自建 MongoDB / LeanCloud</td>
+<td>自建数据库</td>
+<td>GitHub Issues</td>
+</tr>
+<tr>
+<td>嵌套回复</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Markdown / 代码高亮</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>反垃圾</td>
+<td>GitHub 登录态</td>
+<td>自建</td>
+<td>自建</td>
+<td>GitHub 登录态</td>
+</tr>
+<tr>
+<td>维护成本</td>
+<td><strong>0</strong></td>
+<td>中</td>
+<td>中</td>
+<td>0</td>
+</tr>
+<tr>
+<td>部署依赖</td>
+<td><strong>无</strong></td>
+<td>Vercel / Netlify</td>
+<td>Vercel / Netlify</td>
+<td>无</td>
+</tr>
+</tbody>
+</table></div>
+<p data-v-8e23877e>Giscus 与 VitePress 的&quot;<strong>文件即数据</strong>&quot;理念高度契合：评论数据沉淀在仓库的 Discussions 中，仓库本身即数据源。</p>
+<h3 data-v-8e23877e>2.2 Giscus 的工作原理</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>[浏览器] &lt;script src=&quot;https://giscus.app/client.js&quot; data-*=&quot;...&quot;&gt;
+              │
+              ▼
+[giscus.app] → 注入 &lt;iframe&gt; → [GitHub Discussions API]
+                                         │
+                                         ▼
+                            按 data-term / data-mapping
+                            查找 / 创建 Discussion
+                                         │
+                                         ▼
+                                  渲染评论列表 + 输入框
+</code></pre></div><!----></div>
+<p data-v-8e23877e>核心机制：Giscus 通过 <code>data-term</code> + <code>data-mapping</code> 决定把评论挂到哪个 Discussion，开发者只需配置 5 个参数即可让前端加载一个完整的评论区。</p>
+<h2 data-v-8e23877e>三、实践</h2>
+<h3 data-v-8e23877e>3.1 仓库一次性配置（5 步）</h3>
+<h4 data-v-8e23877e>步骤 1：开启 Discussions</h4>
+<p data-v-8e23877e>进入 GitHub 仓库 → <strong>Settings</strong> → <strong>General</strong> → 勾选 <strong>☑ Discussions</strong>。</p>
+<h4 data-v-8e23877e>步骤 2：安装 Giscus App</h4>
+<p data-v-8e23877e>访问 <a href="https://github.com/apps/giscus" target="_blank" rel="noreferrer noopener">github.com/apps/giscus</a> → <strong>Install</strong> → 授权目标仓库。</p>
+<h4 data-v-8e23877e>步骤 3：创建 Discussion 分类</h4>
+<p data-v-8e23877e>在仓库的 <strong>Discussions</strong> 标签页新建一个分类（推荐 <code>General</code> 或 <code>Comments</code>），所有评论会归入此分类。</p>
+<h4 data-v-8e23877e>步骤 4：获取 ID</h4>
+<p data-v-8e23877e>访问 <a href="https://giscus.app/zh-CN" target="_blank" rel="noreferrer noopener">giscus.app/zh-CN</a>，按表单填写：</p>
+<ul data-v-8e23877e>
+<li><strong>仓库</strong>: <code>你的用户名/你的仓库</code></li>
+<li><strong>Discussion 分类</strong>: 选刚才创建的 <code>General</code></li>
+<li><strong>映射方式</strong>: 推荐 <code>specific</code>（用 <code>data-term</code> 显式指定每篇文章的 Discussion）</li>
+<li><strong>主题</strong>: 选 <code>preferred_color_scheme</code>（自动跟随系统明暗）</li>
+</ul>
+<p data-v-8e23877e>页面下方会生成一段 <code>&lt;script&gt;</code>，关键 ID：</p>
+<ul data-v-8e23877e>
+<li><code>data-repo-id</code> → <code>R_xxxxxxxx</code>（仓库级）</li>
+<li><code>data-category-id</code> → <code>DIC_xxxxxxxx</code>（分类级）</li>
+</ul>
+<h4 data-v-8e23877e>步骤 5：写入环境变量</h4>
+<p data-v-8e23877e>复制 <code>.env.example</code> 为 <code>.env</code>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953>VITE_GISCUS_REPO=dcyyd/dcyyd.github.io
+VITE_GISCUS_REPO_ID=R_xxxxxxxx
+VITE_GISCUS_CATEGORY=General
+VITE_GISCUS_CATEGORY_ID=DIC_xxxxxxxx
+VITE_GISCUS_LANG=zh-CN
+</code></pre></div><!----></div>
+<blockquote data-v-8e23877e>
+<p>⚠️ <strong>必须以 <code>VITE_</code> 前缀</strong>。VitePress 只会把 <code>VITE_*</code> 开头的环境变量注入到客户端 bundle，其他前缀会被 <code>define</code> 过滤掉。</p>
+</blockquote>
+<h3 data-v-8e23877e>3.2 VitePress 配置层</h3>
+<p data-v-8e23877e><code>.env</code> 默认不会被 VitePress 自动加载，需要在 <code>config.mts</code> 顶部手动注入到 <code>process.env</code>，再走 <code>vite.define</code> 暴露给客户端：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><span class="code-block__meta" data-v-3bcbc953>38 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><span class="code-block__line-num" data-v-3bcbc953>38</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-ts" data-v-3bcbc953><span class="hljs-comment">// .vitepress/config.mts</span>
+<span class="hljs-keyword">import</span> { readFileSync, existsSync } <span class="hljs-keyword">from</span> <span class="hljs-string">&#39;node:fs&#39;</span>
+<span class="hljs-keyword">import</span> { resolve, dirname } <span class="hljs-keyword">from</span> <span class="hljs-string">&#39;node:path&#39;</span>
+<span class="hljs-keyword">import</span> { fileURLToPath } <span class="hljs-keyword">from</span> <span class="hljs-string">&#39;node:url&#39;</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-title">loadEnvFile</span>(<span class="hljs-params"><span class="hljs-attr">envPath</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">void</span> {
+  <span class="hljs-keyword">if</span> (!<span class="hljs-title">existsSync</span>(envPath)) <span class="hljs-keyword">return</span>
+  <span class="hljs-keyword">const</span> content = <span class="hljs-title">readFileSync</span>(envPath, <span class="hljs-string">&#39;utf-8&#39;</span>)
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> rawLine <span class="hljs-keyword">of</span> content.<span class="hljs-title">split</span>(<span class="hljs-regexp">/\r?\n/</span>)) {
+    <span class="hljs-keyword">const</span> line = rawLine.<span class="hljs-title">trim</span>()
+    <span class="hljs-keyword">if</span> (!line || line.<span class="hljs-title">startsWith</span>(<span class="hljs-string">&#39;#&#39;</span>)) <span class="hljs-keyword">continue</span>
+    <span class="hljs-keyword">const</span> m = line.<span class="hljs-title">match</span>(<span class="hljs-regexp">/^([A-Z0-9_]+)\s*=\s*(.*)$/i</span>)
+    <span class="hljs-keyword">if</span> (!m) <span class="hljs-keyword">continue</span>
+    <span class="hljs-keyword">const</span> key = m[<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">let</span> value = m[<span class="hljs-number">2</span>].<span class="hljs-title">trim</span>()
+    <span class="hljs-keyword">if</span> (
+      (value.<span class="hljs-title">startsWith</span>(<span class="hljs-string">&#39;&quot;&#39;</span>) &amp;&amp; value.<span class="hljs-title">endsWith</span>(<span class="hljs-string">&#39;&quot;&#39;</span>)) ||
+      (value.<span class="hljs-title">startsWith</span>(<span class="hljs-string">&quot;&#39;&quot;</span>) &amp;&amp; value.<span class="hljs-title">endsWith</span>(<span class="hljs-string">&quot;&#39;&quot;</span>))
+    ) value = value.<span class="hljs-title">slice</span>(<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>)
+    <span class="hljs-keyword">if</span> (process.<span class="hljs-property">env</span>[key] === <span class="hljs-literal">undefined</span>) process.<span class="hljs-property">env</span>[key] = value
+  }
+}
+
+<span class="hljs-title">loadEnvFile</span>(<span class="hljs-title">resolve</span>(<span class="hljs-title">dirname</span>(<span class="hljs-title">fileURLToPath</span>(<span class="hljs-keyword">import</span>.<span class="hljs-property">meta</span>.<span class="hljs-property">url</span>)), <span class="hljs-string">&#39;../.env&#39;</span>))
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title">defineConfig</span>({
+  <span class="hljs-attr">vite</span>: {
+    <span class="hljs-attr">define</span>: {
+      <span class="hljs-string">&#39;import.meta.env.VITE_GISCUS_REPO&#39;</span>: <span class="hljs-title">JSON</span>.<span class="hljs-title">stringify</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_GISCUS_REPO</span> ?? <span class="hljs-string">&#39;&#39;</span>),
+      <span class="hljs-string">&#39;import.meta.env.VITE_GISCUS_REPO_ID&#39;</span>: <span class="hljs-title">JSON</span>.<span class="hljs-title">stringify</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_GISCUS_REPO_ID</span> ?? <span class="hljs-string">&#39;&#39;</span>),
+      <span class="hljs-string">&#39;import.meta.env.VITE_GISCUS_CATEGORY&#39;</span>: <span class="hljs-title">JSON</span>.<span class="hljs-title">stringify</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_GISCUS_CATEGORY</span> ?? <span class="hljs-string">&#39;General&#39;</span>),
+      <span class="hljs-string">&#39;import.meta.env.VITE_GISCUS_CATEGORY_ID&#39;</span>: <span class="hljs-title">JSON</span>.<span class="hljs-title">stringify</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_GISCUS_CATEGORY_ID</span> ?? <span class="hljs-string">&#39;&#39;</span>),
+      <span class="hljs-string">&#39;import.meta.env.VITE_GISCUS_LANG&#39;</span>: <span class="hljs-title">JSON</span>.<span class="hljs-title">stringify</span>(process.<span class="hljs-property">env</span>.<span class="hljs-property">VITE_GISCUS_LANG</span> ?? <span class="hljs-string">&#39;zh-CN&#39;</span>)
+    }
+  }
+  <span class="hljs-comment">// ... 其他配置</span>
+})
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 22 行</span></button></div></div>
+<p data-v-8e23877e><strong>为什么不用 <code>loadEnv</code>？</strong> VitePress 的 <code>loadEnv</code> 是在 <code>vite build</code> 阶段执行，而 <code>config.mts</code> 的 <code>define</code> 是在更早的 <code>vite define</code> 阶段求值。手写 <code>.env</code> 解析器在更早的进程启动阶段完成，链路更短、零依赖。</p>
+<h3 data-v-8e23877e>3.3 Vue 组件封装</h3>
+<p data-v-8e23877e><code>CommentSection.vue</code> 采用<strong>静态 <code>setAttribute</code> 模式</strong>，避免 URL 拼接导致的参数丢失：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#41b883;border-color:#41b88340;background:#41b88314;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#41b883;" aria-hidden="true" data-v-3bcbc953></span> Vue</span><span class="code-block__meta" data-v-3bcbc953>62 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><span class="code-block__line-num" data-v-3bcbc953>38</span><span class="code-block__line-num" data-v-3bcbc953>39</span><span class="code-block__line-num" data-v-3bcbc953>40</span><span class="code-block__line-num" data-v-3bcbc953>41</span><span class="code-block__line-num" data-v-3bcbc953>42</span><span class="code-block__line-num" data-v-3bcbc953>43</span><span class="code-block__line-num" data-v-3bcbc953>44</span><span class="code-block__line-num" data-v-3bcbc953>45</span><span class="code-block__line-num" data-v-3bcbc953>46</span><span class="code-block__line-num" data-v-3bcbc953>47</span><span class="code-block__line-num" data-v-3bcbc953>48</span><span class="code-block__line-num" data-v-3bcbc953>49</span><span class="code-block__line-num" data-v-3bcbc953>50</span><span class="code-block__line-num" data-v-3bcbc953>51</span><span class="code-block__line-num" data-v-3bcbc953>52</span><span class="code-block__line-num" data-v-3bcbc953>53</span><span class="code-block__line-num" data-v-3bcbc953>54</span><span class="code-block__line-num" data-v-3bcbc953>55</span><span class="code-block__line-num" data-v-3bcbc953>56</span><span class="code-block__line-num" data-v-3bcbc953>57</span><span class="code-block__line-num" data-v-3bcbc953>58</span><span class="code-block__line-num" data-v-3bcbc953>59</span><span class="code-block__line-num" data-v-3bcbc953>60</span><span class="code-block__line-num" data-v-3bcbc953>61</span><span class="code-block__line-num" data-v-3bcbc953>62</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-vue" data-v-3bcbc953>&lt;script setup lang=&quot;ts&quot;&gt;
+import { onBeforeUnmount, onMounted, ref, watch } from &#39;vue&#39;
+import { useRoute } from &#39;vitepress&#39;
+import { MessagesSquare } from &#39;lucide-vue-next&#39;
+
+const route = useRoute()
+
+const env = (import.meta.env ?? {}) as Record&lt;string, string | undefined&gt;
+const repo = env.VITE_GISCUS_REPO ?? &#39;&#39;
+const repoId = env.VITE_GISCUS_REPO_ID ?? &#39;&#39;
+const category = env.VITE_GISCUS_CATEGORY ?? &#39;General&#39;
+const categoryId = env.VITE_GISCUS_CATEGORY_ID ?? &#39;&#39;
+const lang = env.VITE_GISCUS_LANG ?? &#39;zh-CN&#39;
+
+// 配置齐全才渲染；缺失时整段隐藏
+const ready = Boolean(repo &amp;&amp; repoId &amp;&amp; categoryId)
+const containerRef = ref&lt;HTMLDivElement | null&gt;(null)
+
+function mount(): void {
+  if (!ready || !containerRef.value) return
+  // 路由切换时清空旧实例，避免内存泄漏
+  containerRef.value.replaceChildren()
+
+  const s = document.createElement(&#39;script&#39;)
+  s.src = &#39;https://giscus.app/client.js&#39;
+  s.async = true
+  s.crossOrigin = &#39;anonymous&#39;
+
+  // 关键：直接挂 DOM 属性，Giscus 内部按 DOM 读取
+  s.setAttribute(&#39;data-repo&#39;, repo)
+  s.setAttribute(&#39;data-repo-id&#39;, repoId)
+  s.setAttribute(&#39;data-category&#39;, category)
+  s.setAttribute(&#39;data-category-id&#39;, categoryId)
+  s.setAttribute(&#39;data-mapping&#39;, &#39;specific&#39;)
+  s.setAttribute(&#39;data-term&#39;, route.path)        // 每篇文章独立 Discussion
+  s.setAttribute(&#39;data-strict&#39;, &#39;1&#39;)             // 严格按 term 匹配
+  s.setAttribute(&#39;data-reactions-enabled&#39;, &#39;1&#39;)  // 启用表情
+  s.setAttribute(&#39;data-emit-metadata&#39;, &#39;0&#39;)
+  s.setAttribute(&#39;data-input-position&#39;, &#39;top&#39;)
+  s.setAttribute(&#39;data-theme&#39;, &#39;preferred_color_scheme&#39;)  // 跟随系统主题
+  s.setAttribute(&#39;data-lang&#39;, lang)
+  s.setAttribute(&#39;data-loading&#39;, &#39;lazy&#39;)          // 视口可见才加载
+
+  containerRef.value.appendChild(s)
+}
+
+onMounted(mount)
+onBeforeUnmount(() =&gt; containerRef.value?.replaceChildren())
+watch(() =&gt; route.path, mount)  // SPA 路由切换时重载
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;section v-if=&quot;ready&quot; class=&quot;comments&quot; aria-label=&quot;评论区&quot;&gt;
+    &lt;header class=&quot;comments__header&quot;&gt;
+      &lt;MessagesSquare class=&quot;h-5 w-5&quot; style=&quot;color: var(--accent);&quot; aria-hidden=&quot;true&quot; /&gt;
+      &lt;h2 class=&quot;comments__title&quot;&gt;评论&lt;/h2&gt;
+      &lt;span class=&quot;comments__hint&quot;&gt;由 GitHub Discussions 驱动&lt;/span&gt;
+    &lt;/header&gt;
+    &lt;div ref=&quot;containerRef&quot; class=&quot;comments__giscus&quot; /&gt;
+  &lt;/section&gt;
+&lt;/template&gt;
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 46 行</span></button></div></div>
+<h4 data-v-8e23877e>关键设计点</h4>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>设计点</th>
+<th>解读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>setAttribute</code> 而非 URL 拼接</strong></td>
+<td>避免 <code>+</code> / <code>/</code> 等特殊字符被 <code>URLSearchParams</code> 二次编码导致 <code>repo=undefined</code></td>
+</tr>
+<tr>
+<td><strong><code>data-mapping=&quot;specific&quot;</code> + <code>data-term</code></strong></td>
+<td>每篇文章路径（<code>/posts/&lt;slug&gt;</code>）作为唯一 Discussion 标识，<strong>支持 SPA 路由切换</strong></td>
+</tr>
+<tr>
+<td><strong><code>data-theme=&quot;preferred_color_scheme&quot;</code></strong></td>
+<td>Giscus iframe 内部自带 <code>prefers-color-scheme</code> 媒体查询，VitePress 切换 <code>html.dark</code> 时评论区自然跟随</td>
+</tr>
+<tr>
+<td><strong><code>v-if=&quot;ready&quot;</code></strong></td>
+<td>配置缺失时整段不渲染，比显示&quot;评论未启用&quot;更优雅</td>
+</tr>
+<tr>
+<td><strong><code>watch(route.path)</code> + <code>replaceChildren()</code></strong></td>
+<td>路由切换时一行 DOM API 清理旧实例，避免 iframe 堆积</td>
+</tr>
+<tr>
+<td><strong><code>data-loading=&quot;lazy&quot;</code></strong></td>
+<td>评论模块不在首屏时延迟加载，节省 LCP 时间</td>
+</tr>
+</tbody>
+</table></div>
+<h4 data-v-8e23877e>简化前后对比</h4>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>早期实现</th>
+<th>当前实现</th>
+<th>变化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>代码行数</td>
+<td>272</td>
+<td>112</td>
+<td><strong>-59%</strong></td>
+</tr>
+<tr>
+<td>响应式变量</td>
+<td>4</td>
+<td>2</td>
+<td>-50%</td>
+</tr>
+<tr>
+<td>状态机</td>
+<td>4 态（idle/loading/ready/error）</td>
+<td>0 态</td>
+<td>-100%</td>
+</tr>
+<tr>
+<td>轮询逻辑</td>
+<td>60 × 250ms</td>
+<td>0</td>
+<td>-100%</td>
+</tr>
+<tr>
+<td>props</td>
+<td>2</td>
+<td>0</td>
+<td>-100%</td>
+</tr>
+<tr>
+<td>模板分支</td>
+<td>3（loading/error/giscus/未配置）</td>
+<td>1（直接 giscus）</td>
+<td>-66%</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote data-v-8e23877e>
+<p>设计原则：<strong>信任三方库</strong>。Giscus 自己处理加载、错误、主题切换、iframe 通信；不要用响应式状态机把 Giscus 重新发明一遍。</p>
+</blockquote>
+<h3 data-v-8e23877e>3.4 CI 部署：环境变量注入</h3>
+<p data-v-8e23877e><code>.env</code> 已被 <code>.gitignore</code> 排除，<strong>不会</strong> 提交到 GitHub。CI 构建时必须显式注入 <code>VITE_GISCUS_*</code> 变量，敏感 ID（repo-id / category-id）走 GitHub Secrets：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#cb171e;border-color:#cb171e40;background:#cb171e14;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#cb171e;" aria-hidden="true" data-v-3bcbc953></span> YAML</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-yaml" data-v-3bcbc953><span class="hljs-comment"># .github/workflows/deploy.yml</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">name:</span> <span class="hljs-string">Build</span>
+  <span class="hljs-attr">run:</span> <span class="hljs-string">pnpm</span> <span class="hljs-string">build</span>
+  <span class="hljs-attr">env:</span>
+    <span class="hljs-attr">BASE:</span> <span class="hljs-string">/</span>
+    <span class="hljs-attr">SITE_URL:</span> <span class="hljs-string">https://dcyyd.github.io</span>
+    <span class="hljs-attr">VITE_GISCUS_REPO:</span> <span class="hljs-string">dcyyd/dcyyd.github.io</span>
+    <span class="hljs-attr">VITE_GISCUS_REPO_ID:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.GISCUS_REPO_ID</span> <span class="hljs-string">}}</span>    <span class="hljs-comment"># ← 走 Secrets</span>
+    <span class="hljs-attr">VITE_GISCUS_CATEGORY:</span> <span class="hljs-string">General</span>
+    <span class="hljs-attr">VITE_GISCUS_CATEGORY_ID:</span> <span class="hljs-string">${{</span> <span class="hljs-string">secrets.GISCUS_CATEGORY_ID</span> <span class="hljs-string">}}</span>  <span class="hljs-comment"># ← 走 Secrets</span>
+    <span class="hljs-attr">VITE_GISCUS_LANG:</span> <span class="hljs-string">zh-CN</span>
+</code></pre></div><!----></div>
+<p data-v-8e23877e>并在仓库 <strong>Settings → Secrets and variables → Actions</strong> 添加：</p>
+<ul data-v-8e23877e>
+<li><code>GISCUS_REPO_ID</code> = <code>R_kgDOOLQ1Qw</code></li>
+<li><code>GISCUS_CATEGORY_ID</code> = <code>DIC_kwDOOLQ1Q84C_sat</code></li>
+</ul>
+<blockquote data-v-8e23877e>
+<p><strong>为什么非敏感字段也写 env？</strong> 统一注入链路更清晰，本地 <code>pnpm dev</code> 与 CI 行为完全一致，便于排查&quot;本地能跑、线上挂了&quot;的问题。</p>
+</blockquote>
+<h3 data-v-8e23877e>3.5 在文章页挂载</h3>
+<p data-v-8e23877e><code>PostPage.vue</code> 模板末尾追加：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#41b883;border-color:#41b88340;background:#41b88314;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#41b883;" aria-hidden="true" data-v-3bcbc953></span> Vue</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-vue" data-v-3bcbc953>&lt;template&gt;
+  &lt;article class=&quot;post&quot;&gt;
+    &lt;!-- ... 正文、上下篇导航等 ... --&gt;
+    &lt;CommentSection /&gt;
+  &lt;/article&gt;
+&lt;/template&gt;
+</code></pre></div><!----></div>
+<p data-v-8e23877e>无需 props、无需事件，组件内部已处理配置缺失与路由切换。</p>
+<h2 data-v-8e23877e>四、效果验证</h2>
+<h3 data-v-8e23877e>4.1 本地验证</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># 1. 准备 .env</span>
+<span class="hljs-built_in">cp</span> .env.example .<span class="hljs-built_in">env</span>
+<span class="hljs-comment"># 填入真实的 VITE_GISCUS_* 值</span>
+
+<span class="hljs-comment"># 2. 启动开发服务器</span>
+pnpm dev
+
+<span class="hljs-comment"># 3. 打开任意文章页（如 /posts/vue3-reactivity-deep-dive）</span>
+<span class="hljs-comment"># 4. DevTools → Network 过滤 giscus.app</span>
+</code></pre></div><!----></div>
+<p data-v-8e23877e>应观察到：</p>
+<ul data-v-8e23877e>
+<li>✅ <code>client.js?src=...&amp;data-repo=dcyyd%2Fdcyyd.github.io&amp;data-repo-id=R_...</code> ← repo 不再是 <code>undefined</code></li>
+<li>✅ <code>api/discussions?repo=dcyyd%2Fdcyyd.github.io&amp;term=...</code> ← 200 OK</li>
+<li>✅ 评论区正常渲染</li>
+</ul>
+<h3 data-v-8e23877e>4.2 部署验证</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953>git add -A
+git commit -m <span class="hljs-string">&quot;feat: 集成 Giscus 评论&quot;</span>
+git push origin main
+</code></pre></div><!----></div>
+<p data-v-8e23877e>GitHub Actions 构建完成后，访问 <code>https://dcyyd.github.io/posts/&lt;slug&gt;/</code>，应看到评论区已加载。</p>
+<h3 data-v-8e23877e>4.3 性能数据</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>未启用懒加载</th>
+<th>启用 <code>data-loading=&quot;lazy&quot;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>首屏请求数</td>
+<td>+1（giscus client.js）</td>
+<td>0（滚动到评论区才加载）</td>
+</tr>
+<tr>
+<td>首屏 JS 体积</td>
+<td>+180 KB</td>
+<td>0</td>
+</tr>
+<tr>
+<td>LCP 影响</td>
+<td>~150ms</td>
+<td>&lt; 20ms</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote data-v-8e23877e>
+<p>关键点：评论模块不在首屏视口内时，懒加载机制会等到用户<strong>滚到评论区</strong>才发起请求，对 LCP 与 FCP 几乎零影响。</p>
+</blockquote>
+<h2 data-v-8e23877e>五、常见问题排查</h2>
+<h3 data-v-8e23877e>Q1：评论区完全不显示</h3>
+<p data-v-8e23877e>检查 <code>import.meta.env.VITE_GISCUS_*</code> 是否在浏览器 Console 输出为字符串而非 <code>undefined</code>。如果全是空串，说明 <code>.env</code> 没加载或 <code>vite.define</code> 未生效。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-ts" data-v-3bcbc953><span class="hljs-comment">// 在 CommentSection.vue 临时打印</span>
+<span class="hljs-variable">console</span>.<span class="hljs-title">log</span>(<span class="hljs-string">&#39;Giscus config:&#39;</span>, { repo, repoId, categoryId })
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>Q2：Network 显示 <code>repo=undefined</code></h3>
+<p data-v-8e23877e><code>data-repo</code> 属性为空串。常见原因：</p>
+<ol data-v-8e23877e>
+<li><strong>CI 未注入变量</strong>：检查 <code>.github/workflows/deploy.yml</code> 的 Build env 是否有 <code>VITE_GISCUS_REPO</code></li>
+<li><strong><code>.env</code> 字段拼写错误</strong>：必须以 <code>VITE_</code> 前缀</li>
+<li><strong>GitHub Secrets 未配置</strong>：仓库 Settings → Secrets → Actions 检查 <code>GISCUS_REPO_ID</code> / <code>GISCUS_CATEGORY_ID</code></li>
+</ol>
+<h3 data-v-8e23877e>Q3：评论区 403 Forbidden</h3>
+<p data-v-8e23877e>Giscus API 返回 403 通常是仓库未安装 Giscus App 或 Discussions 未开启。检查：</p>
+<ul data-v-8e23877e>
+<li>仓库 Settings → Installed GitHub Apps → 确认 <code>giscus</code> 已安装</li>
+<li>仓库 Settings → General → Features → 确认 <code>Discussions</code> 已勾选</li>
+</ul>
+<h3 data-v-8e23877e>Q4：暗色模式下评论区还是亮的</h3>
+<p data-v-8e23877e>确认使用了 <code>data-theme=&quot;preferred_color_scheme&quot;</code> 而非 <code>light</code> / <code>dark</code>。前者会跟随系统色方案，VitePress 切换 <code>html.dark</code> 时 iframe 内部会自动切换。</p>
+<h3 data-v-8e23877e>Q5：如何禁用单篇文章评论？</h3>
+<p data-v-8e23877e>当前通过 <code>v-if=&quot;ready&quot;</code> 全局控制。如需单篇粒度，可扩展：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-ts" data-v-3bcbc953><span class="hljs-comment">// PostPage.vue</span>
+defineProps&lt;{ <span class="hljs-attr">frontmatter</span>: { <span class="hljs-attr">comments</span>?: <span class="hljs-built_in">boolean</span> } }&gt;()
+
+<span class="hljs-comment">// 模板</span>
+&lt;<span class="hljs-title">CommentSection</span> v-<span class="hljs-keyword">if</span>=<span class="hljs-string">&quot;frontmatter.comments !== false&quot;</span> /&gt;
+</code></pre></div><!----></div>
+<h2 data-v-8e23877e>六、总结</h2>
+<p data-v-8e23877e>Giscus 是 VitePress 静态博客接入评论系统的<strong>最优解</strong>：</p>
+<ul data-v-8e23877e>
+<li>✅ <strong>零后端、零数据库、零成本</strong> — 与&quot;文件即数据&quot;理念完全契合</li>
+<li>✅ <strong>5 步接入</strong> — 仓库配置 + 环境变量 + CI 注入 + 组件 + 挂载</li>
+<li>✅ <strong>SPA 路由适配</strong> — <code>watch(route.path)</code> + <code>replaceChildren()</code> 让每篇文章独立 Discussion</li>
+<li>✅ <strong>主题自动跟随</strong> — <code>data-theme=&quot;preferred_color_scheme&quot;</code> 无需手动 postMessage</li>
+<li>✅ <strong>懒加载零 LCP 影响</strong> — <code>data-loading=&quot;lazy&quot;</code> 让评论模块不阻塞首屏</li>
+</ul>
+<p data-v-8e23877e>核心设计原则：<strong>信任三方库，不要重新发明轮子</strong>。<code>CommentSection.vue</code> 从 272 行精简到 112 行，依赖 Giscus 原生的加载、错误与主题能力，代码可读性反而更强。</p>
+<h3 data-v-8e23877e>延伸阅读</h3>
+<ul data-v-8e23877e>
+<li><a href="https://giscus.app/zh-CN" target="_blank" rel="noreferrer noopener">Giscus 官方文档</a></li>
+<li><a href="https://vitepress.dev/guide/custom-theme" target="_blank" rel="noreferrer noopener">VitePress 自定义主题</a></li>
+<li><a href="https://docs.github.com/en/discussions" target="_blank" rel="noreferrer noopener">GitHub Discussions 文档</a></li>
+<li>本文项目源码：<a href="https://github.com/dcyyd/dcyyd.github.io/blob/main/.vitepress/theme/components/CommentSection.vue" target="_blank" rel="noreferrer noopener">CommentSection.vue</a></li>
+</ul>
+<hr data-v-8e23877e>
+<p data-v-8e23877e><strong>文章 slug</strong>: <code>giscus-integration-guide</code>
+<strong>最后更新</strong>: 2026-06-23</p><!--]--></div><!--teleport start--><!--teleport end--><!--]--></div><section class="license-block mb-10 overflow-hidden rounded-xl border border-solid" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><div class="flex items-center gap-3 px-6 py-4 border-b border-solid" style="border-color:var(--ink-150);background:linear-gradient(135deg, var(--muted) 0%, var(--paper) 100%);" data-v-7cac6a61><div class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style="background:var(--accent);color:#fff;" data-v-7cac6a61><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10" data-v-7cac6a61></circle><path d="M14.83 14.83a4 4 0 1 1 0-5.66" data-v-7cac6a61></path></svg></div><div data-v-7cac6a61><h4 class="text-[13px] font-semibold leading-snug" style="color:var(--text-primary);" data-v-7cac6a61> 版权声明 · CC BY-NC-ND 4.0 </h4><p class="text-[11px] mt-0.5" style="color:var(--text-tertiary);" data-v-7cac6a61> 署名-非商业性使用-禁止演绎 4.0 国际 </p></div></div><div class="px-6 py-5 space-y-4 text-[13px] leading-relaxed" data-v-7cac6a61><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>1</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>版权归属</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 本作品著作权归 <strong style="color:var(--text-primary);" data-v-7cac6a61>窦长友</strong> 所有， 首次发布于 <a href="" class="break-all transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;" rel="bookmark" data-v-7cac6a61></a> ，受相关知识产权法律法规保护。 </p></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>2</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>授权范围</span><ul class="mt-1.5 space-y-1" style="color:var(--text-secondary);list-style:none;padding:0;" data-v-7cac6a61><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:var(--accent);font-weight:600;" aria-hidden="true" data-v-7cac6a61>✓</span><span data-v-7cac6a61>可自由<strong style="color:var(--text-primary);" data-v-7cac6a61>分享</strong> — 在任何媒介以任何形式复制、转载本文</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>不得用于<strong style="color:var(--text-primary);" data-v-7cac6a61>商业目的</strong> — 未经书面授权禁止商用</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>禁止<strong style="color:var(--text-primary);" data-v-7cac6a61>演绎修改</strong> — 不得改编、转换或以本文为基础再创作</span></li></ul></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>3</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>署名要求</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 转载或引用时须<strong style="color:var(--text-primary);" data-v-7cac6a61>明确标注作者姓名</strong>、<strong style="color:var(--text-primary);" data-v-7cac6a61>原文出处</strong>及本许可协议链接。 不得以任何方式暗示或声称作者为您的使用背书。 </p></div></div><div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-dashed" style="border-color:var(--ink-150);" data-v-7cac6a61><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" data-v-7cac6a61></path><polyline points="15 3 21 3 21 9" data-v-7cac6a61></polyline><line x1="10" x2="21" y1="14" y2="3" data-v-7cac6a61></line></svg> 查看完整许可证 </a><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.zh-Hans" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><rect width="14" height="14" x="3" y="3" rx="2" ry="2" data-v-7cac6a61></rect><line x1="8" x2="16" y1="12" y2="12" data-v-7cac6a61></line><line x1="12" x2="12" y1="8" y2="16" data-v-7cac6a61></line></svg> 法律文本（英文） </a></div></div></section><section class="comments comments-section" aria-label="评论区" data-v-7cac6a61 data-v-ecb3c01b><header class="comments__header" data-v-ecb3c01b><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-messages-square-icon h-5 w-5" style="color:var(--accent);" aria-hidden="true" data-v-ecb3c01b><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg><h2 class="comments__title" data-v-ecb3c01b>评论</h2><span class="comments__hint" data-v-ecb3c01b>由 GitHub Discussions 驱动</span></header><div class="comments__giscus" data-v-ecb3c01b></div></section><nav class="pb-20 grid gap-4 sm:grid-cols-2" aria-label="上下篇文章导航" data-v-7cac6a61><a href="/posts/deepseek-v4-api完整接入实战手册" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 上一篇 </span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>DeepSeek V4 API完整接入实战手册</strong></a><a href="/posts/git-命令速查手册" style="border-color:var(--ink-200);background:var(--paper);" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg text-right" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 justify-end w-full text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61> 下一篇 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon h-3 w-3 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>Git 命令速查手册</strong></a></nav></div><!----></div></article></div></div><!--]--></main><footer class="mt-12 border-t" style="border-color:var(--ink-200);background:var(--paper);" data-v-5bbe2dad><div class="mx-auto max-w-[1240px] px-6 sm:px-8" data-v-5bbe2dad><div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-y-3 gap-x-8 py-5 text-[11.5px]" data-v-5bbe2dad><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-center sm:text-left" style="color:var(--text-tertiary);" data-v-5bbe2dad><span style="color:var(--text-primary);font-weight:500;" data-v-5bbe2dad>© 2026 FilePress · Blog</span><span aria-hidden="true" data-v-5bbe2dad>—</span><span class="inline-flex items-center gap-1" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span data-v-5bbe2dad>Powered by <a href="https://vitepress.dev" class="text-[var(--accent)]" data-v-5bbe2dad>VitePress</a></span></span></div><div class="flex items-center gap-4" data-v-5bbe2dad><!--[--><a href="https://github.com/dcyyd/dcyyd.github.io" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>GitHub</a><a href="mailto:dcyyd_kcug@yeah.net" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>Email</a><a href="/feed.xml" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>RSS</a><!--]--><!----><!----><button style="display:none;" type="button" class="footer-top-btn" aria-label="回到顶部" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg><span data-v-5bbe2dad>TOP</span></button></div></div></div></footer><!--teleport start--><!--teleport end--></div></div>
+    
+    
+  </body>
+</html>

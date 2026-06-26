@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Astro 静态博客搭建全攻略：从零到生产环境部署 | FilePress Blog - 极致文件驱动技术博客</title>
+    <meta name="description" content="本文档提供了一份完整的 Astro 静态博客搭建指南，涵盖项目初始化、内容管理、样式定制、功能集成及多平台部署全流程。">
+    <meta name="generator" content="VitePress v1.4.5">
+    <link rel="preload stylesheet" href="/assets/style.DOaU_6MJ.css" as="style">
+    <script type="module" src="/assets/chunks/metadata.fade99af.js"></script>
+    <script type="module" src="/assets/app.B8LI0Ux7.js"></script>
+    <link rel="modulepreload" href="/assets/chunks/icons.B06OPOny.js">
+    <link rel="modulepreload" href="/assets/chunks/plugin-vue_export-helper.DlAUqK2U.js">
+    <link rel="modulepreload" href="/assets/chunks/math.C5jXJg4s.js">
+    <link rel="modulepreload" href="/assets/chunks/dagre-BM42HDAG.DFKPxUeW.js">
+    <link rel="modulepreload" href="/assets/chunks/cose-bilkent-S5V4N54A.CF0Q0vbq.js">
+    <link rel="modulepreload" href="/assets/chunks/c4Diagram-AAUBKEIU.CKvTctJp.js">
+    <link rel="modulepreload" href="/assets/chunks/flowDiagram-I6XJVG4X.CAn1OyxF.js">
+    <link rel="modulepreload" href="/assets/chunks/erDiagram-TEJ5UH35.BaauLoI1.js">
+    <link rel="modulepreload" href="/assets/chunks/gitGraphDiagram-PVQCEYII.D3iSVrTL.js">
+    <link rel="modulepreload" href="/assets/chunks/ganttDiagram-6RSMTGT7.BYIx5Lp1.js">
+    <link rel="modulepreload" href="/assets/chunks/infoDiagram-5YYISTIA.B6YTVhM9.js">
+    <link rel="modulepreload" href="/assets/chunks/pieDiagram-4H26LBE5.D5WIJxha.js">
+    <link rel="modulepreload" href="/assets/chunks/quadrantDiagram-W4KKPZXB.BeoxAT6P.js">
+    <link rel="modulepreload" href="/assets/chunks/xychartDiagram-2RQKCTM6.DZ9DKocQ.js">
+    <link rel="modulepreload" href="/assets/chunks/requirementDiagram-4Y6WPE33.DkTuTqHj.js">
+    <link rel="modulepreload" href="/assets/chunks/sequenceDiagram-3UESZ5HK.cFcmd4ud.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-4FO5ZUOK.DvRERw89.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-v2-Q7XG4LA2.DvRERw89.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-AJRCARHV.BIz_221x.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-v2-BHNVJYJU.DBnRDZwz.js">
+    <link rel="modulepreload" href="/assets/chunks/journeyDiagram-JHISSGLW.BkTbGYLh.js">
+    <link rel="modulepreload" href="/assets/chunks/timeline-definition-PNZ67QCA.DJEtSogJ.js">
+    <link rel="modulepreload" href="/assets/chunks/mindmap-definition-RKZ34NQL.BkVJ1SWD.js">
+    <link rel="modulepreload" href="/assets/chunks/kanban-definition-UN3LZRKU.CSx9nSR8.js">
+    <link rel="modulepreload" href="/assets/chunks/sankeyDiagram-5OEKKPKP.CpxHHU_-.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-LMA3HP47.BOyQolFW.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-2AECGRRQ.BFZorpBB.js">
+    <link rel="modulepreload" href="/assets/chunks/blockDiagram-GPEHLZMM.eSxjnMrS.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-5GNKFQAL.DtHz6By9.js">
+    <link rel="modulepreload" href="/assets/chunks/architectureDiagram-3BPJPVTR.CQClnpIt.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-KO2AKTUF.vTbNZSqm.js">
+    <link rel="modulepreload" href="/assets/chunks/ishikawaDiagram-YF4QCWOH.6W6HZS3g.js">
+    <link rel="modulepreload" href="/assets/chunks/vennDiagram-CIIHVFJN.B19Vt-ZX.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-OG6HWLK6.3LGSuRju.js">
+    <link rel="modulepreload" href="/assets/chunks/wardleyDiagram-YWT4CUSO.B2LM76GI.js">
+    <link rel="modulepreload" href="/assets/posts_astro静态博客搭建指南.md.C6mivv6Q.lean.js">
+    <meta name="theme-color" content="#1a4d3a">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <meta name="keywords" content="VitePress, VuePress, 静态博客, GitHub Pages, Markdown, 文件驱动, 前端工程, AI大模型, 技术博客, 个人网站">
+    <meta property="article:author" content="dcyyd">
+    <meta property="article:publisher" content="https://dcyyd.github.io">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FilePress Blog">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dcyyd">
+    <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" async></script>
+    <meta name="twitter:creator" content="@dcyyd">
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+    <meta property="og:title" content="Astro 静态博客搭建全攻略：从零到生产环境部署 | FilePress Blog - 极致文件驱动技术博客">
+    <meta property="og:description" content="本文档提供了一份完整的 Astro 静态博客搭建指南，涵盖项目初始化、内容管理、样式定制、功能集成及多平台部署全流程。">
+    <meta property="og:url" content="https://dcyyd.github.io/posts/astro静态博客搭建指南.md">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Astro 静态博客搭建全攻略：从零到生产环境部署 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:title" content="Astro 静态博客搭建全攻略：从零到生产环境部署 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:description" content="本文档提供了一份完整的 Astro 静态博客搭建指南，涵盖项目初始化、内容管理、样式定制、功能集成及多平台部署全流程。">
+    <meta name="twitter:image" content="/og-image.png">
+    <meta name="twitter:image:alt" content="Astro 静态博客搭建全攻略：从零到生产环境部署 | FilePress Blog - 极致文件驱动技术博客">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"FilePress Blog","description":"基于 VitePress 1.4 构建的纯文件驱动技术博客，零数据库、零 CMS，支持 GitHub Pages 免费部署、Markdown 写作、全文搜索、评论系统集成。提供 VuePress/VitePress 静态博客搭建教程、前端工程实践、AI 大模型应用等技术文章。","url":"https://dcyyd.github.io/posts/astro静态博客搭建指南.md","publisher":{"@type":"Organization","name":"FilePress Blog","url":"https://dcyyd.github.io"}}</script>
+  </head>
+  <body><!--teleport start anchor--><!----><!--teleport anchor--><!--teleport start anchor--><!----><!--teleport anchor-->
+    <div id="app"><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b backdrop-blur-sm" style="border-color:var(--ink-200);background:var(--paper);" data-v-8b063484><nav class="mx-auto flex h-14 sm:h-16 max-w-[1240px] items-center justify-between px-6 sm:px-8" aria-label="主导航" data-v-8b063484><a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="返回首页" data-v-8b063484><span class="mono-num inline-flex h-8 w-8 items-center justify-center text-[13px] font-semibold rounded-sm" style="background:var(--ink-900);color:var(--paper);" data-v-8b063484> F </span><span class="flex flex-col leading-none hidden sm:flex" data-v-8b063484><span class="serif-title text-[15px] leading-none" style="color:var(--text-primary);" data-v-8b063484>FilePress · Blog</span><span class="eyebrow mt-0.5 leading-none" style="font-size:8.5px;" data-v-8b063484>Est. 2026</span></span></a><div class="hidden md:flex items-center gap-0.5" data-v-8b063484><!--[--><a href="/" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>首页</a><a href="/blog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>博客</a><a href="/categories" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>分类</a><a href="/archives" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>归档</a><a href="/friends" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>友链</a><a href="/about" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>关于</a><a href="/changelog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>更新日志</a><!--]--><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="inline-flex items-center justify-center p-1.5 rounded-sm hover:bg-[var(--muted)] transition-colors" aria-label="搜索 (Ctrl+K)" title="搜索 (Ctrl+K)" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon h-4 w-4" style="color:var(--text-secondary);" aria-hidden="true" data-v-8b063484><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="theme-toggle group inline-flex items-center gap-1.5 border px-2.5 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] rounded-sm transition-all duration-200" style="color:var(--text-tertiary);border-color:var(--ink-200);" aria-label="切换到深色模式" aria-pressed="false" data-v-8b063484 data-v-f5d60c34><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon h-3.5 w-3.5" aria-hidden="true" data-v-f5d60c34><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg><span class="hidden sm:inline" data-v-f5d60c34>Dark</span></button></div><button type="button" class="inline-flex items-center justify-center p-2 md:hidden rounded-sm -mr-2" style="color:var(--text-primary);" aria-label="切换菜单" aria-expanded="false" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon h-5 w-5" aria-hidden="true" data-v-8b063484><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button></nav><!----></header><main class="max-w-6xl mx-auto w-full flex-1 px-4 py-8 sm:px-6 lg:px-8"><!--[--><nav class="breadcrumbs" aria-label="面包屑导航" data-v-047f921d><ol class="breadcrumbs-list flex items-center gap-1" data-v-047f921d><!--[--><li class="breadcrumbs-item" data-v-047f921d><a href="/" class="breadcrumbs-link" aria-label="返回首页" data-v-047f921d><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon h-3 w-3" aria-hidden="true" data-v-047f921d><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="sr-only" data-v-047f921d>首页</span></a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><a href="/posts" class="breadcrumbs-link" data-v-047f921d>文章</a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><span class="breadcrumbs-current" aria-current="page" data-v-047f921d>astro静态博客搭建指南</span><!----></li><!--]--></ol></nav><div style="position:relative;"><div><article class="relative mx-auto max-w-[90rem]" data-v-7cac6a61><div class="reading-progress fixed top-0 left-0 z-50 h-[3px] pointer-events-none" style="width:0%;background:var(--accent, #10b981);" aria-hidden="true" data-v-7cac6a61></div><div class="flex justify-center" data-v-7cac6a61><div class="w-full max-w-3xl px-4 sm:px-6" data-v-7cac6a61><header class="animate-fade-up pt-16 pb-10 sm:pt-20 sm:pb-12 border-b" style="border-color:var(--ink-200);" data-v-7cac6a61><!----><div class="flex items-center gap-2 mb-5 text-[11px] font-medium" style="color:var(--text-tertiary);" data-v-7cac6a61><a href="/blog" class="inline-flex items-center gap-1.5 transition-colors hover:text-[var(--accent)]" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 博客 </a><span aria-hidden="true" class="opacity-40" data-v-7cac6a61>/</span><a href="/categories/前端工程" class="transition-colors hover:text-[var(--accent)]" data-v-7cac6a61>前端工程</a></div><h1 class="serif-title text-balance text-[2.25rem] leading-[1.06] tracking-tight sm:text-[3rem] lg:text-[3.5rem]" style="color:var(--text-primary);" data-v-7cac6a61>Astro 静态博客搭建全攻略：从零到生产环境部署</h1><p class="mt-5 text-[16px] leading-[1.8] max-w-[60ch]" style="color:var(--text-secondary);" data-v-7cac6a61>本文档提供了一份完整的 Astro 静态博客搭建指南，涵盖项目初始化、内容管理、样式定制、功能集成及多平台部署全流程。</p><div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-7" data-v-7cac6a61><div class="flex items-center gap-4 text-[12.5px]" style="color:var(--text-tertiary);" data-v-7cac6a61><time datetime="2026-06-24T00:00:00.000Z" class="inline-flex items-center gap-1.5 font-medium" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg> 2026/06/24</time><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="mono-num" data-v-7cac6a61>7 分钟阅读</span></span><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><line x1="4" x2="20" y1="9" y2="9"></line><line x1="4" x2="20" y1="15" y2="15"></line><line x1="10" x2="8" y1="3" y2="21"></line><line x1="16" x2="14" y1="3" y2="21"></line></svg><span class="mono-num" data-v-7cac6a61>1.3k 字</span></span><!----></div><!----></div><div class="flex flex-wrap items-center gap-2 mt-6" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon h-3.5 w-3.5 opacity-50" style="color:var(--text-tertiary);" aria-hidden="true" data-v-7cac6a61><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle></svg><!--[--><a href="/tags/astro" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>Astro</a><a href="/tags/静态博客" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>静态博客</a><!--]--></div></header><div class="blog-prose pt-10 pb-10" data-v-7cac6a61><!--[--><div data-v-8e23877e><!--[--><blockquote data-v-8e23877e>
+<p>本文档提供了一份完整的 Astro 静态博客搭建指南，涵盖项目初始化、内容管理、样式定制、功能集成及多平台部署全流程。完成本教程后，您将获得一个高性能、零 JavaScript 运行时开销、支持暗色模式与全文搜索的现代化静态博客。</p>
+</blockquote>
+<h2 data-v-8e23877e>一、环境准备</h2>
+<h3 data-v-8e23877e>1.1 系统要求</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>工具</th>
+<th>最低版本</th>
+<th>推荐版本</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Node.js</td>
+<td>18.17.1</td>
+<td>20.x LTS</td>
+<td>运行 Astro 构建工具链</td>
+</tr>
+<tr>
+<td>pnpm</td>
+<td>8.x</td>
+<td>9.x</td>
+<td>高性能包管理器</td>
+</tr>
+<tr>
+<td>Git</td>
+<td>2.x</td>
+<td>最新稳定版</td>
+<td>版本控制与部署集成</td>
+</tr>
+<tr>
+<td>VS Code</td>
+<td>1.80+</td>
+<td>最新版</td>
+<td>代码编辑与调试</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>1.2 安装命令</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># 检查当前 Node.js 版本（必须 ≥ 18.17.1）</span>
+node -v
+
+<span class="hljs-comment"># 全局安装 pnpm（比 npm 更快，磁盘占用更小）</span>
+npm install -g pnpm
+
+<span class="hljs-comment"># 验证 Git 是否已安装</span>
+git --version
+</code></pre></div><!----></div>
+<blockquote data-v-8e23877e>
+<p><strong>macOS 用户</strong>：可使用 Homebrew 快速安装</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953>brew install node
+brew install git
+</code></pre></div><!----></div>
+</blockquote>
+<h3 data-v-8e23877e>1.3 开发工具配置</h3>
+<p data-v-8e23877e><strong>推荐 VS Code 扩展</strong>：</p>
+<ul data-v-8e23877e>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=astro-build.astro-vscode" target="_blank" rel="noreferrer noopener">Astro 官方扩展</a> — 提供语法高亮、智能提示与错误检查</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss" target="_blank" rel="noreferrer noopener">Tailwind CSS IntelliSense</a> — Tailwind 类名自动补全</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode" target="_blank" rel="noreferrer noopener">Prettier</a> — 统一代码格式化</li>
+</ul>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>二、项目创建与初始化</h2>
+<h3 data-v-8e23877e>2.1 使用官方 CLI（交互式创建）</h3>
+<p data-v-8e23877e>Astro 官方提供交互式脚手架，可根据需求选择模板：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953>pnpm create astro@latest my-blog
+</code></pre></div><!----></div>
+<p data-v-8e23877e>命令行交互流程：</p>
+<ol data-v-8e23877e>
+<li>选择模板：<code>Empty</code>（最小化结构）/ <code>Basics</code>（基础示例）/ <code>Blog</code>（博客模板）</li>
+<li>是否安装依赖：选择 <code>Yes</code></li>
+<li>是否初始化 Git 仓库：选择 <code>Yes</code></li>
+<li>是否添加示例内容：视需求选择</li>
+</ol>
+<h3 data-v-8e23877e>2.2 使用社区主题模板（生产级推荐）</h3>
+<p data-v-8e23877e>若希望快速获得功能完备的博客，推荐直接使用社区成熟的 Astro 主题。本教程以 <strong>AstroPaper</strong> 为例，它集成了暗色模式、SEO、标签系统、OG 图片生成等开箱即用功能。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># 基于 AstroPaper 模板创建项目</span>
+pnpm create astro@latest my-blog -- --template satnaing/astro-paper
+
+<span class="hljs-comment"># 进入项目目录</span>
+<span class="hljs-built_in">cd</span> my-blog
+
+<span class="hljs-comment"># 安装依赖</span>
+pnpm install
+
+<span class="hljs-comment"># 启动开发服务器</span>
+pnpm dev
+</code></pre></div><!----></div>
+<p data-v-8e23877e>访问 <code>http://localhost:4321</code> 即可预览效果。</p>
+<blockquote data-v-8e23877e>
+<p><strong>备选主题</strong>：</p>
+<ul>
+<li><a href="https://github.com/chrismwilliams/astro-theme-cactus" target="_blank" rel="noreferrer noopener">AstroCactus</a> — 极简风格，支持多种颜色主题</li>
+<li><a href="https://github.com/onwidget/astrowind" target="_blank" rel="noreferrer noopener">AstroWind</a> — 企业级落地页风格</li>
+<li><a href="https://github.com/saicaca/fuwari" target="_blank" rel="noreferrer noopener">Fuwari</a> — 东方美学设计</li>
+</ul>
+</blockquote>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>三、项目架构解析</h2>
+<h3 data-v-8e23877e>3.1 目录结构与职责</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><span class="code-block__meta" data-v-3bcbc953>32 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>my-blog/
+├── astro.config.ts              # Astro 核心配置文件
+├── tsconfig.json                # TypeScript 编译配置
+├── package.json                 # 项目依赖与脚本
+├── .env.example                 # 环境变量模板
+├── public/                      # 静态资源（直接复制到构建输出）
+│   ├── favicon.ico
+│   ├── robots.txt
+│   └── images/
+├── src/
+│   ├── config.ts                # 站点全局元信息
+│   ├── content.config.ts        # Content Collections 架构定义
+│   ├── data/
+│   │   └── blog/                # 📝 博客文章存放目录
+│   ├── pages/                   # 页面路由（基于文件系统路由）
+│   │   ├── index.astro          # 首页
+│   │   ├── posts/               # 文章详情页动态路由
+│   │   ├── archives.astro       # 归档页
+│   │   ├── tags/                # 标签聚合页
+│   │   └── rss.xml.ts           # RSS 订阅生成端点
+│   ├── layouts/                 # 页面布局组件
+│   │   ├── BaseLayout.astro
+│   │   └── PostLayout.astro
+│   ├── components/              # 可复用 UI 组件
+│   │   ├── Header.astro
+│   │   ├── Footer.astro
+│   │   ├── Search.astro
+│   │   └── Card.astro
+│   └── styles/                  # 全局样式
+│       └── global.css
+└── dist/                        # 构建输出目录（自动生成，不纳入 Git）
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 16 行</span></button></div></div>
+<h3 data-v-8e23877e>3.2 核心配置文件说明</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>文件</th>
+<th>职责</th>
+<th>关键配置项</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>astro.config.ts</code></td>
+<td>Astro 构建配置</td>
+<td>集成插件、Markdown 渲染、Vite 设置、输出模式</td>
+</tr>
+<tr>
+<td><code>src/config.ts</code></td>
+<td>站点元信息</td>
+<td>网站标题、描述、作者、语言、社交链接</td>
+</tr>
+<tr>
+<td><code>src/content.config.ts</code></td>
+<td>内容集合定义</td>
+<td>文章路径规则、frontmatter Schema 校验</td>
+</tr>
+</tbody>
+</table></div>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>四、站点元信息配置</h2>
+<p data-v-8e23877e>打开 <code>src/config.ts</code>，根据实际需求修改站点基本信息：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><span class="code-block__meta" data-v-3bcbc953>17 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-typescript" data-v-3bcbc953><span class="hljs-comment">// src/config.ts</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-variable">SITE</span> = {
+  <span class="hljs-attr">website</span>: <span class="hljs-string">&quot;https://your-domain.com/&quot;</span>,          <span class="hljs-comment">// 站点根 URL（用于 SEO Canonical）</span>
+  <span class="hljs-attr">author</span>: <span class="hljs-string">&quot;Your Name&quot;</span>,                           <span class="hljs-comment">// 作者署名</span>
+  <span class="hljs-attr">profile</span>: <span class="hljs-string">&quot;https://github.com/yourname&quot;</span>,        <span class="hljs-comment">// 作者个人链接</span>
+  <span class="hljs-attr">desc</span>: <span class="hljs-string">&quot;专注于前端工程化与性能优化的技术博客&quot;</span>,     <span class="hljs-comment">// 站点描述（用于 SEO）</span>
+  <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;Your Blog&quot;</span>,                            <span class="hljs-comment">// 站点标题</span>
+  <span class="hljs-attr">lang</span>: <span class="hljs-string">&quot;zh&quot;</span>,                                    <span class="hljs-comment">// 语言代码（影响 HTML lang 属性）</span>
+  <span class="hljs-attr">lightAndDarkMode</span>: <span class="hljs-literal">true</span>,                        <span class="hljs-comment">// 启用暗色/亮色切换</span>
+  <span class="hljs-attr">showArchives</span>: <span class="hljs-literal">true</span>,                            <span class="hljs-comment">// 是否显示归档页</span>
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> <span class="hljs-variable">SOCIALS</span> = [
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;GitHub&quot;</span>, <span class="hljs-attr">url</span>: <span class="hljs-string">&quot;https://github.com/yourname&quot;</span> },
+  { <span class="hljs-attr">name</span>: <span class="hljs-string">&quot;Twitter&quot;</span>, <span class="hljs-attr">url</span>: <span class="hljs-string">&quot;https://twitter.com/yourname&quot;</span> },
+];
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 1 行</span></button></div></div>
+<blockquote data-v-8e23877e>
+<p><strong>SEO 提示</strong>：<code>lang: &quot;zh&quot;</code> 设置后，HTML 标签会渲染为 <code>&lt;html lang=&quot;zh&quot;&gt;</code>，有助于搜索引擎正确识别内容语言。</p>
+</blockquote>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>五、Content Collections：类型安全的内容管理</h2>
+<h3 data-v-8e23877e>5.1 什么是 Content Collections</h3>
+<p data-v-8e23877e>Astro 的 Content Collections 是一套<strong>类型安全的内容管理方案</strong>，它利用 Zod 架构对 Markdown/MDX 文件的 frontmatter 进行校验，确保内容结构的一致性。</p>
+<p data-v-8e23877e><strong>核心优势</strong>：</p>
+<ul data-v-8e23877e>
+<li>✅ 构建阶段校验 frontmatter 字段，避免运行时错误</li>
+<li>✅ 自动生成 TypeScript 类型提示，提升开发体验</li>
+<li>✅ 支持内容查询 API（<code>getCollection()</code>），便于数据获取</li>
+<li>✅ 可扩展图片、标签等关联数据的自动处理</li>
+</ul>
+<h3 data-v-8e23877e>5.2 定义文章 Schema</h3>
+<p data-v-8e23877e><code>src/content.config.ts</code> 是内容集合的配置入口：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><span class="code-block__meta" data-v-3bcbc953>28 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-typescript" data-v-3bcbc953><span class="hljs-comment">// src/content.config.ts</span>
+<span class="hljs-keyword">import</span> { defineCollection, z } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;astro:content&quot;</span>;
+<span class="hljs-keyword">import</span> { glob } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;astro/loaders&quot;</span>;
+
+<span class="hljs-comment">// 定义博客文章集合</span>
+<span class="hljs-keyword">const</span> blog = <span class="hljs-title">defineCollection</span>({
+  <span class="hljs-comment">// 加载器：扫描 src/data/blog/ 下所有 .md 文件（排除以下划线开头的文件）</span>
+  <span class="hljs-attr">loader</span>: <span class="hljs-title">glob</span>({ 
+    <span class="hljs-attr">pattern</span>: <span class="hljs-string">&quot;**/[^_]*.md&quot;</span>, 
+    <span class="hljs-attr">base</span>: <span class="hljs-string">&quot;./src/data/blog&quot;</span> 
+  }),
+  <span class="hljs-comment">// Zod Schema：定义 frontmatter 的字段类型与校验规则</span>
+  <span class="hljs-attr">schema</span>: <span class="hljs-function">(<span class="hljs-params">{ image }</span>) =&gt;</span>
+    z.<span class="hljs-title">object</span>({
+      <span class="hljs-attr">title</span>: z.<span class="hljs-title">string</span>(),                          <span class="hljs-comment">// 文章标题（必填）</span>
+      <span class="hljs-attr">description</span>: z.<span class="hljs-title">string</span>(),                    <span class="hljs-comment">// 文章摘要（必填）</span>
+      <span class="hljs-attr">pubDatetime</span>: z.<span class="hljs-title">date</span>(),                      <span class="hljs-comment">// 发布日期（必填）</span>
+      <span class="hljs-attr">modDatetime</span>: z.<span class="hljs-title">date</span>().<span class="hljs-title">optional</span>().<span class="hljs-title">nullable</span>(), <span class="hljs-comment">// 修改日期（可选）</span>
+      <span class="hljs-attr">author</span>: z.<span class="hljs-title">string</span>().<span class="hljs-title">default</span>(<span class="hljs-string">&quot;Your Name&quot;</span>),    <span class="hljs-comment">// 作者（可自动填充默认值）</span>
+      <span class="hljs-attr">featured</span>: z.<span class="hljs-title">boolean</span>().<span class="hljs-title">optional</span>(),           <span class="hljs-comment">// 是否推荐（可选）</span>
+      <span class="hljs-attr">draft</span>: z.<span class="hljs-title">boolean</span>().<span class="hljs-title">optional</span>(),              <span class="hljs-comment">// 是否为草稿（可选）</span>
+      <span class="hljs-attr">tags</span>: z.<span class="hljs-title">array</span>(z.<span class="hljs-title">string</span>()).<span class="hljs-title">default</span>([<span class="hljs-string">&quot;others&quot;</span>]), <span class="hljs-comment">// 标签列表</span>
+      <span class="hljs-attr">ogImage</span>: <span class="hljs-title">image</span>().<span class="hljs-title">or</span>(z.<span class="hljs-title">string</span>()).<span class="hljs-title">optional</span>(), <span class="hljs-comment">// Open Graph 图片（支持 Image 类型或 URL）</span>
+    }),
+});
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> collections = { blog };
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 12 行</span></button></div></div>
+<h3 data-v-8e23877e>5.3 Schema 字段详解</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>类型</th>
+<th>必填</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>✅</td>
+<td>文章标题，将显示在页面标题与列表卡片中</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>✅</td>
+<td>文章摘要，用于 SEO meta description 和首页卡片描述</td>
+</tr>
+<tr>
+<td><code>pubDatetime</code></td>
+<td>date</td>
+<td>✅</td>
+<td>发布时间，用于排序与归档</td>
+</tr>
+<tr>
+<td><code>modDatetime</code></td>
+<td>date</td>
+<td>❌</td>
+<td>最后修改时间，若存在则覆盖发布日期显示</td>
+</tr>
+<tr>
+<td><code>author</code></td>
+<td>string</td>
+<td>❌</td>
+<td>作者名，默认使用 <code>config.ts</code> 中的全局作者</td>
+</tr>
+<tr>
+<td><code>featured</code></td>
+<td>boolean</td>
+<td>❌</td>
+<td>设为 <code>true</code> 时文章将在首页置顶展示</td>
+</tr>
+<tr>
+<td><code>draft</code></td>
+<td>boolean</td>
+<td>❌</td>
+<td>设为 <code>true</code> 时文章在构建时被排除，仅本地预览可见</td>
+</tr>
+<tr>
+<td><code>tags</code></td>
+<td>string[]</td>
+<td>❌</td>
+<td>标签数组，用于分类聚合与标签页生成</td>
+</tr>
+<tr>
+<td><code>ogImage</code></td>
+<td>image/string</td>
+<td>❌</td>
+<td>社交分享图，Astro 会自动优化图片资源</td>
+</tr>
+</tbody>
+</table></div>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>六、文章创作规范</h2>
+<h3 data-v-8e23877e>6.1 文件组织</h3>
+<p data-v-8e23877e>建议按年/月对文章进行目录分层，便于管理与检索：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>src/data/blog/
+├── 2025/
+│   └── 12/
+│       └── astro-introduction.md
+├── 2026/
+│   ├── 01/
+│   │   └── tailwind-v4-guide.md
+│   └── 04/
+│       ├── docker-deployment.md
+│       └── _draft/
+│           └── in-progress.md   # 以下划线开头，会被 glob 模式忽略
+</code></pre></div><!----></div>
+<blockquote data-v-8e23877e>
+<p><code>glob({ pattern: &quot;**/[^_]*.md&quot; })</code> 会排除所有以下划线开头的文件或目录，适合存放草稿或片段。</p>
+</blockquote>
+<h3 data-v-8e23877e>6.2 文章 Frontmatter 示例</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#083fa1;border-color:#083fa140;background:#083fa114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#083fa1;" aria-hidden="true" data-v-3bcbc953></span> Markdown</span><span class="code-block__meta" data-v-3bcbc953>19 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-markdown" data-v-3bcbc953>---
+title: &quot;Astro 4.0 新特性全面解读&quot;
+pubDatetime: 2026-04-03T10:00:00.000Z
+modDatetime: 2026-04-05T14:30:00.000Z
+description: &quot;深度解析 Astro 4.0 的 View Transitions、Content Layer API 等核心更新&quot;
+author: &quot;张三&quot;
+featured: true
+tags:
+<span class="hljs-bullet">  -</span> Astro
+<span class="hljs-bullet">  -</span> 前端框架
+<span class="hljs-bullet">  -</span> 性能优化
+ogImage: /images/posts/astro-4-preview.png
+<span class="hljs-section">draft: false
+---</span>
+
+<span class="hljs-section">## 引言</span>
+
+Astro 4.0 于 2026 年 3 月正式发布...
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 3 行</span></button></div></div>
+<h3 data-v-8e23877e>6.3 Markdown 语法支持</h3>
+<p data-v-8e23877e>Astro 内置支持以下 Markdown 扩展：</p>
+<ul data-v-8e23877e>
+<li><strong>代码块语法高亮</strong>（基于 Shiki）</li>
+<li><strong>GFM（GitHub Flavored Markdown）</strong>：表格、任务列表、自动链接</li>
+<li><strong>Mermaid 流程图</strong>（需配置 remark-mermaid 插件）</li>
+<li><strong>容器语法</strong>（通过 remark-directive）</li>
+</ul>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>七、样式定制</h2>
+<h3 data-v-8e23877e>7.1 Tailwind CSS v4 配置</h3>
+<p data-v-8e23877e>AstroPaper 主题采用 <strong>Tailwind CSS v4</strong>，采用 CSS-first 配置范式。全局样式定义在 <code>src/styles/global.css</code>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#563d7c;border-color:#563d7c40;background:#563d7c14;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#563d7c;" aria-hidden="true" data-v-3bcbc953></span> CSS</span><span class="code-block__meta" data-v-3bcbc953>18 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-css" data-v-3bcbc953><span class="hljs-comment">/* src/styles/global.css */</span>
+<span class="hljs-keyword">@import</span> <span class="hljs-string">&quot;tailwindcss&quot;</span>;
+
+<span class="hljs-comment">/* 使用 @theme inline 定义设计令牌 */</span>
+<span class="hljs-keyword">@theme</span> inline {
+  <span class="hljs-attr">--color-background</span>: <span class="hljs-built_in">var</span>(--background);
+  <span class="hljs-attr">--color-foreground</span>: <span class="hljs-built_in">var</span>(--foreground);
+  <span class="hljs-attr">--color-accent</span>: <span class="hljs-built_in">var</span>(--accent);
+  <span class="hljs-attr">--color-accent-hover</span>: <span class="hljs-built_in">var</span>(--accent-hover);
+}
+
+<span class="hljs-comment">/* 暗色模式通过 data-theme 属性控制 */</span>
+<span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&quot;dark&quot;</span>]</span> {
+  <span class="hljs-attr">--background</span>: <span class="hljs-number">#0d1117</span>;
+  <span class="hljs-attr">--foreground</span>: <span class="hljs-number">#e6edf3</span>;
+  <span class="hljs-attr">--accent</span>: <span class="hljs-number">#58a6ff</span>;
+}
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 2 行</span></button></div></div>
+<h3 data-v-8e23877e>7.2 修改主题配色</h3>
+<p data-v-8e23877e>自定义配色只需在 CSS 中覆盖对应的 CSS 变量：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#563d7c;border-color:#563d7c40;background:#563d7c14;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#563d7c;" aria-hidden="true" data-v-3bcbc953></span> CSS</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-css" data-v-3bcbc953><span class="hljs-comment">/* 亮色模式配色 */</span>
+<span class="hljs-selector-pseudo">:root</span> {
+  <span class="hljs-attr">--background</span>: <span class="hljs-number">#f6f8fa</span>;
+  <span class="hljs-attr">--foreground</span>: <span class="hljs-number">#1f2328</span>;
+  <span class="hljs-attr">--accent</span>: <span class="hljs-number">#0969da</span>;
+  <span class="hljs-attr">--accent-hover</span>: <span class="hljs-number">#0550ae</span>;
+}
+
+<span class="hljs-comment">/* 暗色模式配色 */</span>
+<span class="hljs-selector-attr">[data-theme=<span class="hljs-string">&quot;dark&quot;</span>]</span> {
+  <span class="hljs-attr">--background</span>: <span class="hljs-number">#0d1117</span>;
+  <span class="hljs-attr">--foreground</span>: <span class="hljs-number">#f0f6fc</span>;
+  <span class="hljs-attr">--accent</span>: <span class="hljs-number">#1f6feb</span>;
+}
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>7.3 组件样式隔离</h3>
+<p data-v-8e23877e>Astro 组件中的 <code>&lt;style&gt;</code> 标签默认具有 <strong>CSS Scoped</strong> 特性，样式仅作用于当前组件，不会污染全局：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> ASTRO</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-astro" data-v-3bcbc953>&lt;!-- src/components/CustomButton.astro --&gt;
+&lt;button class=&quot;btn-primary&quot;&gt;点击我&lt;/button&gt;
+
+&lt;style&gt;
+  /* 此样式仅对当前组件的 .btn-primary 生效 */
+  .btn-primary {
+    background: var(--color-accent);
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+  }
+&lt;/style&gt;
+</code></pre></div><!----></div>
+<p data-v-8e23877e>如需全局样式，使用 <code>:global()</code> 包裹：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#563d7c;border-color:#563d7c40;background:#563d7c14;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#563d7c;" aria-hidden="true" data-v-3bcbc953></span> CSS</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-css" data-v-3bcbc953>&lt;style&gt;
+  :<span class="hljs-built_in">global</span>(body) {
+    <span class="hljs-attribute">font-family</span>: <span class="hljs-string">&#39;Inter&#39;</span>, sans-serif;
+  }
+&lt;/style&gt;
+</code></pre></div><!----></div>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>八、Markdown 渲染增强</h2>
+<h3 data-v-8e23877e>8.1 语法高亮配置</h3>
+<p data-v-8e23877e>在 <code>astro.config.ts</code> 中配置 Shiki 语法高亮主题：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><span class="code-block__meta" data-v-3bcbc953>21 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-typescript" data-v-3bcbc953><span class="hljs-comment">// astro.config.ts</span>
+<span class="hljs-keyword">import</span> { defineConfig } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;astro/config&quot;</span>;
+<span class="hljs-keyword">import</span> { transformerNotationHighlight, transformerNotationDiff } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@shikijs/transformers&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title">defineConfig</span>({
+  <span class="hljs-attr">markdown</span>: {
+    <span class="hljs-attr">shikiConfig</span>: {
+      <span class="hljs-comment">// 为亮色/暗色模式分别指定主题</span>
+      <span class="hljs-attr">themes</span>: {
+        <span class="hljs-attr">light</span>: <span class="hljs-string">&quot;github-light&quot;</span>,
+        <span class="hljs-attr">dark</span>: <span class="hljs-string">&quot;github-dark&quot;</span>,
+      },
+      <span class="hljs-comment">// 添加转换器增强语法高亮能力</span>
+      <span class="hljs-attr">transformers</span>: [
+        <span class="hljs-title">transformerNotationHighlight</span>(),  <span class="hljs-comment">// 支持 [!code highlight] 标记</span>
+        <span class="hljs-title">transformerNotationDiff</span>(),       <span class="hljs-comment">// 支持 [!code ++] / [!code --] diff 标记</span>
+      ],
+    },
+  },
+});
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 5 行</span></button></div></div>
+<p data-v-8e23877e><strong>语法标记示例</strong>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#083fa1;border-color:#083fa140;background:#083fa114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#083fa1;" aria-hidden="true" data-v-3bcbc953></span> Markdown</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-markdown" data-v-3bcbc953><span class="hljs-code">```ts [example.ts] {2} {4}
+function greet(name: string) {  // [!code highlight]
+  return `Hello, ${name}!`;     // [!code ++]
+  // console.log(greet);        // [!code --]
+}
+```</span>
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>8.2 自动生成目录</h3>
+<p data-v-8e23877e>通过 <code>remark-toc</code> 插件自动生成文章目录：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-typescript" data-v-3bcbc953><span class="hljs-comment">// astro.config.ts</span>
+<span class="hljs-keyword">import</span> remarkToc <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;remark-toc&quot;</span>;
+<span class="hljs-keyword">import</span> { remarkCollapse } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;remark-collapse&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title">defineConfig</span>({
+  <span class="hljs-attr">markdown</span>: {
+    <span class="hljs-attr">remarkPlugins</span>: [
+      [remarkToc, { <span class="hljs-attr">heading</span>: <span class="hljs-string">&quot;Table of contents&quot;</span>, <span class="hljs-attr">maxDepth</span>: <span class="hljs-number">3</span> }],
+      [remarkCollapse, { <span class="hljs-attr">test</span>: <span class="hljs-string">&quot;Table of contents&quot;</span> }],
+    ],
+  },
+});
+</code></pre></div><!----></div>
+<p data-v-8e23877e>在文章中使用 <code>## Table of contents</code>，构建时会自动替换为层级目录列表。</p>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>九、功能集成</h2>
+<h3 data-v-8e23877e>9.1 全文搜索（Pagefind）</h3>
+<p data-v-8e23877e><strong>Pagefind</strong> 是一个零依赖的静态搜索库，构建时扫描 HTML 生成搜索索引，完全在客户端运行。</p>
+<p data-v-8e23877e><strong>构建脚本配置</strong>（<code>package.json</code>）：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#a0a0a0;border-color:#a0a0a040;background:#a0a0a014;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#a0a0a0;" aria-hidden="true" data-v-3bcbc953></span> JSON</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-json" data-v-3bcbc953><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;scripts&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;build&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;astro check &amp;&amp; astro build &amp;&amp; pagefind --site dist &amp;&amp; cp -r dist/pagefind public/&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre></div><!----></div>
+<p data-v-8e23877e><strong>搜索组件集成</strong>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> ASTRO</span><span class="code-block__meta" data-v-3bcbc953>37 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-astro" data-v-3bcbc953>---
+// src/components/Search.astro
+---
+
+&lt;div id=&quot;search-container&quot;&gt;
+  &lt;input type=&quot;text&quot; id=&quot;search-input&quot; placeholder=&quot;搜索文章...&quot; /&gt;
+  &lt;ul id=&quot;search-results&quot;&gt;&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  document.addEventListener(&quot;astro:page-load&quot;, () =&gt; {
+    // 动态加载 Pagefind 并初始化搜索
+    const script = document.createElement(&quot;script&quot;);
+    script.src = &quot;/pagefind/pagefind.js&quot;;
+    script.onload = async () =&gt; {
+      const { search } = window.pagefind;
+      const input = document.getElementById(&quot;search-input&quot;);
+      const results = document.getElementById(&quot;search-results&quot;);
+
+      input.addEventListener(&quot;input&quot;, async (e) =&gt; {
+        const query = e.target.value.trim();
+        if (query.length === 0) {
+          results.innerHTML = &quot;&quot;;
+          return;
+        }
+        const response = await search(query);
+        if (response.results) {
+          results.innerHTML = response.results
+            .map(r =&gt; `&lt;li&gt;&lt;a href=&quot;${r.url}&quot;&gt;${r.title}&lt;/a&gt;&lt;/li&gt;`)
+            .join(&quot;&quot;);
+        }
+      });
+    };
+    document.head.appendChild(script);
+  });
+&lt;/script&gt;
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 21 行</span></button></div></div>
+<h3 data-v-8e23877e>9.2 RSS 订阅源</h3>
+<p data-v-8e23877e><code>@astrojs/rss</code> 包已集成，访问 <code>/rss.xml</code> 即可获取订阅源。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><span class="code-block__meta" data-v-3bcbc953>19 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-typescript" data-v-3bcbc953><span class="hljs-comment">// src/pages/rss.xml.ts</span>
+<span class="hljs-keyword">import</span> { getCollection } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;astro:content&quot;</span>;
+<span class="hljs-keyword">import</span> { rss } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@astrojs/rss&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">async</span> <span class="hljs-keyword">function</span> <span class="hljs-title">GET</span>(<span class="hljs-params">context</span>) {
+  <span class="hljs-keyword">const</span> posts = <span class="hljs-keyword">await</span> <span class="hljs-title">getCollection</span>(<span class="hljs-string">&quot;blog&quot;</span>, <span class="hljs-function">(<span class="hljs-params">{ data }</span>) =&gt;</span> !data.<span class="hljs-property">draft</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-title">rss</span>({
+    <span class="hljs-attr">title</span>: <span class="hljs-string">&quot;My Blog&quot;</span>,
+    <span class="hljs-attr">description</span>: <span class="hljs-string">&quot;My blog description&quot;</span>,
+    <span class="hljs-attr">site</span>: context.<span class="hljs-property">site</span>,
+    <span class="hljs-attr">items</span>: posts.<span class="hljs-title">map</span>(<span class="hljs-function">(<span class="hljs-params">post</span>) =&gt;</span> ({
+      <span class="hljs-attr">title</span>: post.<span class="hljs-property">data</span>.<span class="hljs-property">title</span>,
+      <span class="hljs-attr">pubDate</span>: post.<span class="hljs-property">data</span>.<span class="hljs-property">pubDatetime</span>,
+      <span class="hljs-attr">description</span>: post.<span class="hljs-property">data</span>.<span class="hljs-property">description</span>,
+      <span class="hljs-attr">link</span>: <span class="hljs-string">`/posts/<span class="hljs-subst">${post.slug}</span>/`</span>,
+    })),
+  });
+}
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 3 行</span></button></div></div>
+<h3 data-v-8e23877e>9.3 站点地图（Sitemap）</h3>
+<p data-v-8e23877e><code>@astrojs/sitemap</code> 自动生成站点地图：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#3178c6;border-color:#3178c640;background:#3178c614;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#3178c6;" aria-hidden="true" data-v-3bcbc953></span> TS</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-typescript" data-v-3bcbc953><span class="hljs-comment">// astro.config.ts</span>
+<span class="hljs-keyword">import</span> sitemap <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;@astrojs/sitemap&quot;</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-title">defineConfig</span>({
+  <span class="hljs-attr">site</span>: <span class="hljs-string">&quot;https://your-domain.com&quot;</span>,
+  <span class="hljs-attr">integrations</span>: [<span class="hljs-title">sitemap</span>()],
+});
+</code></pre></div><!----></div>
+<p data-v-8e23877e>构建后访问 <code>/sitemap-index.xml</code> 即可查看。</p>
+<h3 data-v-8e23877e>9.4 评论系统集成（以 Twikoo 为例）</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> ASTRO</span><span class="code-block__meta" data-v-3bcbc953>24 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-astro" data-v-3bcbc953>---
+// src/components/Comments.astro
+---
+
+&lt;div id=&quot;twikoo-container&quot;&gt;&lt;/div&gt;
+
+&lt;script&gt;
+  // 使用 astro:page-load 确保在 View Transitions 后重新初始化
+  document.addEventListener(&quot;astro:page-load&quot;, () =&gt; {
+    // 延迟加载 Twikoo 脚本
+    const script = document.createElement(&quot;script&quot;);
+    script.src = &quot;https://cdn.jsdelivr.net/npm/twikoo@1.6.39/dist/twikoo.min.js&quot;;
+    script.onload = () =&gt; {
+      twikoo.init({
+        envId: &quot;https://your-twikoo-cloud-function.com/&quot;,
+        el: &quot;#twikoo-container&quot;,
+        region: &quot;ap-guangzhou&quot;,
+        path: window.location.pathname,
+      });
+    };
+    document.head.appendChild(script);
+  });
+&lt;/script&gt;
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 8 行</span></button></div></div>
+<blockquote data-v-8e23877e>
+<p><strong>注意</strong>：使用 <code>astro:page-load</code> 而非 <code>DOMContentLoaded</code>，确保在 Astro View Transitions（SPA 式页面切换）后评论组件能够正确重新初始化。</p>
+</blockquote>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>十、部署指南</h2>
+<h3 data-v-8e23877e>10.1 Docker + Nginx 部署</h3>
+<p data-v-8e23877e><strong>Dockerfile</strong>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#384d54;border-color:#384d5440;background:#384d5414;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#384d54;" aria-hidden="true" data-v-3bcbc953></span> Docker</span><span class="code-block__meta" data-v-3bcbc953>23 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-dockerfile" data-v-3bcbc953># 多阶段构建：构建阶段 + 运行阶段
+FROM node:20-alpine AS builder
+
+# 启用 pnpm
+RUN corepack enable &amp;&amp; corepack prepare pnpm@latest --activate
+
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
+
+COPY . .
+RUN pnpm build
+
+# 运行阶段：使用 Nginx 提供静态服务
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# 自定义 Nginx 配置（可选）
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 7 行</span></button></div></div>
+<p data-v-8e23877e><strong>docker-compose.yml</strong>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#cb171e;border-color:#cb171e40;background:#cb171e14;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#cb171e;" aria-hidden="true" data-v-3bcbc953></span> YAML</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-yaml" data-v-3bcbc953><span class="hljs-attr">version:</span> <span class="hljs-string">&quot;3.8&quot;</span>
+
+<span class="hljs-attr">services:</span>
+  <span class="hljs-attr">blog:</span>
+    <span class="hljs-attr">build:</span>
+      <span class="hljs-attr">context:</span> <span class="hljs-string">.</span>
+      <span class="hljs-attr">dockerfile:</span> <span class="hljs-string">Dockerfile</span>
+    <span class="hljs-attr">ports:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8080:80&quot;</span>
+    <span class="hljs-attr">restart:</span> <span class="hljs-string">unless-stopped</span>
+    <span class="hljs-attr">environment:</span>
+      <span class="hljs-bullet">-</span> <span class="hljs-string">NODE_ENV=production</span>
+</code></pre></div><!----></div>
+<p data-v-8e23877e><strong>启动命令</strong>：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953>docker compose up -d
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>10.2 Vercel / Netlify（推荐）</h3>
+<p data-v-8e23877e><strong>零配置部署流程</strong>：</p>
+<ol data-v-8e23877e>
+<li>将代码推送到 GitHub 仓库</li>
+<li>登录 <a href="https://vercel.com" target="_blank" rel="noreferrer noopener">Vercel</a> 或 <a href="https://netlify.com" target="_blank" rel="noreferrer noopener">Netlify</a></li>
+<li>点击「Import Git Repository」导入仓库</li>
+<li>框架自动识别为 Astro，点击「Deploy」</li>
+<li>后续每次 <code>git push</code> 自动触发 CI/CD 构建部署</li>
+</ol>
+<p data-v-8e23877e><strong>Vercel 环境变量（可选）</strong>：</p>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>变量名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NODE_VERSION</code></td>
+<td>指定 Node.js 版本（如 20）</td>
+</tr>
+<tr>
+<td><code>PUBLIC_SITE_URL</code></td>
+<td>站点 URL，用于生成 Canonical 链接</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>10.3 Cloudflare Pages</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># 安装 Wrangler CLI</span>
+pnpm add -g wrangler
+
+<span class="hljs-comment"># 构建并部署</span>
+pnpm build
+wrangler pages deploy dist --project-name=my-blog
+</code></pre></div><!----></div>
+<p data-v-8e23877e><strong>优势</strong>：Cloudflare 全球 CDN 加速，免费额度充足，适合面向全球读者的博客。</p>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>十一、日常维护与写作流程</h2>
+<h3 data-v-8e23877e>11.1 标准工作流</h3>
+<div class="mermaid-block my-6" data-v-8e23877e data-v-a31823b9><!----><div style="" class="mermaid-container" data-mermaid-source="flowchart LR
+    A[新建 .md 文件] --&gt; B[填写 frontmatter]
+    B --&gt; C[撰写正文]
+    C --&gt; D[pnpm dev 本地预览]
+    D --&gt; E{效果满意?}
+    E --&gt;|是| F[git add &amp; commit]
+    E --&gt;|否| C
+    F --&gt; G[git push]
+    G --&gt; H[自动构建部署]
+" data-v-a31823b9></div><!----></div>
+<h3 data-v-8e23877e>11.2 常用命令速查</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pnpm dev</code></td>
+<td>启动开发服务器（HMR 热更新）</td>
+</tr>
+<tr>
+<td><code>pnpm build</code></td>
+<td>构建生产静态文件到 <code>dist/</code></td>
+</tr>
+<tr>
+<td><code>pnpm preview</code></td>
+<td>本地预览生产构建产物</td>
+</tr>
+<tr>
+<td><code>pnpm astro check</code></td>
+<td>检查 TypeScript 和 Content Collections 错误</td>
+</tr>
+<tr>
+<td><code>pnpm astro sync</code></td>
+<td>手动同步类型定义（通常自动执行）</td>
+</tr>
+</tbody>
+</table></div>
+<h3 data-v-8e23877e>11.3 草稿管理</h3>
+<ul data-v-8e23877e>
+<li>将文章 <code>draft: true</code> 标记为草稿，构建时自动排除</li>
+<li>或将文件放入以下划线开头的目录（如 <code>_drafts/</code>），被 glob 模式忽略</li>
+</ul>
+<hr data-v-8e23877e>
+<h2 data-v-8e23877e>附录</h2>
+<h3 data-v-8e23877e>A. 快速参考</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#89e051;border-color:#89e05140;background:#89e05114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#89e051;" aria-hidden="true" data-v-3bcbc953></span> Bash</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-bash" data-v-3bcbc953><span class="hljs-comment"># 创建项目（带主题模板）</span>
+pnpm create astro@latest my-blog -- --template satnaing/astro-paper
+
+<span class="hljs-comment"># 常用开发命令</span>
+pnpm dev          <span class="hljs-comment"># 启动开发服务器</span>
+pnpm build        <span class="hljs-comment"># 构建生产产物</span>
+pnpm preview      <span class="hljs-comment"># 预览构建结果</span>
+
+<span class="hljs-comment"># 依赖管理</span>
+pnpm add [package]        <span class="hljs-comment"># 安装依赖</span>
+pnpm remove [package]     <span class="hljs-comment"># 移除依赖</span>
+pnpm update              <span class="hljs-comment"># 更新所有依赖</span>
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>B. 相关资源</h3>
+<div class="table-wrapper" data-v-8e23877e><table>
+<thead>
+<tr>
+<th>资源</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Astro 官方文档</td>
+<td><a href="https://docs.astro.build" target="_blank" rel="noreferrer noopener">https://docs.astro.build</a></td>
+</tr>
+<tr>
+<td>Astro 主题市场</td>
+<td><a href="https://astro.build/themes" target="_blank" rel="noreferrer noopener">https://astro.build/themes</a></td>
+</tr>
+<tr>
+<td>AstroPaper 模板</td>
+<td><a href="https://github.com/satnaing/astro-paper" target="_blank" rel="noreferrer noopener">https://github.com/satnaing/astro-paper</a></td>
+</tr>
+<tr>
+<td>Pagefind 搜索</td>
+<td><a href="https://pagefind.app" target="_blank" rel="noreferrer noopener">https://pagefind.app</a></td>
+</tr>
+<tr>
+<td>Tailwind CSS v4</td>
+<td><a href="https://tailwindcss.com" target="_blank" rel="noreferrer noopener">https://tailwindcss.com</a></td>
+</tr>
+</tbody>
+</table></div><!--]--></div><!--teleport start--><!--teleport end--><!--]--></div><section class="license-block mb-10 overflow-hidden rounded-xl border border-solid" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><div class="flex items-center gap-3 px-6 py-4 border-b border-solid" style="border-color:var(--ink-150);background:linear-gradient(135deg, var(--muted) 0%, var(--paper) 100%);" data-v-7cac6a61><div class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style="background:var(--accent);color:#fff;" data-v-7cac6a61><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10" data-v-7cac6a61></circle><path d="M14.83 14.83a4 4 0 1 1 0-5.66" data-v-7cac6a61></path></svg></div><div data-v-7cac6a61><h4 class="text-[13px] font-semibold leading-snug" style="color:var(--text-primary);" data-v-7cac6a61> 版权声明 · CC BY-NC-ND 4.0 </h4><p class="text-[11px] mt-0.5" style="color:var(--text-tertiary);" data-v-7cac6a61> 署名-非商业性使用-禁止演绎 4.0 国际 </p></div></div><div class="px-6 py-5 space-y-4 text-[13px] leading-relaxed" data-v-7cac6a61><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>1</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>版权归属</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 本作品著作权归 <strong style="color:var(--text-primary);" data-v-7cac6a61>窦长友</strong> 所有， 首次发布于 <a href="" class="break-all transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;" rel="bookmark" data-v-7cac6a61></a> ，受相关知识产权法律法规保护。 </p></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>2</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>授权范围</span><ul class="mt-1.5 space-y-1" style="color:var(--text-secondary);list-style:none;padding:0;" data-v-7cac6a61><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:var(--accent);font-weight:600;" aria-hidden="true" data-v-7cac6a61>✓</span><span data-v-7cac6a61>可自由<strong style="color:var(--text-primary);" data-v-7cac6a61>分享</strong> — 在任何媒介以任何形式复制、转载本文</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>不得用于<strong style="color:var(--text-primary);" data-v-7cac6a61>商业目的</strong> — 未经书面授权禁止商用</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>禁止<strong style="color:var(--text-primary);" data-v-7cac6a61>演绎修改</strong> — 不得改编、转换或以本文为基础再创作</span></li></ul></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>3</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>署名要求</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 转载或引用时须<strong style="color:var(--text-primary);" data-v-7cac6a61>明确标注作者姓名</strong>、<strong style="color:var(--text-primary);" data-v-7cac6a61>原文出处</strong>及本许可协议链接。 不得以任何方式暗示或声称作者为您的使用背书。 </p></div></div><div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-dashed" style="border-color:var(--ink-150);" data-v-7cac6a61><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" data-v-7cac6a61></path><polyline points="15 3 21 3 21 9" data-v-7cac6a61></polyline><line x1="10" x2="21" y1="14" y2="3" data-v-7cac6a61></line></svg> 查看完整许可证 </a><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.zh-Hans" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><rect width="14" height="14" x="3" y="3" rx="2" ry="2" data-v-7cac6a61></rect><line x1="8" x2="16" y1="12" y2="12" data-v-7cac6a61></line><line x1="12" x2="12" y1="8" y2="16" data-v-7cac6a61></line></svg> 法律文本（英文） </a></div></div></section><section class="comments comments-section" aria-label="评论区" data-v-7cac6a61 data-v-ecb3c01b><header class="comments__header" data-v-ecb3c01b><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-messages-square-icon h-5 w-5" style="color:var(--accent);" aria-hidden="true" data-v-ecb3c01b><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg><h2 class="comments__title" data-v-ecb3c01b>评论</h2><span class="comments__hint" data-v-ecb3c01b>由 GitHub Discussions 驱动</span></header><div class="comments__giscus" data-v-ecb3c01b></div></section><nav class="pb-20 grid gap-4 sm:grid-cols-2" aria-label="上下篇文章导航" data-v-7cac6a61><a href="/posts/git-命令速查手册" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 上一篇 </span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>Git 命令速查手册</strong></a><a href="/posts/llm-architecture-evolution" style="border-color:var(--ink-200);background:var(--paper);" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg text-right" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 justify-end w-full text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61> 下一篇 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon h-3 w-3 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>大语言模型架构演进史</strong></a></nav></div><!----></div></article></div></div><!--]--></main><footer class="mt-12 border-t" style="border-color:var(--ink-200);background:var(--paper);" data-v-5bbe2dad><div class="mx-auto max-w-[1240px] px-6 sm:px-8" data-v-5bbe2dad><div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-y-3 gap-x-8 py-5 text-[11.5px]" data-v-5bbe2dad><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-center sm:text-left" style="color:var(--text-tertiary);" data-v-5bbe2dad><span style="color:var(--text-primary);font-weight:500;" data-v-5bbe2dad>© 2026 FilePress · Blog</span><span aria-hidden="true" data-v-5bbe2dad>—</span><span class="inline-flex items-center gap-1" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span data-v-5bbe2dad>Powered by <a href="https://vitepress.dev" class="text-[var(--accent)]" data-v-5bbe2dad>VitePress</a></span></span></div><div class="flex items-center gap-4" data-v-5bbe2dad><!--[--><a href="https://github.com/dcyyd/dcyyd.github.io" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>GitHub</a><a href="mailto:dcyyd_kcug@yeah.net" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>Email</a><a href="/feed.xml" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>RSS</a><!--]--><!----><!----><button style="display:none;" type="button" class="footer-top-btn" aria-label="回到顶部" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg><span data-v-5bbe2dad>TOP</span></button></div></div></div></footer><!--teleport start--><!--teleport end--></div></div>
+    
+    
+  </body>
+</html>
