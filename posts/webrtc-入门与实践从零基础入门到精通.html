@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>WebRTC 入门与实践从零基础入门到精通 | FilePress Blog - 极致文件驱动技术博客</title>
+    <meta name="description" content="本文从原理、核心API、信令流程、NAT/ICE、STUN/TURN到完整可运行Demo，系统讲解WebRTC实时音视频通信，带你从零搭建点对点视频通话应用。">
+    <meta name="generator" content="VitePress v1.4.5">
+    <link rel="preload stylesheet" href="/assets/style.DOaU_6MJ.css" as="style">
+    <script type="module" src="/assets/chunks/metadata.48998bb6.js"></script>
+    <script type="module" src="/assets/app.DXnS3eJc.js"></script>
+    <link rel="modulepreload" href="/assets/chunks/icons.B06OPOny.js">
+    <link rel="modulepreload" href="/assets/chunks/plugin-vue_export-helper.DlAUqK2U.js">
+    <link rel="modulepreload" href="/assets/chunks/math.C5jXJg4s.js">
+    <link rel="modulepreload" href="/assets/chunks/dagre-BM42HDAG.Ba5X6bI_.js">
+    <link rel="modulepreload" href="/assets/chunks/cose-bilkent-S5V4N54A.C27igYXS.js">
+    <link rel="modulepreload" href="/assets/chunks/c4Diagram-AAUBKEIU.i2J-dRGE.js">
+    <link rel="modulepreload" href="/assets/chunks/flowDiagram-I6XJVG4X.D5ck1iCk.js">
+    <link rel="modulepreload" href="/assets/chunks/erDiagram-TEJ5UH35.FMPZMcGC.js">
+    <link rel="modulepreload" href="/assets/chunks/gitGraphDiagram-PVQCEYII.C5uJGU2s.js">
+    <link rel="modulepreload" href="/assets/chunks/ganttDiagram-6RSMTGT7.WN2Chfnn.js">
+    <link rel="modulepreload" href="/assets/chunks/infoDiagram-5YYISTIA.Bmp3LDD8.js">
+    <link rel="modulepreload" href="/assets/chunks/pieDiagram-4H26LBE5.CFOgYBXU.js">
+    <link rel="modulepreload" href="/assets/chunks/quadrantDiagram-W4KKPZXB.Cnrt77el.js">
+    <link rel="modulepreload" href="/assets/chunks/xychartDiagram-2RQKCTM6.D7G4abb1.js">
+    <link rel="modulepreload" href="/assets/chunks/requirementDiagram-4Y6WPE33.BySvTnh4.js">
+    <link rel="modulepreload" href="/assets/chunks/sequenceDiagram-3UESZ5HK.Cq4apkWg.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-4FO5ZUOK.Co1zuMLu.js">
+    <link rel="modulepreload" href="/assets/chunks/classDiagram-v2-Q7XG4LA2.Co1zuMLu.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-AJRCARHV.DR6M2Ugf.js">
+    <link rel="modulepreload" href="/assets/chunks/stateDiagram-v2-BHNVJYJU.DUBk_uJJ.js">
+    <link rel="modulepreload" href="/assets/chunks/journeyDiagram-JHISSGLW.IJOha4JD.js">
+    <link rel="modulepreload" href="/assets/chunks/timeline-definition-PNZ67QCA.CzsXM30H.js">
+    <link rel="modulepreload" href="/assets/chunks/mindmap-definition-RKZ34NQL.Bamai2qJ.js">
+    <link rel="modulepreload" href="/assets/chunks/kanban-definition-UN3LZRKU.j0VE_ovg.js">
+    <link rel="modulepreload" href="/assets/chunks/sankeyDiagram-5OEKKPKP.YiMvbaqf.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-LMA3HP47.DPAPTk0F.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-2AECGRRQ.BplcpZT8.js">
+    <link rel="modulepreload" href="/assets/chunks/blockDiagram-GPEHLZMM.DxwdRlbr.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-5GNKFQAL.BQJhf-oU.js">
+    <link rel="modulepreload" href="/assets/chunks/architectureDiagram-3BPJPVTR.CpNbJGJF.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-KO2AKTUF.DBzElUz8.js">
+    <link rel="modulepreload" href="/assets/chunks/ishikawaDiagram-YF4QCWOH.BENfGn9Z.js">
+    <link rel="modulepreload" href="/assets/chunks/vennDiagram-CIIHVFJN.ZRO-udQ9.js">
+    <link rel="modulepreload" href="/assets/chunks/diagram-OG6HWLK6.DNAJyW26.js">
+    <link rel="modulepreload" href="/assets/chunks/wardleyDiagram-YWT4CUSO.CNVUZN9B.js">
+    <link rel="modulepreload" href="/assets/posts_webrtc-入门与实践从零基础入门到精通.md.RoXlJlYQ.lean.js">
+    <meta name="theme-color" content="#1a4d3a">
+    <meta name="color-scheme" content="light dark">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/feed.xml">
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+    <meta name="keywords" content="VitePress, VuePress, 静态博客, GitHub Pages, Markdown, 文件驱动, 前端工程, AI大模型, 技术博客, 个人网站">
+    <meta property="article:author" content="dcyyd">
+    <meta property="article:publisher" content="https://dcyyd.github.io">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="FilePress Blog">
+    <meta property="og:locale" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@dcyyd">
+    <script src="//cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.abbr.min.js" async></script>
+    <meta name="twitter:creator" content="@dcyyd">
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+    <meta property="og:title" content="WebRTC 入门与实践从零基础入门到精通 | FilePress Blog - 极致文件驱动技术博客">
+    <meta property="og:description" content="本文从原理、核心API、信令流程、NAT/ICE、STUN/TURN到完整可运行Demo，系统讲解WebRTC实时音视频通信，带你从零搭建点对点视频通话应用。">
+    <meta property="og:url" content="https://dcyyd.github.io/posts/webrtc-入门与实践从零基础入门到精通.md">
+    <meta property="og:image" content="/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="WebRTC 入门与实践从零基础入门到精通 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:title" content="WebRTC 入门与实践从零基础入门到精通 | FilePress Blog - 极致文件驱动技术博客">
+    <meta name="twitter:description" content="本文从原理、核心API、信令流程、NAT/ICE、STUN/TURN到完整可运行Demo，系统讲解WebRTC实时音视频通信，带你从零搭建点对点视频通话应用。">
+    <meta name="twitter:image" content="/og-image.png">
+    <meta name="twitter:image:alt" content="WebRTC 入门与实践从零基础入门到精通 | FilePress Blog - 极致文件驱动技术博客">
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"FilePress Blog","description":"基于 VitePress 1.4 构建的纯文件驱动技术博客，零数据库、零 CMS，支持 GitHub Pages 免费部署、Markdown 写作、全文搜索、评论系统集成。提供 VuePress/VitePress 静态博客搭建教程、前端工程实践、AI 大模型应用等技术文章。","url":"https://dcyyd.github.io/posts/webrtc-入门与实践从零基础入门到精通.md","publisher":{"@type":"Organization","name":"FilePress Blog","url":"https://dcyyd.github.io"}}</script>
+  </head>
+  <body><!--teleport start anchor--><!----><!--teleport anchor--><!--teleport start anchor--><!----><!--teleport anchor-->
+    <div id="app"><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b backdrop-blur-sm" style="border-color:var(--ink-200);background:var(--paper);" data-v-8b063484><nav class="mx-auto flex h-14 sm:h-16 max-w-[1240px] items-center justify-between px-6 sm:px-8" aria-label="主导航" data-v-8b063484><a href="/" class="group flex items-center gap-2.5 shrink-0" aria-label="返回首页" data-v-8b063484><span class="mono-num inline-flex h-8 w-8 items-center justify-center text-[13px] font-semibold rounded-sm" style="background:var(--ink-900);color:var(--paper);" data-v-8b063484> F </span><span class="flex flex-col leading-none hidden sm:flex" data-v-8b063484><span class="serif-title text-[15px] leading-none" style="color:var(--text-primary);" data-v-8b063484>FilePress · Blog</span><span class="eyebrow mt-0.5 leading-none" style="font-size:8.5px;" data-v-8b063484>Est. 2026</span></span></a><div class="hidden md:flex items-center gap-0.5" data-v-8b063484><!--[--><a href="/" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>首页</a><a href="/blog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>博客</a><a href="/categories" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>分类</a><a href="/archives" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>归档</a><a href="/friends" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>友链</a><a href="/about" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>关于</a><a href="/changelog" class="nav-link relative px-2.5 py-1.5 text-[13px] font-medium transition-colors duration-200 rounded-sm" style="color:var(--text-secondary);" data-v-8b063484>更新日志</a><!--]--><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="inline-flex items-center justify-center p-1.5 rounded-sm hover:bg-[var(--muted)] transition-colors" aria-label="搜索 (Ctrl+K)" title="搜索 (Ctrl+K)" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon h-4 w-4" style="color:var(--text-secondary);" aria-hidden="true" data-v-8b063484><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button><span class="mx-1.5 inline-block h-4 w-px" style="background:var(--ink-200);" aria-hidden="true" data-v-8b063484></span><button type="button" class="theme-toggle group inline-flex items-center gap-1.5 border px-2.5 py-1 text-[10.5px] font-medium uppercase tracking-[0.12em] rounded-sm transition-all duration-200" style="color:var(--text-tertiary);border-color:var(--ink-200);" aria-label="切换到深色模式" aria-pressed="false" data-v-8b063484 data-v-f5d60c34><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon-icon h-3.5 w-3.5" aria-hidden="true" data-v-f5d60c34><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg><span class="hidden sm:inline" data-v-f5d60c34>Dark</span></button></div><button type="button" class="inline-flex items-center justify-center p-2 md:hidden rounded-sm -mr-2" style="color:var(--text-primary);" aria-label="切换菜单" aria-expanded="false" data-v-8b063484><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon h-5 w-5" aria-hidden="true" data-v-8b063484><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg></button></nav><!----></header><main class="max-w-6xl mx-auto w-full flex-1 px-4 py-8 sm:px-6 lg:px-8"><!--[--><nav class="breadcrumbs" aria-label="面包屑导航" data-v-047f921d><ol class="breadcrumbs-list flex items-center gap-1" data-v-047f921d><!--[--><li class="breadcrumbs-item" data-v-047f921d><a href="/" class="breadcrumbs-link" aria-label="返回首页" data-v-047f921d><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon h-3 w-3" aria-hidden="true" data-v-047f921d><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg><span class="sr-only" data-v-047f921d>首页</span></a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><a href="/posts" class="breadcrumbs-link" data-v-047f921d>文章</a><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right-icon breadcrumbs-separator h-3 w-3" aria-hidden="true" data-v-047f921d><path d="m9 18 6-6-6-6"></path></svg></li><li class="breadcrumbs-item" data-v-047f921d><span class="breadcrumbs-current" aria-current="page" data-v-047f921d>webrtc-入门与实践从零基础入门到精通</span><!----></li><!--]--></ol></nav><div style="position:relative;"><div><article class="relative mx-auto max-w-[90rem]" data-v-7cac6a61><div class="reading-progress fixed top-0 left-0 z-50 h-[3px] pointer-events-none" style="width:0%;background:var(--accent, #10b981);" aria-hidden="true" data-v-7cac6a61></div><div class="flex justify-center" data-v-7cac6a61><div class="w-full max-w-3xl px-4 sm:px-6" data-v-7cac6a61><header class="animate-fade-up pt-16 pb-10 sm:pt-20 sm:pb-12 border-b" style="border-color:var(--ink-200);" data-v-7cac6a61><!----><div class="flex items-center gap-2 mb-5 text-[11px] font-medium" style="color:var(--text-tertiary);" data-v-7cac6a61><a href="/blog" class="inline-flex items-center gap-1.5 transition-colors hover:text-[var(--accent)]" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 博客 </a><span aria-hidden="true" class="opacity-40" data-v-7cac6a61>/</span><a href="/categories/前端-webrtc" class="transition-colors hover:text-[var(--accent)]" data-v-7cac6a61>前端 / WebRTC</a></div><h1 class="serif-title text-balance text-[2.25rem] leading-[1.06] tracking-tight sm:text-[3rem] lg:text-[3.5rem]" style="color:var(--text-primary);" data-v-7cac6a61>WebRTC 入门与实践从零基础入门到精通</h1><p class="mt-5 text-[16px] leading-[1.8] max-w-[60ch]" style="color:var(--text-secondary);" data-v-7cac6a61>本文从原理、核心API、信令流程、NAT/ICE、STUN/TURN到完整可运行Demo，系统讲解WebRTC实时音视频通信，带你从零搭建点对点视频通话应用。</p><div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-7" data-v-7cac6a61><div class="flex items-center gap-4 text-[12.5px]" style="color:var(--text-tertiary);" data-v-7cac6a61><time datetime="2026-11-03T00:00:00.000Z" class="inline-flex items-center gap-1.5 font-medium" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar-days-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path><path d="M8 14h.01"></path><path d="M12 14h.01"></path><path d="M16 14h.01"></path><path d="M8 18h.01"></path><path d="M12 18h.01"></path><path d="M16 18h.01"></path></svg> 2026/11/03</time><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><span class="mono-num" data-v-7cac6a61>7 分钟阅读</span></span><span class="inline-flex items-center gap-1.5" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hash-icon h-3.5 w-3.5 opacity-60" aria-hidden="true" data-v-7cac6a61><line x1="4" x2="20" y1="9" y2="9"></line><line x1="4" x2="20" y1="15" y2="15"></line><line x1="10" x2="8" y1="3" y2="21"></line><line x1="16" x2="14" y1="3" y2="21"></line></svg><span class="mono-num" data-v-7cac6a61>1.4k 字</span></span><!----></div><!----></div><div class="flex flex-wrap items-center gap-2 mt-6" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon h-3.5 w-3.5 opacity-50" style="color:var(--text-tertiary);" aria-hidden="true" data-v-7cac6a61><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle></svg><!--[--><a href="/tags/webrtc" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>WebRTC</a><a href="/tags/音视频" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>音视频</a><a href="/tags/实时通信" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>实时通信</a><a href="/tags/rtcpeerconnection" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>RTCPeerConnection</a><a href="/tags/ice" class="tag-pill inline-flex items-center rounded-full px-3 py-1 text-[12px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61>ICE</a><!--]--></div></header><div class="blog-prose pt-10 pb-10" data-v-7cac6a61><!--[--><div data-v-8e23877e><!--[--><h2 data-v-8e23877e>前言</h2>
+<p data-v-8e23877e>WebRTC（Web Real-Time Communication，网页实时通信）是一套开源实时通信方案，<strong>不需要任何插件</strong>，浏览器原生支持，可以直接在网页之间传输音频、视频、二进制数据。
+它是视频会议、在线直播、屏幕共享、在线连麦、实时白板协同等场景的底层技术。</p>
+<blockquote data-v-8e23877e>
+<p>很多新手容易踩坑：WebRTC 本身<strong>不包含信令服务</strong>，只负责媒体传输；设备发现、SDP协商、ICE候选交换都需要我们自己实现信令。</p>
+</blockquote>
+<h2 data-v-8e23877e>一、WebRTC 整体架构与三大核心模块</h2>
+<p data-v-8e23877e>WebRTC 底层由C++实现，浏览器对外暴露JS API，核心分为三块：</p>
+<ol data-v-8e23877e>
+<li><strong>MediaStream（媒体流）</strong>：获取摄像头、麦克风、屏幕共享的音视频轨道</li>
+<li><strong>RTCPeerConnection（对等连接）</strong>：核心，负责SDP协商、ICE网络穿透、音视频编解码、传输</li>
+<li><strong>RTCDataChannel（数据通道）</strong>：在对等连接上传输自定义二进制/文本数据，适合白板、控制指令</li>
+</ol>
+<h3 data-v-8e23877e>通信流程图</h3>
+<p data-v-8e23877e><div class="img-wrapper"><img src="/images/20261103-234356.png" alt="webRTC 信令事务流程" loading="lazy" class="blog-img"></div></p>
+<blockquote data-v-8e23877e>
+<p>关键点：媒体流是<strong>点对点P2P传输</strong>，但协商过程（SDP、ICE候选）必须经过<strong>信令服务器</strong>中转。</p>
+</blockquote>
+<h2 data-v-8e23877e>二、前置概念：NAT、STUN、TURN、ICE</h2>
+<p data-v-8e23877e>这是WebRTC最难理解也是最容易失败的部分。</p>
+<h3 data-v-8e23877e>NAT（网络地址转换）</h3>
+<p data-v-8e23877e>我们的电脑、手机大多在局域网内，内网IP不能直接公网访问。路由器NAT把内网地址映射成公网地址。不同NAT类型（锥形、对称型）直接决定P2P能不能打通。</p>
+<h3 data-v-8e23877e>STUN</h3>
+<p data-v-8e23877e>STUN服务器：告诉客户端自己的<strong>公网IP+端口</strong>，用来生成ICE候选，尝试直接P2P打洞。</p>
+<blockquote data-v-8e23877e>
+<p>免费公共STUN示例：<code>stun:stun.l.google.com:19302</code></p>
+</blockquote>
+<h3 data-v-8e23877e>TURN</h3>
+<p data-v-8e23877e>当STUN打洞失败（对称NAT、防火墙严格限制），就走TURN中继：媒体数据全部经过TURN服务器转发。</p>
+<blockquote data-v-8e23877e>
+<p>TURN服务器带宽成本很高，生产环境优先P2P，TURN做兜底。</p>
+</blockquote>
+<h3 data-v-8e23877e>ICE（交互式连接建立）</h3>
+<p data-v-8e23877e>ICE = 一套自动收集、排序、尝试候选地址的机制。
+候选来源有三类：</p>
+<ul data-v-8e23877e>
+<li>主机候选：本机内网地址</li>
+<li>STUN候选：经过STUN拿到的公网映射地址（优先尝试，P2P）</li>
+<li>TURN候选：中继服务器地址（最后兜底）</li>
+</ul>
+<h2 data-v-8e23877e>三、核心API详解</h2>
+<h3 data-v-8e23877e>1. navigator.mediaDevices.getUserMedia 获取本地媒体流</h3>
+<p data-v-8e23877e>用来获取摄像头+麦克风，<strong>必须HTTPS或者localhost环境</strong>，http域名会直接报权限错误。</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>const constraints = {
+  audio: true,
+  video: { width: 1280, height: 720 }
+};
+try {
+  const stream = await navigator.mediaDevices.getUserMedia(constraints);
+  // 挂载到video标签预览
+  const localVideo = document.getElementById(&#39;localVideo&#39;);
+  localVideo.srcObject = stream;
+  localVideo.autoplay = true;
+} catch (err) {
+  console.error(&#39;获取媒体失败：&#39;, err);
+  // 常见错误：用户拒绝权限、无摄像头、http环境
+}
+</code></pre></div><!----></div>
+<p data-v-8e23877e>拓展：<code>getDisplayMedia</code> 用于屏幕共享。</p>
+<h3 data-v-8e23877e>2. RTCPeerConnection 对等连接对象</h3>
+<p data-v-8e23877e>所有P2P协商都靠它，初始化时传入ICE服务器配置：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>const config = {
+  iceServers: [
+    { urls: &#39;stun:stun.l.google.com:19302&#39; },
+    // TURN服务器示例（需要自行部署）
+    // { urls: &#39;turn:xxx.com:3478&#39;, username: &#39;xxx&#39;, credential: &#39;xxx&#39; }
+  ]
+};
+const pc = new RTCPeerConnection(config);
+</code></pre></div><!----></div>
+<p data-v-8e23877e>重要事件监听：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>// 收集到ICE候选，发送给对端（通过信令）
+pc.onicecandidate = e =&gt; {
+  if(e.candidate) {
+    sendSignal({type: &#39;candidate&#39;, candidate: e.candidate});
+  }
+}
+// 收到远端媒体流
+pc.ontrack = e =&gt; {
+  const remoteVideo = document.getElementById(&#39;remoteVideo&#39;);
+  remoteVideo.srcObject = e.streams[0];
+}
+// ICE连接状态变化（调试神器）
+pc.oniceconnectionstatechange = () =&gt; {
+  console.log(&#39;ICE状态：&#39;, pc.iceConnectionState);
+}
+</code></pre></div><!----></div>
+<blockquote data-v-8e23877e>
+<p>状态枚举：<code>new</code> / <code>checking</code> / <code>connected</code> / <code>completed</code> / <code>failed</code> / <code>disconnected</code> / <code>closed</code></p>
+</blockquote>
+<h3 data-v-8e23877e>3. SDP 会话描述协议</h3>
+<p data-v-8e23877e>SDP是一段文本，描述：支持的音视频编码、分辨率、加密信息、媒体端口等。</p>
+<ul data-v-8e23877e>
+<li>Offer（发起方）：呼叫方创建offer，设置本地描述，发给接收方</li>
+<li>Answer（应答方）：接收方收到offer，创建answer，设置本地描述，回传给发起方</li>
+</ul>
+<p data-v-8e23877e>协商时序：</p>
+<ol data-v-8e23877e>
+<li>A 创建 offer → <code>pc.createOffer()</code></li>
+<li>A <code>pc.setLocalDescription(offer)</code></li>
+<li>A 通过信令把 offer 发给 B</li>
+<li>B 收到 offer → <code>pc.setRemoteDescription(offer)</code></li>
+<li>B 创建 answer → <code>pc.createAnswer()</code></li>
+<li>B <code>pc.setLocalDescription(answer)</code></li>
+<li>B 通过信令把 answer 发给 A</li>
+<li>A 收到 answer → <code>pc.setRemoteDescription(answer)</code></li>
+<li>两端持续交换ICE候选，直到连通</li>
+</ol>
+<p data-v-8e23877e>代码片段（发起呼叫）</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>const offer = await pc.createOffer();
+await pc.setLocalDescription(offer);
+sendSignal({type: &#39;offer&#39;, sdp: offer});
+</code></pre></div><!----></div>
+<p data-v-8e23877e>接收方处理offer</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>await pc.setRemoteDescription(offerMsg.sdp);
+const answer = await pc.createAnswer();
+await pc.setLocalDescription(answer);
+sendSignal({type: &#39;answer&#39;, sdp: answer});
+</code></pre></div><!----></div>
+<h3 data-v-8e23877e>4. RTCDataChannel 数据通道</h3>
+<p data-v-8e23877e>可以独立于音视频，传输自定义数据：</p>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><!----></div><div class="code-block__right" data-v-3bcbc953><!----><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>// 发起方创建通道
+const channel = pc.createDataChannel(&#39;chat&#39;);
+channel.onmessage = e =&gt; console.log(&#39;收到消息&#39;, e.data);
+channel.send(&#39;hello webrtc&#39;);
+
+// 接收方监听通道打开
+pc.ondatachannel = e =&gt; {
+  const recvChannel = e.channel;
+  recvChannel.onmessage = ev =&gt; console.log(ev.data);
+}
+</code></pre></div><!----></div>
+<h2 data-v-8e23877e>四、信令服务设计（重点）</h2>
+<p data-v-8e23877e>WebRTC<strong>没有内置信令通道</strong>，信令只负责透传JSON消息，不需要解析SDP、候选内容。
+通信载体任选：WebSocket（最常用）、Socket.IO、MQTT、甚至HTTP轮询。
+消息类型约定：</p>
+<ul data-v-8e23877e>
+<li><code>offer</code>：发起方会话描述</li>
+<li><code>answer</code>：应答方会话描述</li>
+<li><code>candidate</code>：ICE候选</li>
+<li><code>close</code>：挂断通话</li>
+</ul>
+<h3 data-v-8e23877e>极简Node.js WebSocket信令服务</h3>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><span class="code-block__meta" data-v-3bcbc953>20 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>// server.js
+const WebSocket = require(&#39;ws&#39;);
+const wss = new WebSocket.Server({ port: 8080 });
+const clients = new Map();
+
+wss.on(&#39;connection&#39;, (ws) =&gt; {
+  ws.on(&#39;message&#39;, (raw) =&gt; {
+    const msg = JSON.parse(raw);
+    const targetId = msg.target;
+    if(clients.has(targetId)){
+      clients.get(targetId).send(raw);
+    }
+  })
+  const uid = Math.random().toString(36).slice(2);
+  clients.set(uid, ws);
+  ws.send(JSON.stringify({type:&#39;init&#39;, uid}));
+  ws.on(&#39;close&#39;, ()=&gt; clients.delete(uid));
+})
+console.log(&#39;signaling server run on ws://127.0.0.1:8080&#39;);
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 4 行</span></button></div></div>
+<blockquote data-v-8e23877e>
+<p>生产环境要加上房间机制、心跳、鉴权、断线重连。</p>
+</blockquote>
+<h2 data-v-8e23877e>五、完整前端Demo（点对点视频通话）</h2>
+<div class="code-block group relative my-6 overflow-hidden rounded-lg border is-folded" data-v-8e23877e data-v-3bcbc953><div class="code-block__header" data-v-3bcbc953><div class="code-block__left" data-v-3bcbc953><div class="code-block__dots" aria-hidden="true" data-v-3bcbc953><span class="dot dot--red" data-v-3bcbc953></span><span class="dot dot--yellow" data-v-3bcbc953></span><span class="dot dot--green" data-v-3bcbc953></span></div><span class="code-block__lang" style="color:#6366f1;border-color:#6366f140;background:#6366f114;" data-v-3bcbc953><span class="code-block__lang-dot" style="background:#6366f1;" aria-hidden="true" data-v-3bcbc953></span> TEXT</span><span class="code-block__meta" data-v-3bcbc953>82 行 </span></div><div class="code-block__right" data-v-3bcbc953><button type="button" class="code-block__btn" aria-label="展开代码" aria-expanded="false" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开</span></button><button type="button" class="code-block__btn" aria-label="复制代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clipboard-icon h-3.5 w-3.5" aria-hidden="true" data-v-3bcbc953><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path></svg><span class="code-block__btn-text" data-v-3bcbc953>复制</span></button></div></div><div class="code-block__body" data-v-3bcbc953><div class="code-block__lines" aria-hidden="true" data-v-3bcbc953><!--[--><span class="code-block__line-num" data-v-3bcbc953>1</span><span class="code-block__line-num" data-v-3bcbc953>2</span><span class="code-block__line-num" data-v-3bcbc953>3</span><span class="code-block__line-num" data-v-3bcbc953>4</span><span class="code-block__line-num" data-v-3bcbc953>5</span><span class="code-block__line-num" data-v-3bcbc953>6</span><span class="code-block__line-num" data-v-3bcbc953>7</span><span class="code-block__line-num" data-v-3bcbc953>8</span><span class="code-block__line-num" data-v-3bcbc953>9</span><span class="code-block__line-num" data-v-3bcbc953>10</span><span class="code-block__line-num" data-v-3bcbc953>11</span><span class="code-block__line-num" data-v-3bcbc953>12</span><span class="code-block__line-num" data-v-3bcbc953>13</span><span class="code-block__line-num" data-v-3bcbc953>14</span><span class="code-block__line-num" data-v-3bcbc953>15</span><span class="code-block__line-num" data-v-3bcbc953>16</span><span class="code-block__line-num" data-v-3bcbc953>17</span><span class="code-block__line-num" data-v-3bcbc953>18</span><span class="code-block__line-num" data-v-3bcbc953>19</span><span class="code-block__line-num" data-v-3bcbc953>20</span><span class="code-block__line-num" data-v-3bcbc953>21</span><span class="code-block__line-num" data-v-3bcbc953>22</span><span class="code-block__line-num" data-v-3bcbc953>23</span><span class="code-block__line-num" data-v-3bcbc953>24</span><span class="code-block__line-num" data-v-3bcbc953>25</span><span class="code-block__line-num" data-v-3bcbc953>26</span><span class="code-block__line-num" data-v-3bcbc953>27</span><span class="code-block__line-num" data-v-3bcbc953>28</span><span class="code-block__line-num" data-v-3bcbc953>29</span><span class="code-block__line-num" data-v-3bcbc953>30</span><span class="code-block__line-num" data-v-3bcbc953>31</span><span class="code-block__line-num" data-v-3bcbc953>32</span><span class="code-block__line-num" data-v-3bcbc953>33</span><span class="code-block__line-num" data-v-3bcbc953>34</span><span class="code-block__line-num" data-v-3bcbc953>35</span><span class="code-block__line-num" data-v-3bcbc953>36</span><span class="code-block__line-num" data-v-3bcbc953>37</span><span class="code-block__line-num" data-v-3bcbc953>38</span><span class="code-block__line-num" data-v-3bcbc953>39</span><span class="code-block__line-num" data-v-3bcbc953>40</span><span class="code-block__line-num" data-v-3bcbc953>41</span><span class="code-block__line-num" data-v-3bcbc953>42</span><span class="code-block__line-num" data-v-3bcbc953>43</span><span class="code-block__line-num" data-v-3bcbc953>44</span><span class="code-block__line-num" data-v-3bcbc953>45</span><span class="code-block__line-num" data-v-3bcbc953>46</span><span class="code-block__line-num" data-v-3bcbc953>47</span><span class="code-block__line-num" data-v-3bcbc953>48</span><span class="code-block__line-num" data-v-3bcbc953>49</span><span class="code-block__line-num" data-v-3bcbc953>50</span><span class="code-block__line-num" data-v-3bcbc953>51</span><span class="code-block__line-num" data-v-3bcbc953>52</span><span class="code-block__line-num" data-v-3bcbc953>53</span><span class="code-block__line-num" data-v-3bcbc953>54</span><span class="code-block__line-num" data-v-3bcbc953>55</span><span class="code-block__line-num" data-v-3bcbc953>56</span><span class="code-block__line-num" data-v-3bcbc953>57</span><span class="code-block__line-num" data-v-3bcbc953>58</span><span class="code-block__line-num" data-v-3bcbc953>59</span><span class="code-block__line-num" data-v-3bcbc953>60</span><span class="code-block__line-num" data-v-3bcbc953>61</span><span class="code-block__line-num" data-v-3bcbc953>62</span><span class="code-block__line-num" data-v-3bcbc953>63</span><span class="code-block__line-num" data-v-3bcbc953>64</span><span class="code-block__line-num" data-v-3bcbc953>65</span><span class="code-block__line-num" data-v-3bcbc953>66</span><span class="code-block__line-num" data-v-3bcbc953>67</span><span class="code-block__line-num" data-v-3bcbc953>68</span><span class="code-block__line-num" data-v-3bcbc953>69</span><span class="code-block__line-num" data-v-3bcbc953>70</span><span class="code-block__line-num" data-v-3bcbc953>71</span><span class="code-block__line-num" data-v-3bcbc953>72</span><span class="code-block__line-num" data-v-3bcbc953>73</span><span class="code-block__line-num" data-v-3bcbc953>74</span><span class="code-block__line-num" data-v-3bcbc953>75</span><span class="code-block__line-num" data-v-3bcbc953>76</span><span class="code-block__line-num" data-v-3bcbc953>77</span><span class="code-block__line-num" data-v-3bcbc953>78</span><span class="code-block__line-num" data-v-3bcbc953>79</span><span class="code-block__line-num" data-v-3bcbc953>80</span><span class="code-block__line-num" data-v-3bcbc953>81</span><span class="code-block__line-num" data-v-3bcbc953>82</span><!--]--></div><pre class="code-block__pre" data-v-3bcbc953><code class="language-text" data-v-3bcbc953>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;div&gt;
+  &lt;h3&gt;本地&lt;/h3&gt;
+  &lt;video id=&quot;localVideo&quot; autoplay muted playsinline style=&quot;width:400px&quot;&gt;&lt;/video&gt;
+  &lt;h3&gt;远端&lt;/h3&gt;
+  &lt;video id=&quot;remoteVideo&quot; autoplay playsinline style=&quot;width:400px&quot;&gt;&lt;/video&gt;
+  &lt;br/&gt;
+  &lt;button id=&quot;callBtn&quot;&gt;发起呼叫&lt;/button&gt;
+  &lt;button id=&quot;hangBtn&quot;&gt;挂断&lt;/button&gt;
+&lt;/div&gt;
+&lt;script&gt;
+const ws = new WebSocket(&#39;ws://127.0.0.1:8080&#39;);
+const localVideo = document.getElementById(&#39;localVideo&#39;);
+const remoteVideo = document.getElementById(&#39;remoteVideo&#39;);
+const callBtn = document.getElementById(&#39;callBtn&#39;);
+const hangBtn = document.getElementById(&#39;hangBtn&#39;);
+
+let pc;
+let localStream;
+let myUid;
+let targetUid;
+const config = {iceServers: [{urls:&#39;stun:stun.l.google.com:19302&#39;}]};
+
+ws.onmessage = async (e) =&gt; {
+  const msg = JSON.parse(e.data);
+  if(msg.type === &#39;init&#39;) {
+    myUid = msg.uid;
+    console.log(&#39;我的uid：&#39;, myUid);
+    return;
+  }
+  if(msg.type === &#39;offer&#39;){
+    targetUid = msg.from;
+    createPeer();
+    await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+    const ans = await pc.createAnswer();
+    await pc.setLocalDescription(ans);
+    sendMsg({type:&#39;answer&#39;, sdp: ans, target: targetUid, from: myUid});
+  }
+  if(msg.type === &#39;answer&#39;){
+    await pc.setRemoteDescription(new RTCSessionDescription(msg.sdp));
+  }
+  if(msg.type === &#39;candidate&#39;){
+    await pc.addIceCandidate(new RTCIceCandidate(msg.candidate));
+  }
+}
+
+function sendMsg(data){
+  data.from = myUid;
+  ws.send(JSON.stringify(data));
+}
+
+function createPeer(){
+  pc = new RTCPeerConnection(config);
+  pc.ontrack = e =&gt; remoteVideo.srcObject = e.streams[0];
+  pc.onicecandidate = e=&gt;{
+    if(e.candidate) sendMsg({type:&#39;candidate&#39;, candidate:e.candidate, target: targetUid})
+  }
+  // 添加本地流轨道
+  localStream.getTracks().forEach(t=&gt;pc.addTrack(t, localStream));
+}
+
+callBtn.onclick = async ()=&gt;{
+  // 这里演示：目标写死，实际业务让用户输入对方uid
+  targetUid = prompt(&#39;输入对方UID&#39;);
+  localStream = await navigator.mediaDevices.getUserMedia({video:true,audio:true});
+  localVideo.srcObject = localStream;
+  createPeer();
+  const offer = await pc.createOffer();
+  await pc.setLocalDescription(offer);
+  sendMsg({type:&#39;offer&#39;, sdp:offer, target: targetUid})
+}
+
+hangBtn.onclick = ()=&gt;{
+  pc?.close();
+  localStream?.getTracks().forEach(t=&gt;t.stop());
+}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre></div><div class="code-block__fade" aria-hidden="true" data-v-3bcbc953><button type="button" class="code-block__expand" aria-label="展开全部代码" data-v-3bcbc953><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-down-icon h-4 w-4" aria-hidden="true" data-v-3bcbc953><path d="m6 9 6 6 6-6"></path></svg><span data-v-3bcbc953>展开剩余 66 行</span></button></div></div>
+<blockquote data-v-8e23877e>
+<p>使用方式：打开两个浏览器页面，A页面拿到UID，B输入A的UID发起呼叫。</p>
+</blockquote>
+<h2 data-v-8e23877e>六、常见问题与排错指南</h2>
+<ol data-v-8e23877e>
+<li><strong>getUserMedia 报 NotAllowedError</strong>
+<ul>
+<li>原因：非HTTPS、用户拒绝权限、浏览器策略；localhost例外</li>
+</ul>
+</li>
+<li><strong>ICE一直checking，无法connected</strong>
+<ul>
+<li>大概率NAT打洞失败，需要配置TURN中继服务器</li>
+</ul>
+</li>
+<li><strong>能建立连接，但是黑屏无画面</strong>
+<ul>
+<li>video标签忘记 <code>autoplay</code> / <code>playsinline</code>，或者轨道没有addTrack</li>
+</ul>
+</li>
+<li><strong>声音回啸、回音</strong>
+<ul>
+<li>本地预览video加 <code>muted</code>，或者开启AEC声学回声消除（默认开启）</li>
+</ul>
+</li>
+<li><strong>移动端兼容性</strong>
+<ul>
+<li>Safari对WebRTC支持坑较多，注意playsinline，不要直接全屏自动播放</li>
+</ul>
+</li>
+</ol>
+<h2 data-v-8e23877e>七、进阶方向</h2>
+<ul data-v-8e23877e>
+<li>自定义编解码、H.264 / VP8 / VP9 编码选择</li>
+<li>带宽控制、动态码率调整、统计上报 <code>pc.getStats()</code></li>
+<li>多人会议（Mesh / SFU / MCU架构），Mesh适合3-4人，SFU是主流方案</li>
+<li>屏幕共享 + 鼠标透传、RTCDataChannel实时白板</li>
+<li>原生WebRTC：Android/iOS SDK，和浏览器互通</li>
+<li>成熟框架：LiveKit、Janus、Mediasoup（生产级SFU）</li>
+</ul>
+<h2 data-v-8e23877e>八、总结</h2>
+<p data-v-8e23877e>WebRTC的学习路径可以概括：</p>
+<ol data-v-8e23877e>
+<li>先掌握 <code>getUserMedia</code> 获取媒体流</li>
+<li>理解 SDP Offer/Answer 协商流程</li>
+<li>理解 ICE、STUN、TURN、NAT穿透原理</li>
+<li>实现WebSocket信令，跑通双人通话Demo</li>
+<li>调试ICE状态、getStats监控网络</li>
+<li>进阶学习SFU多人服务、媒体服务器</li>
+</ol>
+<p data-v-8e23877e>WebRTC 难点不在API，而在<strong>网络穿透、弱网、多端兼容性</strong>。本地localhost调试很容易成功，放到公网、不同运营商、手机4G下才会暴露大量ICE连通问题，TURN是上线必备兜底方案。</p><!--]--></div><!--teleport start--><!--teleport end--><!--]--></div><section class="license-block mb-10 overflow-hidden rounded-xl border border-solid" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><div class="flex items-center gap-3 px-6 py-4 border-b border-solid" style="border-color:var(--ink-150);background:linear-gradient(135deg, var(--muted) 0%, var(--paper) 100%);" data-v-7cac6a61><div class="flex items-center justify-center w-8 h-8 rounded-lg shrink-0" style="background:var(--accent);color:#fff;" data-v-7cac6a61><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-v-7cac6a61><circle cx="12" cy="12" r="10" data-v-7cac6a61></circle><path d="M14.83 14.83a4 4 0 1 1 0-5.66" data-v-7cac6a61></path></svg></div><div data-v-7cac6a61><h4 class="text-[13px] font-semibold leading-snug" style="color:var(--text-primary);" data-v-7cac6a61> 版权声明 · CC BY-NC-ND 4.0 </h4><p class="text-[11px] mt-0.5" style="color:var(--text-tertiary);" data-v-7cac6a61> 署名-非商业性使用-禁止演绎 4.0 国际 </p></div></div><div class="px-6 py-5 space-y-4 text-[13px] leading-relaxed" data-v-7cac6a61><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>1</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>版权归属</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 本作品著作权归 <strong style="color:var(--text-primary);" data-v-7cac6a61>窦长友</strong> 所有， 首次发布于 <a href="" class="break-all transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--accent);text-decoration:underline;text-underline-offset:3px;" rel="bookmark" data-v-7cac6a61></a> ，受相关知识产权法律法规保护。 </p></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>2</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>授权范围</span><ul class="mt-1.5 space-y-1" style="color:var(--text-secondary);list-style:none;padding:0;" data-v-7cac6a61><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:var(--accent);font-weight:600;" aria-hidden="true" data-v-7cac6a61>✓</span><span data-v-7cac6a61>可自由<strong style="color:var(--text-primary);" data-v-7cac6a61>分享</strong> — 在任何媒介以任何形式复制、转载本文</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>不得用于<strong style="color:var(--text-primary);" data-v-7cac6a61>商业目的</strong> — 未经书面授权禁止商用</span></li><li class="flex items-baseline gap-1.5" data-v-7cac6a61><span style="color:#ef4444;font-weight:600;" aria-hidden="true" data-v-7cac6a61>✗</span><span data-v-7cac6a61>禁止<strong style="color:var(--text-primary);" data-v-7cac6a61>演绎修改</strong> — 不得改编、转换或以本文为基础再创作</span></li></ul></div></div><div class="flex items-start gap-3" data-v-7cac6a61><span class="inline-flex items-center justify-center w-6 h-6 rounded-md shrink-0 mt-0.5" style="background:var(--muted);color:var(--text-tertiary);font-size:11px;" aria-hidden="true" data-v-7cac6a61>3</span><div data-v-7cac6a61><span class="font-semibold" style="color:var(--text-primary);" data-v-7cac6a61>署名要求</span><p class="mt-1" style="color:var(--text-secondary);" data-v-7cac6a61> 转载或引用时须<strong style="color:var(--text-primary);" data-v-7cac6a61>明确标注作者姓名</strong>、<strong style="color:var(--text-primary);" data-v-7cac6a61>原文出处</strong>及本许可协议链接。 不得以任何方式暗示或声称作者为您的使用背书。 </p></div></div><div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-dashed" style="border-color:var(--ink-150);" data-v-7cac6a61><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" data-v-7cac6a61></path><polyline points="15 3 21 3 21 9" data-v-7cac6a61></polyline><line x1="10" x2="21" y1="14" y2="3" data-v-7cac6a61></line></svg> 查看完整许可证 </a><a href="https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.zh-Hans" target="_blank" rel="noopener noreferrer license" class="license-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium transition-all duration-200 border border-solid" style="border-color:var(--ink-200);color:var(--text-secondary);background:var(--paper);" data-v-7cac6a61><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-v-7cac6a61><rect width="14" height="14" x="3" y="3" rx="2" ry="2" data-v-7cac6a61></rect><line x1="8" x2="16" y1="12" y2="12" data-v-7cac6a61></line><line x1="12" x2="12" y1="8" y2="16" data-v-7cac6a61></line></svg> 法律文本（英文） </a></div></div></section><section class="comments comments-section" aria-label="评论区" data-v-7cac6a61 data-v-ecb3c01b><header class="comments__header" data-v-ecb3c01b><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-messages-square-icon h-5 w-5" style="color:var(--accent);" aria-hidden="true" data-v-ecb3c01b><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"></path><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"></path></svg><h2 class="comments__title" data-v-ecb3c01b>评论</h2><span class="comments__hint" data-v-ecb3c01b>由 GitHub Discussions 驱动</span></header><div class="comments__giscus" data-v-ecb3c01b></div></section><nav class="pb-20 grid gap-4 sm:grid-cols-2" aria-label="上下篇文章导航" data-v-7cac6a61><a href="/posts/codewhale保姆级安装配置教程" class="nav-card group flex flex-col justify-between p-5 rounded-xl border border-solid transition-all duration-300 hover:-translate-y-[2px] hover:shadow-lg" style="border-color:var(--ink-200);background:var(--paper);" data-v-7cac6a61><span class="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon h-3 w-3 transition-transform duration-200 group-hover:-translate-x-1" aria-hidden="true" data-v-7cac6a61><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg> 上一篇 </span><strong class="block mt-2.5 text-[14.5px] font-medium leading-[1.45] line-clamp-2 transition-colors duration-200 group-hover:text-[var(--accent)]" style="color:var(--text-primary);" data-v-7cac6a61>CodeWhale保姆级安装配置教程</strong></a><span style="border-color:var(--ink-200);background:var(--paper);opacity:0.35;" class="nav-card flex flex-col justify-center p-5 rounded-xl border border-dashed text-right" aria-hidden="true" data-v-7cac6a61><span class="text-[10px] font-semibold uppercase tracking-[0.14em]" style="color:var(--text-tertiary);" data-v-7cac6a61>下一篇</span><span class="mt-1 text-[13px]" style="color:var(--text-tertiary);" data-v-7cac6a61>— 已是最新 —</span></span></nav></div><!----></div></article></div></div><!--]--></main><footer class="mt-12 border-t" style="border-color:var(--ink-200);background:var(--paper);" data-v-5bbe2dad><div class="mx-auto max-w-[1240px] px-6 sm:px-8" data-v-5bbe2dad><div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-y-3 gap-x-8 py-5 text-[11.5px]" data-v-5bbe2dad><div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-center sm:text-left" style="color:var(--text-tertiary);" data-v-5bbe2dad><span style="color:var(--text-primary);font-weight:500;" data-v-5bbe2dad>© 2026 FilePress · Blog</span><span aria-hidden="true" data-v-5bbe2dad>—</span><span class="inline-flex items-center gap-1" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span data-v-5bbe2dad>Powered by <a href="https://vitepress.dev" class="text-[var(--accent)]" data-v-5bbe2dad>VitePress</a></span></span></div><div class="flex items-center gap-4" data-v-5bbe2dad><!--[--><a href="https://github.com/dcyyd/dcyyd.github.io" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>GitHub</a><a href="mailto:dcyyd_kcug@yeah.net" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>Email</a><a href="/feed.xml" class="footer-link hidden sm:inline text-[11px] transition-colors duration-200 hover:text-[var(--accent)]" style="color:var(--text-tertiary);" data-v-5bbe2dad>RSS</a><!--]--><!----><!----><button style="display:none;" type="button" class="footer-top-btn" aria-label="回到顶部" data-v-5bbe2dad><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-icon h-3 w-3" aria-hidden="true" data-v-5bbe2dad><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg><span data-v-5bbe2dad>TOP</span></button></div></div></div></footer><!--teleport start--><!--teleport end--></div></div>
+    
+    
+  </body>
+</html>

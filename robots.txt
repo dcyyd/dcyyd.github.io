@@ -1,0 +1,43 @@
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /gui/
+Disallow: /scripts/
+Disallow: /logs/
+
+Allow: /posts/
+Allow: /categories/
+Allow: /tags/
+Allow: /archives/
+
+Sitemap: https://dcyyd.github.io/sitemap.xml
+Host: https://dcyyd.github.io
+
+User-agent: Googlebot
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /gui/
+Disallow: /scripts/
+Disallow: /logs/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /gui/
+Disallow: /scripts/
+Disallow: /logs/
+
+User-agent: Baiduspider
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /gui/
+Disallow: /scripts/
+Disallow: /logs/
